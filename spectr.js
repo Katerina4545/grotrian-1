@@ -254,9 +254,6 @@ for (var i = 0; i < rad.length; i++) {
 
 
 function updateChart(new_atom, min, max){
-    console.log("min:" +min);
-    console.log("max:" +max);
-
     dataSpectr.length = 0;
     intensArray.length = 0;
     markers.length = 0;
@@ -354,7 +351,6 @@ function updateChart(new_atom, min, max){
                     };
 
                     if (((min == 0) && (max == 0))){
-                        console.log("tyta");
                         atom.transitions.forEach(function (transition) {
                             // Переходы только с положительной интенсивностью
                             if ((transition.INTENSITY > 0) && transition.ID_LOWER_LEVEL && transition.ID_UPPER_LEVEL) {

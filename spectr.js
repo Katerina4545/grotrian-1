@@ -27,18 +27,21 @@ function inArabic(rim) {
     }
 }
 
-var atom ,
+var atom,
     term = ({lt: "", ut: "", x: "", y: ""}),
     dataSpectr = [],
     intensArray = [],
     markers = [],
     termLabel = [],
+    maxVal = 0,
     icon = [];
 
 var labeleV = "[eV]",
     labelcm = "[1/cm]",
     lable1 = "U (lower level) ",
+    lable5 = "for even term: U (lower level) ",
     lable2 = "U (upper level) ",
+    lable4 = "for even term: U (upper level) ",
     lable3 = "U (upper level) - U (lower level) ",
     part1Y = lable2,
     part1X = lable1,
@@ -48,6 +51,7 @@ var scatterChartData;
 
 var colorArr = [],
     eUpcheck = true,
+    parity = false,
     eUp_eDcheck = false;
 
 var customTooltips;
@@ -146,28 +150,48 @@ function colorOfWave(len){
 document.getElementById('eUp').addEventListener('click', function() {
     if(eUpcheck == false) {
         eUpcheck = true;
-        eUp_eDcheck = false;
-        part1Y = lable2;
         part1X = lable1;
+        part1Y = lable2;
 
-        dataSpectr.forEach(function (item, i) {
-            let x = 0,
-                y = 0;
-            if (item.t) {
-                y = item.x;
-                x = item.y + item.x;
-            } else {
+        if (parity == true) {
+            dataSpectr.forEach(function (item, i) {
+                let x = 0,
+                    y = 0;
+                if (item.t) {
+                    y = item.x;
+                    x = item.y;
+                } else {
+                    x = item.x;
+                    y = item.y;
+                }
+                term.x = x;
+                term.y = y;
+                let arr = termLabel[i].split("(");
+                termLabel[i] = arr[0] + "(" + term.x.toFixed(3) + ", " + term.y.toFixed(3) + ")";
+                item.x = x;
+                item.y = y;
+            });
+            parity = false;
+        }
+
+        if (eUp_eDcheck == true) {
+            dataSpectr.forEach(function (item, i) {
+                let x = 0,
+                    y = 0;
                 x = item.x;
                 y = item.y + item.x;
-            }
-            term.x = x;
-            term.y = y;
-            let arr = termLabel[i].split("(");
-            termLabel[i] = arr[0] + "(" + term.x.toFixed(3) + ", " + term.y.toFixed(3) + ")";
-            item.x = x;
-            item.y = y;
-        });
+                term.x = x;
+                term.y = y;
+                let arr = termLabel[i].split("(");
+                termLabel[i] = arr[0] + "(" + term.x.toFixed(3) + ", " + term.y.toFixed(3) + ")";
+                item.x = x;
+                item.y = y;
+            });
+            eUp_eDcheck = false;
+        }
 
+        scatterChartData.datasets[1].data[1].x = 0;
+        scatterChartData.datasets[1].data[1].y = 0;
         scatterChartData.datasets[0].data = dataSpectr;
         scatterChartData.labels = termLabel;
         myScatter.options.scales.yAxes[0].scaleLabel.labelString = part1Y + part2;
@@ -176,30 +200,117 @@ document.getElementById('eUp').addEventListener('click', function() {
     }
 });
 
+
+document.getElementById('parity').addEventListener('click', function() {
+    if(parity == false) {
+        parity = true;
+        part1Y = lable4;
+        part1X = lable5;
+        maxVal = 0;
+
+        if(eUp_eDcheck == true) {
+            dataSpectr.forEach(function (item, i) {
+                let x = 0,
+                    y = 0;
+                if (item.t) {
+                    y = item.x;
+                    x = item.y + item.x;
+                } else {
+                    x = item.x;
+                    y = item.y + item.x;
+                }
+                term.x = x;
+                term.y = y;
+                let arr = termLabel[i].split("(");
+                termLabel[i] = arr[0] + "(" + term.x.toFixed(3) + ", " + term.y.toFixed(3) + ")";
+                item.x = x;
+                item.y = y;
+                if (maxVal <x) maxVal = x;
+            });
+
+            eUp_eDcheck = false;
+        }
+
+        if(eUpcheck == true) {
+            dataSpectr.forEach(function (item, i) {
+                let x = 0,
+                    y = 0;
+                if (item.t) {
+                    y = item.x;
+                    x = item.y;
+                } else {
+                    x = item.x;
+                    y = item.y;
+                }
+                term.x = x;
+                term.y = y;
+                let arr = termLabel[i].split("(");
+                termLabel[i] = arr[0] + "(" + term.x.toFixed(3) + ", " + term.y.toFixed(3) + ")";
+                item.x = x;
+                item.y = y;
+                if (maxVal <x) maxVal = x;
+            });
+            eUpcheck = false;
+        }
+
+        let place = String(maxVal).split('.')[0].match(/\d/g).length -1;
+        let numb = parseInt(String(maxVal).split('.')[0].substr(0,2));
+        maxVal = numb*Math.pow(10,place-1) + 2*Math.pow(10,place-1);
+        scatterChartData.datasets[0].data = dataSpectr;
+        scatterChartData.labels = termLabel;
+        myScatter.options.scales.yAxes[0].scaleLabel.labelString = part1Y + part2;
+        myScatter.options.scales.xAxes[0].scaleLabel.labelString = part1X + part2;
+        scatterChartData.datasets[1].data[1].x = maxVal;
+        scatterChartData.datasets[1].data[1].y = maxVal;
+        window.myScatter.update();
+    }
+});
+
 document.getElementById('eUp_eD').addEventListener('click', function() {
     if(eUp_eDcheck == false) {
         eUp_eDcheck = true;
-        eUpcheck = false;
         part1X = lable1;
         part1Y = lable3;
 
-        dataSpectr.forEach(function (item, i) {
-            let x = 0,
-                y = 0;
-            if (item.t) {
-                x = item.y;
-                y = item.x;
-            } else {
+        if (parity == true) {
+            dataSpectr.forEach(function (item, i) {
+                let x = 0,
+                    y = 0;
+                if (item.t) {
+                    x = item.y;
+                    y = item.x;
+                } else {
+                    x = item.x;
+                    y = item.y;
+                }
+                term.x = x;
+                term.y = y - x;
+                let arr = termLabel[i].split("(");
+                termLabel[i] = arr[0] + "(" + term.x.toFixed(3) + ", " + term.y.toFixed(3) + ")";
+                item.x = x;
+                item.y = y - x;
+            });
+            parity = false;
+        }
+
+        if (eUpcheck == true) {
+            dataSpectr.forEach(function (item, i) {
+                let x = 0,
+                    y = 0;
                 x = item.x;
-                y = item.y;
-            }
-            term.x = x;
-            term.y = y - x;
-            let arr = termLabel[i].split("(");
-            termLabel[i] = arr[0] + "(" + term.x.toFixed(3) + ", " + term.y.toFixed(3) + ")";
-            item.x = x;
-            item.y = y - x;
-        });
+                y = item.y - item.x;
+                term.x = x;
+                term.y = y;
+                let arr = termLabel[i].split("(");
+                termLabel[i] = arr[0] + "(" + term.x.toFixed(3) + ", " + term.y.toFixed(3) + ")";
+                item.x = x;
+                item.y = y;
+            });
+            eUpcheck = false;
+        }
+
+        scatterChartData.datasets[1].data[1].x = 0;
+        scatterChartData.datasets[1].data[1].y = 0;
         scatterChartData.datasets[0].data = dataSpectr;
         scatterChartData.labels = termLabel;
         myScatter.options.scales.yAxes[0].scaleLabel.labelString = part1Y + part2;
@@ -254,6 +365,7 @@ for (var i = 0; i < rad.length; i++) {
 
 
 function updateChart(new_atom, min, max){
+    maxVal=0;
     dataSpectr.length = 0;
     intensArray.length = 0;
     markers.length = 0;
@@ -263,13 +375,13 @@ function updateChart(new_atom, min, max){
     document.getElementsByName('myRadios')[0].checked = true;
     document.getElementsByName('myRadios')[1].checked = false;
     document.getElementById('eUp_eD').checked = false;
+    document.getElementById('parity').checked = false;
     document.getElementById('eUp').checked = true;
     eUpcheck = true;
+    parity = false;
     eUp_eDcheck = false;
     var elem = document.getElementById("element").value;
     var letter,
-        id,
-        atom_id,
         ion;
     if (elem.indexOf(" ") != -1){
         var arr = elem.split(" ");
@@ -400,11 +512,10 @@ function updateChart(new_atom, min, max){
                                 multCol.l = len;
                                 markers.push(multCol);
 
-                                var point = (test ? {x: y, y: x, t: test} : {x: x, y: y, t: test});
+                                let point = {x: x, y: y, t: test};
                                 term.x = point.x;
                                 term.y = point.y;
                                 termLabel.push(term.lt + "<span> - </span>" + term.ut + "<br>" + "wavelength [Å]: " + len + "<br>" + "intensity: " + transition.INTENSITY + "<br>" + "(" + term.x + ", " + term.y + ")");
-
                                 dataSpectr.push(point);
                                 intensArray.push(Math.log10(transition.INTENSITY));
                             }
@@ -460,11 +571,11 @@ function updateChart(new_atom, min, max){
                                 multCol.l = len;
                                 markers.push(multCol);
 
-                                var point = (test ? {x: y, y: x, t: test} : {x: x, y: y, t: test});
+                                let point = {x: x, y: y, t: test};
+                                //let point = (test ? {x: y, y: x, t: test} : {x: x, y: y, t: test});
                                 term.x = point.x;
                                 term.y = point.y;
                                 termLabel.push(term.lt + "<span> - </span>" + term.ut + "<br>" + "wavelength [Å]: " + len + "<br>" + "intensity: " + transition.INTENSITY + "<br>" + "(" + term.x + ", " + term.y + ")");
-
                                 dataSpectr.push(point);
                                 intensArray.push(Math.log10(transition.INTENSITY));
                             }
@@ -537,25 +648,34 @@ function updateChart(new_atom, min, max){
 
                     scatterChartData = {
                         datasets: [{
-                            //label: 'Transitions of ' + tableDescr.NAME_EN,
                             pointBorderWidth: 0,
                             pointBackgroundColor: colorArr,
                             pointBorderColor: colorArr,
                             pointRadius: 5,
                             data: dataSpectr,
-                            pointStyle: icon,
+                            pointStyle: icon
+                        }, {
+                            pointBorderWidth: 0,
+                            pointRadius: 0,
+                            data: [{x: 0, y: 0}, {x: maxVal, y: maxVal}],
+                            showLine: true,
+                            fill: false,
+                            borderColor: 'green',
+                            borderWidth: 1,
+                            pointHoverRadius: 0,
+                            pointHitRadius: 0
                         }],
                         labels: termLabel,
                     };
 
-                    if (!window.myScatter) {
-                        graph();
-                        window.myScatter.options.title.text = 'Transitions of ' + document.getElementById("element").value;
-                        window.myScatter.update();
-                    } else {
-                        window.myScatter.options.title.text = 'Transitions of ' + document.getElementById("element").value;
-                        window.myScatter.update();
+                    $('#canvas').remove(); // this is my <canvas> element
+                    $('#chartCont').append('<canvas id="canvas"><canvas>');
+                    if (window.myScatter) {
+                        window.myScatter.clear();
                     }
+                    graph();
+                    window.myScatter.options.title.text = 'Transitions of ' + document.getElementById("element").value;
+                    window.myScatter.update();
 
                 }
             )
@@ -565,9 +685,16 @@ function updateChart(new_atom, min, max){
 
 function graph() {
     var ctx = document.getElementById('canvas').getContext('2d');
-    window.myScatter = Chart.Scatter(ctx, {
+    window.myScatter = new Chart(ctx, {
+        type: 'scatter',
         data: scatterChartData,
         options: {
+            elements: {
+                line: {
+                    tension: 0
+                }
+            },
+            bezierCurve: false,
             title: {
                 display: true,
                 text: 'Transitions of ' + document.getElementById("element").value,
@@ -597,12 +724,18 @@ function graph() {
             },
             scales: {
                 yAxes: [{
+                    ticks:{
+                        beginAtZero: true,
+                    },
                     scaleLabel: {
                         display: true,
                         labelString: part1Y + part2
                     }
                 }],
                 xAxes: [{
+                    ticks:{
+                        beginAtZero: true,
+                    },
                     scaleLabel: {
                         display: true,
                         labelString: part1X + part2

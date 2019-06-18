@@ -12,6 +12,10 @@ canvas {
     background-color: #e6f2ff;
 }
 
+#scale{
+    height: 55px;
+}
+
 #chartjs-tooltip {
     opacity: 1;
     position: absolute;
@@ -69,7 +73,7 @@ canvas {
 }
 
 #myForm {
-    margin-left: 160px;
+    margin-left: 390px;
 }
 #myForm input{
     margin-top: 10px;

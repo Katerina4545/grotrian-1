@@ -17,7 +17,7 @@
 <body>
 
 
-<div style="width:60%">
+<div id="chartCont" style="width:60%" >
     <canvas id="canvas"></canvas>
 </div>
 
@@ -36,12 +36,16 @@
     <div id="scale">
         <div class="radio_buttons">
             <div>
-                <input type="radio" name="option" id="eUp"  checked />
-                <label for="eUp">Eup</label>
+                <input type="radio" name="option" id="eUp" checked/>
+                <label for="eUp">y=E<sub>up</sub>, x=E<sub>d</sub></label>
+            </div>
+            <div>
+                <input type="radio" name="option" id="parity"/>
+                <label for="parity">parity_of_term</label>
             </div>
             <div>
                 <input type="radio" name="option" id="eUp_eD"/>
-                <label for="eUp_eD">Eup - Ed</label>
+                <label for="eUp_eD">y=E<sub>up</sub> - E<sub>d</sub>, x=E<sub>d</sub></label>
             </div>
         </div>
 

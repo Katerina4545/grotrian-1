@@ -7,6 +7,8 @@ if($_POST['IONIZATION'] == "")   $errors[] = "error!";
 if(empty($errors)){
 
     $new = $_POST['NEW'];
+    $id = 0;
+    $atom_arr = '';
 
     if ($new == 0){
         echo 0;
@@ -16,7 +18,7 @@ if(empty($errors)){
         $ion = $_POST['IONIZATION'];
 
 
-        $url = "http://10.2.5.45/en/api/v1/periodic-table/search?ABBR=" . $symbol;
+        $url = "http://grotrian.nsu.ru/ru/json";
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);//для возврата результата в виде строки, вместо прямого вывода в браузер
@@ -24,29 +26,31 @@ if(empty($errors)){
         curl_close($ch);
 
         $array = json_decode($returned, true);
-        $array = $array[0];
-        $id = $array["ID"];
 
-        $url = "http://10.2.5.45/en/api/v1/atoms/search?ID_ELEMENT=" . $id . "&IONIZATION=" . $ion;
+        foreach ($array as $value){
+
+            $array =  json_encode($value);
+            $array = json_decode($array);
+
+            if($array -> ABBR == $symbol && $array -> IONIZATION == $ion && $array -> MASS_NUMBER == ''){
+                $id = $array -> ID;
+                $atom_arr = $array;
+                break;
+            }
+        }
+
+        $url = "http://grotrian.nsu.ru/ru/json/".$id;
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);//для возврата результата в виде строки, вместо прямого вывода в браузер
         $returned = curl_exec($ch);
         curl_close($ch);
+        $returned = json_decode($returned, true);
 
-        $array = json_decode($returned, true);
-        $array = $array[0];
-        $id = $array["ID"];
-
-
-        $url = "http://10.2.5.45/en/api/v1/atoms/" . $id . "?expand=levels,transitions";
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);//для возврата результата в виде строки, вместо прямого вывода в браузер
-        $returned = curl_exec($ch);
-        curl_close($ch);
-
-        echo $returned;
+        echo json_encode(array(
+            'atom' => $atom_arr,
+            'transitions' => $returned
+        ));
     }
 }
 else{

@@ -17,12 +17,11 @@
 <body>
 
 
-<div id="chartCont" style="width:60%" >
-    <canvas id="canvas"></canvas>
+<div id="chartCont">
+    <canvas id="canvas" width="600" height="600"></canvas>
 </div>
 
 <div id="container">
-
     <div>
         <div id="spectra" >
             <br><b><label for="element">Элемент:</label></b>
@@ -69,6 +68,7 @@
                 <br>
                 <input type='button' id='filter' value='OK' class="bluebtn" onclick="show_selected()">
             </div>
+            <p><input type="checkbox"  id="intens" value=1 onclick="click_intens()" checked>отображение интенсивности прозрачностью<Br>
             <div class='visible_container'>
                 <input type='button' id='visible' value='Видимый спектр' class='bluebtn' onclick="show_visible()"><span style="width: 20px"></span>
                 <input type='button' id='all' value='Весь спектр' class='bluebtn' onclick="show_all()">

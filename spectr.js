@@ -34,6 +34,9 @@ var atom,
     markers = [],
     termLabel = [],
     maxVal = 0,
+    IP = 0,
+    cm=true,
+    ev=false,
     icon = [];
 
 var labeleV = "[eV]",
@@ -143,9 +146,29 @@ function colorOfWave(len){
     else if ((len >= 5750)&&(len < 5900)) return "rgba(255, 255, 0,";
     else if ((len >= 5900)&&(len < 6200)) return "rgba(255, 128, 0,";
     else if ((len >= 6200)&&(len < 7600)) return "rgba(255, 0, 0,";
-    else if ((len <= 3800)||(len >= 7600)) return "rgba(51, 51, 51,";
+    else if ((len <= 3800)||(len >= 7600)) return "rgba(0, 0, 0,";
 }
 
+function click_intens(){
+    if(document.getElementById('intens').checked){
+        fill_icon(markers, icon, colorArr);
+        scatterChartData.datasets[0].pointStyle = icon;
+        scatterChartData.datasets[0].pointBorderColor = colorArr;
+        window.myScatter.update();
+    }
+    else {
+        let col = [];
+        colorArr.forEach(function(item){
+            let a = item.split('a');
+            let b = a[1].split(',');
+            col.push(a[0]+b[0]+','+b[1]+','+b[2]+')');
+        });
+        fill_icon(markers, icon, col);
+        scatterChartData.datasets[0].pointStyle = icon;
+        scatterChartData.datasets[0].pointBorderColor = col;
+        window.myScatter.update();
+    }
+}
 
 document.getElementById('eUp').addEventListener('click', function() {
     if(eUpcheck == false) {
@@ -190,8 +213,12 @@ document.getElementById('eUp').addEventListener('click', function() {
             eUp_eDcheck = false;
         }
 
+        IP = 0;
         scatterChartData.datasets[1].data[1].x = 0;
         scatterChartData.datasets[1].data[1].y = 0;
+        scatterChartData.datasets[2].data[0].x = IP;
+        scatterChartData.datasets[2].data[1].y = IP;
+
         scatterChartData.datasets[0].data = dataSpectr;
         scatterChartData.labels = termLabel;
         myScatter.options.scales.yAxes[0].scaleLabel.labelString = part1Y + part2;
@@ -200,13 +227,13 @@ document.getElementById('eUp').addEventListener('click', function() {
     }
 });
 
-
 document.getElementById('parity').addEventListener('click', function() {
     if(parity == false) {
         parity = true;
         part1Y = lable4;
         part1X = lable5;
         maxVal = 0;
+        IP = 0;
 
         if(eUp_eDcheck == true) {
             dataSpectr.forEach(function (item, i) {
@@ -252,16 +279,23 @@ document.getElementById('parity').addEventListener('click', function() {
             });
             eUpcheck = false;
         }
+        if (ev == true){
+            scatterChartData.datasets[1].data[1].x = maxVal*1.23977*Math.pow(10,-4);
+            scatterChartData.datasets[1].data[1].y = maxVal*1.23977*Math.pow(10,-4);
+        }
+        else {
+            scatterChartData.datasets[1].data[1].x = maxVal;
+            scatterChartData.datasets[1].data[1].y = maxVal;
+        }
 
-        let place = String(maxVal).split('.')[0].match(/\d/g).length -1;
-        let numb = parseInt(String(maxVal).split('.')[0].substr(0,2));
-        maxVal = numb*Math.pow(10,place-1) + 2*Math.pow(10,place-1);
         scatterChartData.datasets[0].data = dataSpectr;
         scatterChartData.labels = termLabel;
         myScatter.options.scales.yAxes[0].scaleLabel.labelString = part1Y + part2;
         myScatter.options.scales.xAxes[0].scaleLabel.labelString = part1X + part2;
         scatterChartData.datasets[1].data[1].x = maxVal;
         scatterChartData.datasets[1].data[1].y = maxVal;
+        scatterChartData.datasets[2].data[0].x = IP;
+        scatterChartData.datasets[2].data[1].y = IP;
         window.myScatter.update();
     }
 });
@@ -295,9 +329,7 @@ document.getElementById('eUp_eD').addEventListener('click', function() {
 
         if (eUpcheck == true) {
             dataSpectr.forEach(function (item, i) {
-                let x = 0,
-                    y = 0;
-                x = item.x;
+                let x = item.x,
                 y = item.y - item.x;
                 term.x = x;
                 term.y = y;
@@ -309,8 +341,16 @@ document.getElementById('eUp_eD').addEventListener('click', function() {
             eUpcheck = false;
         }
 
+        if (ev == true) {
+            IP = atom.atom.IONIZATION_POTENCIAL;
+            IP = IP * 1.23977 * Math.pow(10, -4);
+        }
+        else IP = atom.atom.IONIZATION_POTENCIAL;
+
         scatterChartData.datasets[1].data[1].x = 0;
         scatterChartData.datasets[1].data[1].y = 0;
+        scatterChartData.datasets[2].data[0].x = IP;
+        scatterChartData.datasets[2].data[1].y = IP;
         scatterChartData.datasets[0].data = dataSpectr;
         scatterChartData.labels = termLabel;
         myScatter.options.scales.yAxes[0].scaleLabel.labelString = part1Y + part2;
@@ -319,17 +359,17 @@ document.getElementById('eUp_eD').addEventListener('click', function() {
     }
 });
 
-
 document.getElementById('resetZoom').addEventListener('click', function() {
     myScatter.resetZoom();
     window.myScatter.update();
 });
 
-
 var rad = document.getElementsByName('myRadios');
 for (var i = 0; i < rad.length; i++) {
     rad[i].addEventListener('change', function() {
         if (this.value == 1) {
+            cm = true;
+            ev = false;
             part2 = labelcm;
             scatterChartData.datasets[0].data.forEach(function (item, i) {
                 item.x = item.x/(1.23977*Math.pow(10,-4));
@@ -341,9 +381,26 @@ for (var i = 0; i < rad.length; i++) {
                 scatterChartData.datasets[0].data[i].x =item.x;
                 scatterChartData.datasets[0].data[i].y =item.y;
             });
+
+            if(eUp_eDcheck == true){
+                IP = atom.atom.IONIZATION_POTENCIAL;
+                scatterChartData.datasets[2].data[0].x = IP;
+                scatterChartData.datasets[2].data[1].y = IP;
+            }
+
+            if(parity == true) {
+                maxVal = 0;
+                dataSpectr.forEach(function (item) {
+                    if (maxVal <  item.x) maxVal = item.x;
+                });
+                scatterChartData.datasets[1].data[1].x = maxVal;
+                scatterChartData.datasets[1].data[1].y = maxVal;
+            }
             window.myScatter.update();
         }
         else {
+            ev = true;
+            cm = false;
             part2 = labeleV;
             scatterChartData.datasets[0].data.forEach(function (item, i) {
                 item.x = item.x*1.23977*Math.pow(10,-4);
@@ -355,6 +412,23 @@ for (var i = 0; i < rad.length; i++) {
                 scatterChartData.datasets[0].data[i].x =item.x;
                 scatterChartData.datasets[0].data[i].y =item.y;
             });
+
+
+            if(eUp_eDcheck == true){
+                IP = atom.atom.IONIZATION_POTENCIAL;
+                IP = IP*1.23977*Math.pow(10,-4);
+                scatterChartData.datasets[2].data[0].x = IP;
+                scatterChartData.datasets[2].data[1].y = IP;
+            }
+
+            if (parity==true) {
+                maxVal = 0;
+                dataSpectr.forEach(function (item) {
+                    if (maxVal < item.x) maxVal = item.x;
+                });
+                scatterChartData.datasets[1].data[1].x = maxVal;
+                scatterChartData.datasets[1].data[1].y = maxVal;
+            }
             window.myScatter.update();
         }
         myScatter.options.scales.yAxes[0].scaleLabel.labelString = part1Y + part2;
@@ -362,16 +436,16 @@ for (var i = 0; i < rad.length; i++) {
     });
 }
 
-
-
 function updateChart(new_atom, min, max){
     maxVal=0;
+    IP = 0;
     dataSpectr.length = 0;
     intensArray.length = 0;
     markers.length = 0;
     termLabel.length = 0;
     icon.length = 0;
     colorArr.length = 0;
+    if (new_atom == 1)document.getElementById('intens').checked = true;
     document.getElementsByName('myRadios')[0].checked = true;
     document.getElementsByName('myRadios')[1].checked = false;
     document.getElementById('eUp_eD').checked = false;
@@ -464,45 +538,39 @@ function updateChart(new_atom, min, max){
 
                     if (((min == 0) && (max == 0))){
                         atom.transitions.forEach(function (transition) {
-                            // Переходы только с положительной интенсивностью
-                            if ((transition.INTENSITY > 0) && transition.ID_LOWER_LEVEL && transition.ID_UPPER_LEVEL) {
-                                let x = 0,
-                                    y = 0,
-                                    pref,
+                            if (transition.ID_LOWER_LEVEL && transition.ID_UPPER_LEVEL) {
+                                let pref,
                                     multCol = ({m: '', c: '', l: ''}),
                                     len = transition.WAVELENGTH,
                                     multUp,
-                                    multLow,
-                                    test = 0;
+                                    multLow;
 
-                                atom.levels.forEach(function (level) {
+                                if ((transition.INTENSITY == null) || (transition.INTENSITY == 0))
+                                    transition.INTENSITY = 0;
 
-                                    if (level.ID === transition.ID_LOWER_LEVEL) {
-                                        multLow = level.TERMPREFIX;
-                                        // энергия нижнего уровня
-                                        x = level.ENERGY;
-                                        if (level.TERMPREFIX)
-                                            pref = level.TERMPREFIX;
-                                        else
-                                            pref = "";
+                                let x = transition.lower_level_energy,
+                                    y = transition.upper_level_energy;
 
-                                        if (level.TERMMULTIPLY == 0) {
-                                            term.lt = "<sup>" + pref + "</sup>" + "<span>" + level.TERMFIRSTPART + "</span>" + "<sup>" + level.TERMMULTIPLY + "</sup>" + "<sub>" + level.J + "</sub>";
-                                        } else term.lt = "<sup>" + pref + "</sup>" + "<span>" + level.TERMFIRSTPART + "</span>" + "<sub>" + level.J + "</sub>";
-                                    }
+                                multLow = transition.lower_level_termprefix;
+                                multUp = transition.lower_level_termprefix;
 
-                                    if (level.ID === transition.ID_UPPER_LEVEL) {
-                                        // энергия верхнего уровня
-                                        multUp = level.TERMPREFIX;
-                                        y = level.ENERGY;
-                                        test = level.TERMMULTIPLY;
-                                        if (level.TERMPREFIX) pref = level.TERMPREFIX;
-                                        else pref = "";
-                                        if (test === 0) {
-                                            term.ut = "<sup>" + pref + "</sup>" + "<span>" + level.TERMFIRSTPART + "</span>" + "<sup>" + level.TERMMULTIPLY + "</sup>" + "<sub>" + level.J + "</sub>";
-                                        } else term.ut = "<sup>" + pref + "</sup>" + "<span>" + level.TERMFIRSTPART + "</span>" + "<sub>" + level.J + "</sub>";
-                                    }
-                                });
+                                if (transition.lower_level_termprefix)
+                                    pref = transition.lower_level_termprefix;
+                                else
+                                    pref = "";
+
+                                if (transition.lower_level_termmultiply == 0) {
+                                    term.lt = "<sup>" + pref + "</sup>" + "<span>" + transition.lower_level_termfirstpart + "</span>" + "<sup>" + transition.lower_level_termmultiply + "</sup>" + "<sub>" + transition.lower_level_j + "</sub>";
+                                } else term.lt = "<sup>" + pref + "</sup>" + "<span>" + transition.lower_level_termfirstpart + "</span>" + "<sub>" + transition.lower_level_j + "</sub>";
+
+
+                                let test = transition.upper_level_termmultiply;
+                                if (transition.upper_level_termprefix) pref = transition.upper_level_termprefix;
+                                else pref = "";
+                                if (test === 0) {
+                                    term.ut = "<sup>" + pref + "</sup>" + "<span>" + transition.upper_level_termfirstpart + "</span>" + "<sup>" + transition.upper_level_termmultiply + "</sup>" + "<sub>" + transition.upper_level_j + "</sub>";
+                                } else term.ut = "<sup>" + pref + "</sup>" + "<span>" + transition.upper_level_termfirstpart + "</span>" + "<sub>" + transition.upper_level_j  + "</sub>";
+
 
                                 if (multUp != multLow) {
                                     multCol.m = 0;
@@ -517,51 +585,46 @@ function updateChart(new_atom, min, max){
                                 term.y = point.y;
                                 termLabel.push(term.lt + "<span> - </span>" + term.ut + "<br>" + "wavelength [Å]: " + len + "<br>" + "intensity: " + transition.INTENSITY + "<br>" + "(" + term.x + ", " + term.y + ")");
                                 dataSpectr.push(point);
-                                intensArray.push(Math.log10(transition.INTENSITY));
+                                if (transition.INTENSITY == 0) intensArray.push(0);
+                                else intensArray.push(Math.log10(transition.INTENSITY));
                             }
                         });
                     }
                     else{
                         atom.transitions.forEach(function (transition) {
-                            // Переходы только с положительной интенсивностью
-                            if ((transition.INTENSITY > 0) && transition.ID_LOWER_LEVEL && transition.ID_UPPER_LEVEL && (transition.WAVELENGTH > min) && (transition.WAVELENGTH < max)) {
-                                let x = 0,
-                                    y = 0,
-                                    pref,
+                            if (transition.ID_LOWER_LEVEL && transition.ID_UPPER_LEVEL && (transition.WAVELENGTH > min) && (transition.WAVELENGTH < max)) {
+                                let pref,
                                     multCol = ({m: '', c: '', l: ''}),
                                     len = transition.WAVELENGTH,
                                     multUp,
-                                    multLow,
-                                    test = 0;
+                                    multLow;
 
-                                atom.levels.forEach(function (level) {
+                                if ((transition.INTENSITY == null) || (transition.INTENSITY == 0))
+                                    transition.INTENSITY = 0;
 
-                                    if (level.ID === transition.ID_LOWER_LEVEL) {
-                                        multLow = level.TERMPREFIX;
-                                        // энергия нижнего уровня
-                                        x = level.ENERGY;
-                                        if (level.TERMPREFIX)
-                                            pref = level.TERMPREFIX;
-                                        else
-                                            pref = "";
+                                let x = transition.lower_level_energy,
+                                    y = transition.upper_level_energy;
 
-                                        if (level.TERMMULTIPLY == 0) {
-                                            term.lt = "<sup>" + pref + "</sup>" + "<span>" + level.TERMFIRSTPART + "</span>" + "<sup>" + level.TERMMULTIPLY + "</sup>" + "<sub>" + level.J + "</sub>";
-                                        } else term.lt = "<sup>" + pref + "</sup>" + "<span>" + level.TERMFIRSTPART + "</span>" + "<sub>" + level.J + "</sub>";
-                                    }
+                                multLow = transition.lower_level_termprefix;
+                                multUp = transition.lower_level_termprefix;
 
-                                    if (level.ID === transition.ID_UPPER_LEVEL) {
-                                        // энергия верхнего уровня
-                                        multUp = level.TERMPREFIX;
-                                        y = level.ENERGY;
-                                        test = level.TERMMULTIPLY;
-                                        if (level.TERMPREFIX) pref = level.TERMPREFIX;
-                                        else pref = "";
-                                        if (test === 0) {
-                                            term.ut = "<sup>" + pref + "</sup>" + "<span>" + level.TERMFIRSTPART + "</span>" + "<sup>" + level.TERMMULTIPLY + "</sup>" + "<sub>" + level.J + "</sub>";
-                                        } else term.ut = "<sup>" + pref + "</sup>" + "<span>" + level.TERMFIRSTPART + "</span>" + "<sub>" + level.J + "</sub>";
-                                    }
-                                });
+                                if (transition.lower_level_termprefix)
+                                    pref = transition.lower_level_termprefix;
+                                else
+                                    pref = "";
+
+                                if (transition.lower_level_termmultiply == 0) {
+                                    term.lt = "<sup>" + pref + "</sup>" + "<span>" + transition.lower_level_termfirstpart + "</span>" + "<sup>" + transition.lower_level_termmultiply + "</sup>" + "<sub>" + transition.lower_level_j + "</sub>";
+                                } else term.lt = "<sup>" + pref + "</sup>" + "<span>" + transition.lower_level_termfirstpart + "</span>" + "<sub>" + transition.lower_level_j + "</sub>";
+
+
+                                let test = transition.upper_level_termmultiply;
+                                if (transition.upper_level_termprefix) pref = transition.upper_level_termprefix;
+                                else pref = "";
+                                if (test === 0) {
+                                    term.ut = "<sup>" + pref + "</sup>" + "<span>" + transition.upper_level_termfirstpart + "</span>" + "<sup>" + transition.upper_level_termmultiply + "</sup>" + "<sub>" + transition.upper_level_j + "</sub>";
+                                } else term.ut = "<sup>" + pref + "</sup>" + "<span>" + transition.upper_level_termfirstpart + "</span>" + "<sub>" + transition.upper_level_j  + "</sub>";
+
 
                                 if (multUp != multLow) {
                                     multCol.m = 0;
@@ -572,15 +635,14 @@ function updateChart(new_atom, min, max){
                                 markers.push(multCol);
 
                                 let point = {x: x, y: y, t: test};
-                                //let point = (test ? {x: y, y: x, t: test} : {x: x, y: y, t: test});
                                 term.x = point.x;
                                 term.y = point.y;
                                 termLabel.push(term.lt + "<span> - </span>" + term.ut + "<br>" + "wavelength [Å]: " + len + "<br>" + "intensity: " + transition.INTENSITY + "<br>" + "(" + term.x + ", " + term.y + ")");
                                 dataSpectr.push(point);
-                                intensArray.push(Math.log10(transition.INTENSITY));
+                                if (transition.INTENSITY == 0) intensArray.push(0);
+                                else intensArray.push(Math.log10(transition.INTENSITY));
                             }
                         });
-
                     }
 
                     var maxItem = Math.max.apply(null, intensArray);
@@ -593,65 +655,14 @@ function updateChart(new_atom, min, max){
                         colorArr.push(markers[i].c);
                     });
 
-                    markers.forEach(function (item) {
-                        let image = new Image();
-                        if (item.m === 0) {
-                            icon.push('crossRot')
-                        } else if (item.m === 1) {
-                            icon.push('circle');
-                        } else if (item.m === 2) {
-                            canvas.ctx.fillStyle = item.c;
-                            canvas.ctx.fill();
-                            image.src = canvas.toDataURL();
-                            image.width = 14;
-                            image.height = 14;
-                            icon.push(image);
-                            canvas.ctx.clearRect(0, 0, 70, 70);
-                        } else if (item.m === 3) {
-                            icon.push('triangle');
-                        } else if (item.m === 4) {
-                            icon.push('rect');
-                        } else if (item.m === 5) {
-                            canvas5.ctx.fillStyle = item.c;
-                            canvas5.ctx.fill();
-                            image.src = canvas5.toDataURL();
-                            image.width = 11;
-                            image.height = 11;
-                            icon.push(image);
-                            canvas5.ctx.clearRect(0, 0, 70, 70);
-                        } else if (item.m === 6) {
-                            canvas6.ctx.fillStyle = item.c;
-                            canvas6.ctx.fill();
-                            image.src = canvas6.toDataURL();
-                            image.width = 11;
-                            image.height = 11;
-                            icon.push(image);
-                            canvas6.ctx.clearRect(0, 0, 70, 70);
-                        } else if (item.m === 7) {
-                            canvas7.ctx.fillStyle = item.c;
-                            canvas7.ctx.fill();
-                            image.src = canvas7.toDataURL();
-                            image.width = 11;
-                            image.height = 11;
-                            icon.push(image);
-                            canvas7.ctx.clearRect(0, 0, 70, 70);
-                        } else if (item.m === 8) {
-                            canvas8.ctx.fillStyle = item.c;
-                            canvas8.ctx.fill();
-                            image.src = canvas8.toDataURL();
-                            image.width = 11;
-                            image.height = 11;
-                            icon.push(image);
-                            canvas8.ctx.clearRect(0, 0, 70, 70);
-                        } else icon.push('star');
-                    });
+                    fill_icon(markers, icon, colorArr);
 
                     scatterChartData = {
                         datasets: [{
-                            pointBorderWidth: 0,
-                            pointBackgroundColor: colorArr,
+                            pointBorderWidth: 1,
+                            pointBackgroundColor: 'rgba(255, 255, 255, 0)',
                             pointBorderColor: colorArr,
-                            pointRadius: 5,
+                            pointRadius: 4,
                             data: dataSpectr,
                             pointStyle: icon
                         }, {
@@ -664,11 +675,22 @@ function updateChart(new_atom, min, max){
                             borderWidth: 1,
                             pointHoverRadius: 0,
                             pointHitRadius: 0
-                        }],
+                        }, {
+                                pointBorderWidth: 0,
+                                pointRadius: 0,
+                                data: [{x: IP, y: 0}, {x: 0, y: IP}],
+                                showLine: true,
+                                fill: false,
+                                borderDash: [4, 4],
+                                borderColor: 'black',
+                                borderWidth: 1,
+                                pointHoverRadius: 0,
+                                pointHitRadius: 0
+                            }],
                         labels: termLabel,
                     };
 
-                    $('#canvas').remove(); // this is my <canvas> element
+                    $('#canvas').remove();
                     $('#chartCont').append('<canvas id="canvas"><canvas>');
                     if (window.myScatter) {
                         window.myScatter.clear();
@@ -683,8 +705,82 @@ function updateChart(new_atom, min, max){
     }
 }
 
+function fill_icon(markers, icon, col) {
+    icon.length = 0;
+    markers.forEach(function (item, i) {
+        let image = new Image();
+        if (item.m === 0) {
+            icon.push('crossRot')
+        } else if (item.m === 1) {
+            icon.push('circle');
+        } else if (item.m === 2) {
+            canvas.ctx.strokeStyle = col[i];
+            canvas.ctx.lineWidth = 4;
+            canvas.ctx.fillStyle = 'rgba(255, 255, 255, 0)';
+            canvas.ctx.fill();
+            canvas.ctx.stroke();
+            image.src = canvas.toDataURL();
+            image.width = 14;
+            image.height = 14;
+            icon.push(image);
+            canvas.ctx.clearRect(0, 0, 70, 70);
+        } else if (item.m === 3) {
+            icon.push('triangle');
+        } else if (item.m === 4) {
+            icon.push('rect');
+        } else if (item.m === 5) {
+            canvas5.ctx.strokeStyle = col[i];
+            canvas5.ctx.lineWidth = 4;
+            canvas5.ctx.fillStyle = 'rgba(255, 255, 255, 0)';
+            canvas5.ctx.fill();
+            canvas5.ctx.stroke();
+            image.src = canvas5.toDataURL();
+            image.width = 11;
+            image.height = 11;
+            icon.push(image);
+            canvas5.ctx.clearRect(0, 0, 70, 70);
+        } else if (item.m === 6) {
+            canvas6.ctx.strokeStyle = col[i];
+            canvas6.ctx.lineWidth = 4;
+            canvas6.ctx.fillStyle = 'rgba(255, 255, 255, 0)';
+            canvas6.ctx.fill();
+            canvas6.ctx.stroke();
+            image.src = canvas6.toDataURL();
+            image.width = 11;
+            image.height = 11;
+            icon.push(image);
+            canvas6.ctx.clearRect(0, 0, 70, 70);
+        } else if (item.m === 7) {
+            canvas7.ctx.strokeStyle = col[i];
+            canvas7.ctx.lineWidth = 4;
+            canvas7.ctx.fillStyle = 'rgba(255, 255, 255, 0)';
+            canvas7.ctx.fill();
+            canvas7.ctx.stroke();
+            image.src = canvas7.toDataURL();
+            image.width = 11;
+            image.height = 11;
+            icon.push(image);
+            canvas7.ctx.clearRect(0, 0, 70, 70);
+        } else if (item.m === 8) {
+            canvas8.ctx.strokeStyle = col[i];
+            canvas8.ctx.lineWidth = 4;
+            canvas8.ctx.fillStyle = 'rgba(255, 255, 255, 0)';
+            canvas8.ctx.fill();
+            canvas8.ctx.stroke();
+            image.src = canvas8.toDataURL();
+            image.width = 11;
+            image.height = 11;
+            icon.push(image);
+            canvas8.ctx.clearRect(0, 0, 70, 70);
+        } else icon.push('star');
+    });
+}
+
 function graph() {
     var ctx = document.getElementById('canvas').getContext('2d');
+    ctx.canvas.height = 600;
+    ctx.canvas.width = 600;
+
     window.myScatter = new Chart(ctx, {
         type: 'scatter',
         data: scatterChartData,
@@ -694,6 +790,7 @@ function graph() {
                     tension: 0
                 }
             },
+            responsive: false,
             bezierCurve: false,
             title: {
                 display: true,
@@ -708,6 +805,9 @@ function graph() {
                 mode: 'xy'
             },
             tooltips: {
+                filter: function (tooltipItem) {
+                    return tooltipItem.datasetIndex === 0;
+                    },
                 callbacks:{
                     label: function(tooltipItem, data) {
                         var label = data.labels[tooltipItem.index] || '';
@@ -715,6 +815,7 @@ function graph() {
                     },
                 },
                 enabled: false,
+                displayColors: false,
                 mode: 'index',
                 position: 'nearest',
                 custom: customTooltips,
@@ -752,14 +853,17 @@ function show_selected(){
     let min = document.getElementById("min").value;
     let max = document.getElementById("max").value;
     updateChart(0, min, max);
+    click_intens();
 }
 
 function show_visible(){
     updateChart(0, 3800, 7600);
+    click_intens();
 }
 
 function show_all(){
     updateChart(0, 0, 0);
+    click_intens();
 }
 
 updateChart(1, 0, 0);

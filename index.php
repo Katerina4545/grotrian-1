@@ -1,6 +1,5 @@
 <!doctype html>
 <html>
-
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -30,7 +29,12 @@
         </div>
     </div>
 
-    <br><button id="resetZoom">Reset Zoom</button>
+
+    <br><div class='resize'>
+        <input type='button' id="resetZoom" value="Reset Zoom" class='bluebtn'>
+        <input type='button' id="fullScreen" value="Full screen" class='bluebtn' onclick="resize(0)">
+    </div>
+
 
     <div id="scale">
         <div class="radio_buttons">

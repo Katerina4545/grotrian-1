@@ -4,8 +4,14 @@ canvas {
     -ms-user-select: none;
 }
 
-
 #resetZoom{
+    margin-left: 20px;
+    font: 14px Tahoma;
+    height: 26px;
+    background-color: #e6f2ff;
+}
+
+#fullScreen{
     margin-left: 20px;
     font: 14px Tahoma;
     height: 26px;
@@ -115,6 +121,13 @@ canvas {
     margin-top: 13px;
 }
 .visible_container input{
+    width: 120px;
+    height: 27px;
+    font: 14px Tahoma;
+    background-color: #e6f2ff;
+}
+
+.resize input{
     width: 120px;
     height: 27px;
     font: 14px Tahoma;

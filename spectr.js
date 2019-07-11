@@ -37,6 +37,7 @@ var atom,
     IP = 0,
     cm=true,
     ev=false,
+    max,
     icon = [];
 
 var labeleV = "[eV]",
@@ -61,8 +62,8 @@ var customTooltips;
 
 var canvas = document.createElement("canvas");
 canvas.id = "myCanvas";
-canvas.height = 70;
-canvas.width = 70;
+canvas.height = 97;
+canvas.width = 105;
 canvas.ctx = canvas.getContext("2d");
 
 
@@ -92,62 +93,51 @@ canvas8.ctx = canvas8.getContext("2d");
 
 
 //линза
-canvas.ctx.arc(0, 35, 49, -Math.PI/4, Math.PI/4, false);
-canvas.ctx.arc(70, 35, 49, Math.PI*3/4, -Math.PI*3/4, false);
+canvas.ctx.arc(0, 50, 68, -Math.PI/4, Math.PI/4, false);
+canvas.ctx.arc(100, 50, 68, Math.PI*3/4, -Math.PI*3/4, false);
+
 
 //5угольник
 canvas5.ctx.beginPath();
-canvas5.ctx.moveTo(35,0);
-canvas5.ctx.lineTo(70,32);
-canvas5.ctx.lineTo(55,70);
-canvas5.ctx.lineTo(15,70);
-canvas5.ctx.lineTo(0, 32);
-canvas5.ctx.lineTo(35, 0);
+canvas5.ctx.moveTo(35,4);
+canvas5.ctx.lineTo(65,33);
+canvas5.ctx.lineTo(54,65);
+canvas5.ctx.lineTo(15,65);
+canvas5.ctx.lineTo(4, 33);
+canvas5.ctx.lineTo(35, 4);
 
 //6
 canvas6.ctx.beginPath();
-canvas6.ctx.moveTo(35,0);
-canvas6.ctx.lineTo(68,17);
-canvas6.ctx.lineTo(68,53);
-canvas6.ctx.lineTo(35,70);
-canvas6.ctx.lineTo(2, 53);
-canvas6.ctx.lineTo(2, 17);
-canvas6.ctx.lineTo(35, 0);
+canvas6.ctx.moveTo(35,5);
+canvas6.ctx.lineTo(63,19);
+canvas6.ctx.lineTo(63,52);
+canvas6.ctx.lineTo(35,66);
+canvas6.ctx.lineTo(6, 52);
+canvas6.ctx.lineTo(6, 19);
+canvas6.ctx.lineTo(35, 5);
 
 //7
 canvas7.ctx.beginPath();
-canvas7.ctx.moveTo(35,0);
-canvas7.ctx.lineTo(63,17);
-canvas7.ctx.lineTo(70,46);
-canvas7.ctx.lineTo(52,70);
-canvas7.ctx.lineTo(18,70);
-canvas7.ctx.lineTo(0, 46);
-canvas7.ctx.lineTo(7, 17);
-canvas7.ctx.lineTo(35, 0);
+canvas7.ctx.moveTo(35,4);
+canvas7.ctx.lineTo(65,22);
+canvas7.ctx.lineTo(65,49);
+canvas7.ctx.lineTo(49,65);
+canvas7.ctx.lineTo(21,65);
+canvas7.ctx.lineTo(5, 49);
+canvas7.ctx.lineTo(5, 22);
+canvas7.ctx.lineTo(35, 4);
 
 //8
 canvas8.ctx.beginPath();
-canvas8.ctx.moveTo(20,0);
-canvas8.ctx.lineTo(50,0);
-canvas8.ctx.lineTo(70,20);
-canvas8.ctx.lineTo(70,50);
-canvas8.ctx.lineTo(50,70);
-canvas8.ctx.lineTo(20,70);
-canvas8.ctx.lineTo(0, 50);
-canvas8.ctx.lineTo(0, 20);
-canvas8.ctx.lineTo(20, 0);
-
-function colorOfWave(len){
-    if ((len > 3800)&&(len < 4300)) return "rgba(191, 0, 255,";
-    else if((len >= 4300)&&(len <4850)) return "rgba(0, 0, 255,";
-    else if ((len >= 4850)&&(len <5000)) return "rgba(0, 128, 255,";
-    else if ((len >= 5000)&&(len < 5500)) return "rgba(0, 255, 0,";
-    else if ((len >= 5500)&&(len < 5750)) return "rgba(191, 255, 0,";
-    else if ((len >= 5750)&&(len < 5900)) return "rgba(255, 255, 0,";
-    else if ((len >= 5900)&&(len < 6200)) return "rgba(255, 128, 0,";
-    else if ((len >= 6200)&&(len < 7600)) return "rgba(255, 0, 0,";
-    else if ((len <= 3800)||(len >= 7600)) return "rgba(0, 0, 0,";
-}
+canvas8.ctx.moveTo(24,5);
+canvas8.ctx.lineTo(48,5);
+canvas8.ctx.lineTo(65,22);
+canvas8.ctx.lineTo(65,48);
+canvas8.ctx.lineTo(48,65);
+canvas8.ctx.lineTo(24,65);
+canvas8.ctx.lineTo(5, 48);
+canvas8.ctx.lineTo(5, 22);
+canvas8.ctx.lineTo(24, 0);
 
 function click_intens(){
     if(document.getElementById('intens').checked){
@@ -213,16 +203,36 @@ document.getElementById('eUp').addEventListener('click', function() {
             eUp_eDcheck = false;
         }
 
-        IP = 0;
+        if (ev == true) {
+            IP = atom.atom.IONIZATION_POTENCIAL;
+            IP = IP * 1.23977 * Math.pow(10, -4);
+        }
+        else IP = atom.atom.IONIZATION_POTENCIAL;
+
+
         scatterChartData.datasets[1].data[1].x = 0;
         scatterChartData.datasets[1].data[1].y = 0;
-        scatterChartData.datasets[2].data[0].x = IP;
-        scatterChartData.datasets[2].data[1].y = IP;
 
         scatterChartData.datasets[0].data = dataSpectr;
         scatterChartData.labels = termLabel;
         myScatter.options.scales.yAxes[0].scaleLabel.labelString = part1Y + part2;
         myScatter.options.scales.xAxes[0].scaleLabel.labelString = part1X + part2;
+
+        maxVal = 0;
+        dataSpectr.forEach(function (item) {
+            if (maxVal < item.x) maxVal = item.x;
+        });
+
+        scatterChartData.datasets[2].data[0].x = maxVal;
+        scatterChartData.datasets[2].data[1].x = 0;
+        scatterChartData.datasets[2].data[1].y = IP;
+        scatterChartData.datasets[2].data[0].y = IP;
+
+        scatterChartData.datasets[3].data[0].x = 0;
+        scatterChartData.datasets[3].data[1].x = 0;
+        scatterChartData.datasets[3].data[1].y = 0;
+        scatterChartData.datasets[3].data[0].y = 0;
+
         window.myScatter.update();
     }
 });
@@ -282,11 +292,15 @@ document.getElementById('parity').addEventListener('click', function() {
         if (ev == true){
             scatterChartData.datasets[1].data[1].x = maxVal*1.23977*Math.pow(10,-4);
             scatterChartData.datasets[1].data[1].y = maxVal*1.23977*Math.pow(10,-4);
+            IP = atom.atom.IONIZATION_POTENCIAL;
+            IP = IP * 1.23977 * Math.pow(10, -4);
         }
         else {
             scatterChartData.datasets[1].data[1].x = maxVal;
             scatterChartData.datasets[1].data[1].y = maxVal;
+            IP = atom.atom.IONIZATION_POTENCIAL;
         }
+
 
         scatterChartData.datasets[0].data = dataSpectr;
         scatterChartData.labels = termLabel;
@@ -294,8 +308,17 @@ document.getElementById('parity').addEventListener('click', function() {
         myScatter.options.scales.xAxes[0].scaleLabel.labelString = part1X + part2;
         scatterChartData.datasets[1].data[1].x = maxVal;
         scatterChartData.datasets[1].data[1].y = maxVal;
+
         scatterChartData.datasets[2].data[0].x = IP;
+        scatterChartData.datasets[2].data[1].x = 0;
         scatterChartData.datasets[2].data[1].y = IP;
+        scatterChartData.datasets[2].data[0].y = IP;
+
+        scatterChartData.datasets[3].data[0].x = IP;
+        scatterChartData.datasets[3].data[1].x = IP;
+        scatterChartData.datasets[3].data[1].y = IP;
+        scatterChartData.datasets[3].data[0].y = 0;
+
         window.myScatter.update();
     }
 });
@@ -349,8 +372,17 @@ document.getElementById('eUp_eD').addEventListener('click', function() {
 
         scatterChartData.datasets[1].data[1].x = 0;
         scatterChartData.datasets[1].data[1].y = 0;
+
         scatterChartData.datasets[2].data[0].x = IP;
+        scatterChartData.datasets[2].data[0].y = 0;
         scatterChartData.datasets[2].data[1].y = IP;
+        scatterChartData.datasets[2].data[1].x = 0;
+
+        scatterChartData.datasets[3].data[0].x = 0;
+        scatterChartData.datasets[3].data[1].x = 0;
+        scatterChartData.datasets[3].data[1].y = 0;
+        scatterChartData.datasets[3].data[0].y = 0;
+
         scatterChartData.datasets[0].data = dataSpectr;
         scatterChartData.labels = termLabel;
         myScatter.options.scales.yAxes[0].scaleLabel.labelString = part1Y + part2;
@@ -363,6 +395,71 @@ document.getElementById('resetZoom').addEventListener('click', function() {
     myScatter.resetZoom();
     window.myScatter.update();
 });
+
+function resize(new_atom) {
+    if(new_atom == 0){
+    if(document.getElementById('fullScreen').value == 'Full screen') {
+        let win_w, win_h, size;
+        win_w = $(window).width();
+        win_h = $(window).height();
+        if(win_w <= win_h) size = win_w;
+        else size = win_h;
+        $('#canvas').remove();
+        $('#chartCont').append('<canvas id="canvas"><canvas>');
+        if (window.myScatter) {
+            window.myScatter.clear();
+        }
+        graph(size, size);
+        document.getElementById('fullScreen').value = 'Exit full screen';
+    }
+    else {
+        let win_w, win_h, size;
+        win_w = $(window).width();
+        win_h = $(window).height();
+        if(win_w <= win_h) size = win_w;
+        else size = win_h;
+        size = Math.floor(size*3/4);
+        $('#canvas').remove();
+        $('#chartCont').append('<canvas id="canvas"><canvas>');
+        if (window.myScatter) {
+            window.myScatter.clear();
+        }
+        graph(size, size);
+        document.getElementById('fullScreen').value = 'Full screen';
+    }}
+    else {
+        if(document.getElementById('fullScreen').value == 'Full screen') {
+            let win_w, win_h, size;
+            win_w = $(window).width();
+            win_h = $(window).height();
+            if(win_w <= win_h) size = win_w;
+            else size = win_h;
+            size = Math.floor(size*3/4);
+            $('#canvas').remove();
+            $('#chartCont').append('<canvas id="canvas"><canvas>');
+            if (window.myScatter) {
+                window.myScatter.clear();
+            }
+            graph(size, size);
+        }
+        else {
+            let win_w, win_h, size;
+            win_w = $(window).width();
+            win_h = $(window).height();
+            if(win_w <= win_h) size = win_w;
+            else size = win_h;
+            $('#canvas').remove();
+            $('#chartCont').append('<canvas id="canvas"><canvas>');
+            if (window.myScatter) {
+                window.myScatter.clear();
+            }
+            graph(size, size);
+        }
+    }
+    window.myScatter.options.title.text = 'Transitions of ' + document.getElementById("element").value;
+    window.myScatter.update();
+}
+
 
 var rad = document.getElementsByName('myRadios');
 for (var i = 0; i < rad.length; i++) {
@@ -385,7 +482,9 @@ for (var i = 0; i < rad.length; i++) {
             if(eUp_eDcheck == true){
                 IP = atom.atom.IONIZATION_POTENCIAL;
                 scatterChartData.datasets[2].data[0].x = IP;
+                scatterChartData.datasets[2].data[0].y = 0;
                 scatterChartData.datasets[2].data[1].y = IP;
+                scatterChartData.datasets[2].data[1].x = 0;
             }
 
             if(parity == true) {
@@ -395,7 +494,32 @@ for (var i = 0; i < rad.length; i++) {
                 });
                 scatterChartData.datasets[1].data[1].x = maxVal;
                 scatterChartData.datasets[1].data[1].y = maxVal;
+
+                IP = atom.atom.IONIZATION_POTENCIAL;
+
+                scatterChartData.datasets[2].data[0].x = IP;
+                scatterChartData.datasets[2].data[1].x = 0;
+                scatterChartData.datasets[2].data[1].y = IP;
+                scatterChartData.datasets[2].data[0].y = IP;
+
+                scatterChartData.datasets[3].data[0].x = IP;
+                scatterChartData.datasets[3].data[1].x = IP;
+                scatterChartData.datasets[3].data[1].y = IP;
+                scatterChartData.datasets[3].data[0].y = 0;
             }
+
+            if(eUpcheck == true){
+                maxVal = 0;
+                dataSpectr.forEach(function (item) {
+                    if (maxVal <  item.x) maxVal = item.x;
+                });
+                IP = atom.atom.IONIZATION_POTENCIAL;
+                scatterChartData.datasets[2].data[0].x = maxVal;
+                scatterChartData.datasets[2].data[1].x = 0;
+                scatterChartData.datasets[2].data[1].y = IP;
+                scatterChartData.datasets[2].data[0].y = IP;
+            }
+
             window.myScatter.update();
         }
         else {
@@ -418,7 +542,9 @@ for (var i = 0; i < rad.length; i++) {
                 IP = atom.atom.IONIZATION_POTENCIAL;
                 IP = IP*1.23977*Math.pow(10,-4);
                 scatterChartData.datasets[2].data[0].x = IP;
+                scatterChartData.datasets[2].data[0].y = 0;
                 scatterChartData.datasets[2].data[1].y = IP;
+                scatterChartData.datasets[2].data[1].x = 0;
             }
 
             if (parity==true) {
@@ -428,7 +554,34 @@ for (var i = 0; i < rad.length; i++) {
                 });
                 scatterChartData.datasets[1].data[1].x = maxVal;
                 scatterChartData.datasets[1].data[1].y = maxVal;
+
+                IP = atom.atom.IONIZATION_POTENCIAL;
+                IP = IP*1.23977*Math.pow(10,-4);
+
+                scatterChartData.datasets[2].data[0].x = IP;
+                scatterChartData.datasets[2].data[1].x = 0;
+                scatterChartData.datasets[2].data[1].y = IP;
+                scatterChartData.datasets[2].data[0].y = IP;
+
+                scatterChartData.datasets[3].data[0].x = IP;
+                scatterChartData.datasets[3].data[1].x = IP;
+                scatterChartData.datasets[3].data[1].y = IP;
+                scatterChartData.datasets[3].data[0].y = 0;
             }
+
+            if(eUpcheck == true){
+                maxVal = 0;
+                dataSpectr.forEach(function (item) {
+                    if (maxVal <  item.x) maxVal = item.x;
+                });
+                IP = atom.atom.IONIZATION_POTENCIAL;
+                IP = IP*1.23977*Math.pow(10,-4);
+                scatterChartData.datasets[2].data[0].x = maxVal;
+                scatterChartData.datasets[2].data[1].x = 0;
+                scatterChartData.datasets[2].data[1].y = IP;
+                scatterChartData.datasets[2].data[0].y = IP;
+            }
+
             window.myScatter.update();
         }
         myScatter.options.scales.yAxes[0].scaleLabel.labelString = part1Y + part2;
@@ -439,6 +592,8 @@ for (var i = 0; i < rad.length; i++) {
 function updateChart(new_atom, min, max){
     maxVal=0;
     IP = 0;
+    cm=true;
+    ev=false;
     dataSpectr.length = 0;
     intensArray.length = 0;
     markers.length = 0;
@@ -480,8 +635,8 @@ function updateChart(new_atom, min, max){
             success:(
                 function (data) {
                     if (new_atom == 1) atom = data;
-                    customTooltips = function (tooltip) {
 
+                    customTooltips = function (tooltip) {
                         var tooltipEl = document.getElementById('chartjs-tooltip');
 
                         if (tooltip.opacity === 0) {
@@ -552,7 +707,7 @@ function updateChart(new_atom, min, max){
                                     y = transition.upper_level_energy;
 
                                 multLow = transition.lower_level_termprefix;
-                                multUp = transition.lower_level_termprefix;
+                                multUp = transition.upper_level_termprefix;
 
                                 if (transition.lower_level_termprefix)
                                     pref = transition.lower_level_termprefix;
@@ -576,8 +731,13 @@ function updateChart(new_atom, min, max){
                                     multCol.m = 0;
                                 } else
                                     multCol.m = multLow;
-                                multCol.c = colorOfWave(len);
                                 multCol.l = len;
+                                if ((transition.color.R == 255) && (transition.color.G == 255) &&(transition.color.B == 255)){
+                                    transition.color.R = 0;
+                                    transition.color.G = 0;
+                                    transition.color.B = 0;
+                                }
+                                multCol.c = "rgba(" + transition.color.R + "," + transition.color.G + ","  + transition.color.B + ',';
                                 markers.push(multCol);
 
                                 let point = {x: x, y: y, t: test};
@@ -630,7 +790,12 @@ function updateChart(new_atom, min, max){
                                     multCol.m = 0;
                                 } else
                                     multCol.m = multLow;
-                                multCol.c = colorOfWave(len);
+                                if ((transition.color.R == 255) && (transition.color.G == 255) &&(transition.color.B == 255)){
+                                    transition.color.R = 0;
+                                    transition.color.G = 0;
+                                    transition.color.B = 0;
+                                }
+                                multCol.c = "rgba(" + transition.color.R + "," + transition.color.G + ","  + transition.color.B + ',';
                                 multCol.l = len;
                                 markers.push(multCol);
 
@@ -657,46 +822,65 @@ function updateChart(new_atom, min, max){
 
                     fill_icon(markers, icon, colorArr);
 
+                    maxVal = 0;
+                    max = 0;
+                    dataSpectr.forEach(function (item) {
+                        if (maxVal <  item.x) maxVal = item.x;
+                        if (max < item.y) max = item.y;
+                    });
+                    if (max < maxVal) max = maxVal;
+                    IP = atom.atom.IONIZATION_POTENCIAL;
+
                     scatterChartData = {
                         datasets: [{
                             pointBorderWidth: 1,
                             pointBackgroundColor: 'rgba(255, 255, 255, 0)',
                             pointBorderColor: colorArr,
-                            pointRadius: 4,
+                            pointRadius: 5,
                             data: dataSpectr,
                             pointStyle: icon
-                        }, {
+                        },{
                             pointBorderWidth: 0,
                             pointRadius: 0,
-                            data: [{x: 0, y: 0}, {x: maxVal, y: maxVal}],
+                            data: [{x: 0, y: 0}, {x: 0, y: 0}],
                             showLine: true,
                             fill: false,
                             borderColor: 'green',
                             borderWidth: 1,
                             pointHoverRadius: 0,
                             pointHitRadius: 0
-                        }, {
-                                pointBorderWidth: 0,
-                                pointRadius: 0,
-                                data: [{x: IP, y: 0}, {x: 0, y: IP}],
-                                showLine: true,
-                                fill: false,
-                                borderDash: [4, 4],
-                                borderColor: 'black',
-                                borderWidth: 1,
-                                pointHoverRadius: 0,
-                                pointHitRadius: 0
-                            }],
+                        },{
+                            pointBorderWidth: 0,
+                            pointRadius: 0,
+                            data: [{x: maxVal, y: IP}, {x: 0, y: IP}],
+                            showLine: true,
+                            fill: false,
+                            borderDash: [4, 4],
+                            borderColor: 'black',
+                            borderWidth: 1,
+                            pointHoverRadius: 0,
+                            pointHitRadius: 0
+                        },{
+                            pointBorderWidth: 0,
+                            pointRadius: 0,
+                            data: [{x: 0, y: 0}, {x: 0, y: 0}],
+                            showLine: true,
+                            fill: false,
+                            borderDash: [4, 4],
+                            borderColor: 'black',
+                            borderWidth: 1,
+                            pointHoverRadius: 0,
+                            pointHitRadius: 0
+                        }],
                         labels: termLabel,
                     };
 
-                    $('#canvas').remove();
-                    $('#chartCont').append('<canvas id="canvas"><canvas>');
-                    if (window.myScatter) {
-                        window.myScatter.clear();
-                    }
-                    graph();
+                    resize(new_atom);
+
                     window.myScatter.options.title.text = 'Transitions of ' + document.getElementById("element").value;
+                    myScatter.options.scales.xAxes[0].ticks.suggestedMax = max;
+                    myScatter.options.scales.yAxes[0].ticks.suggestedMax = max;
+
                     window.myScatter.update();
 
                 }
@@ -710,12 +894,12 @@ function fill_icon(markers, icon, col) {
     markers.forEach(function (item, i) {
         let image = new Image();
         if (item.m === 0) {
-            icon.push('crossRot')
+            icon.push('crossRot');
         } else if (item.m === 1) {
             icon.push('circle');
         } else if (item.m === 2) {
             canvas.ctx.strokeStyle = col[i];
-            canvas.ctx.lineWidth = 4;
+            canvas.ctx.lineWidth = 10;
             canvas.ctx.fillStyle = 'rgba(255, 255, 255, 0)';
             canvas.ctx.fill();
             canvas.ctx.stroke();
@@ -723,63 +907,63 @@ function fill_icon(markers, icon, col) {
             image.width = 14;
             image.height = 14;
             icon.push(image);
-            canvas.ctx.clearRect(0, 0, 70, 70);
+            canvas.ctx.clearRect(0, 0, 105, 97);
         } else if (item.m === 3) {
             icon.push('triangle');
         } else if (item.m === 4) {
             icon.push('rect');
         } else if (item.m === 5) {
             canvas5.ctx.strokeStyle = col[i];
-            canvas5.ctx.lineWidth = 4;
+            canvas5.ctx.lineWidth = 9;
             canvas5.ctx.fillStyle = 'rgba(255, 255, 255, 0)';
             canvas5.ctx.fill();
             canvas5.ctx.stroke();
             image.src = canvas5.toDataURL();
-            image.width = 11;
-            image.height = 11;
+            image.width = 10;
+            image.height = 10;
             icon.push(image);
             canvas5.ctx.clearRect(0, 0, 70, 70);
         } else if (item.m === 6) {
             canvas6.ctx.strokeStyle = col[i];
-            canvas6.ctx.lineWidth = 4;
+            canvas6.ctx.lineWidth = 9;
             canvas6.ctx.fillStyle = 'rgba(255, 255, 255, 0)';
             canvas6.ctx.fill();
             canvas6.ctx.stroke();
             image.src = canvas6.toDataURL();
-            image.width = 11;
-            image.height = 11;
+            image.width = 10;
+            image.height = 10;
             icon.push(image);
             canvas6.ctx.clearRect(0, 0, 70, 70);
         } else if (item.m === 7) {
             canvas7.ctx.strokeStyle = col[i];
-            canvas7.ctx.lineWidth = 4;
+            canvas7.ctx.lineWidth = 9;
             canvas7.ctx.fillStyle = 'rgba(255, 255, 255, 0)';
             canvas7.ctx.fill();
             canvas7.ctx.stroke();
             image.src = canvas7.toDataURL();
-            image.width = 11;
-            image.height = 11;
+            image.width = 10;
+            image.height = 10;
             icon.push(image);
             canvas7.ctx.clearRect(0, 0, 70, 70);
         } else if (item.m === 8) {
             canvas8.ctx.strokeStyle = col[i];
-            canvas8.ctx.lineWidth = 4;
+            canvas8.ctx.lineWidth = 9;
             canvas8.ctx.fillStyle = 'rgba(255, 255, 255, 0)';
             canvas8.ctx.fill();
             canvas8.ctx.stroke();
             image.src = canvas8.toDataURL();
-            image.width = 11;
-            image.height = 11;
+            image.width = 10;
+            image.height = 10;
             icon.push(image);
             canvas8.ctx.clearRect(0, 0, 70, 70);
         } else icon.push('star');
     });
 }
 
-function graph() {
+function graph(h, w) {
     var ctx = document.getElementById('canvas').getContext('2d');
-    ctx.canvas.height = 600;
-    ctx.canvas.width = 600;
+    ctx.canvas.height = h;
+    ctx.canvas.width = w;
 
     window.myScatter = new Chart(ctx, {
         type: 'scatter',
@@ -826,7 +1010,10 @@ function graph() {
             scales: {
                 yAxes: [{
                     ticks:{
+                        suggestedMax: max,
                         beginAtZero: true,
+                        maxRotation: 0,
+                        minRotation: 0,
                     },
                     scaleLabel: {
                         display: true,
@@ -835,7 +1022,10 @@ function graph() {
                 }],
                 xAxes: [{
                     ticks:{
+                        suggestedMax: max,
                         beginAtZero: true,
+                        maxRotation: 0,
+                        minRotation: 0,
                     },
                     scaleLabel: {
                         display: true,

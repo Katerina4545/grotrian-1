@@ -4,8 +4,410 @@
     <list default="true" id="edcc2bbf-c940-4d2a-a98e-16bc69ee4c1c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/index.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/.editorconfig" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/.eslintignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/.eslintrc.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/.htmllintrc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/.npmignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/MAINTAINING.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/chart.js/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/book.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/bower.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/chart.js/bower.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/chart.js/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/Chart.bundle.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/chart.js/dist/Chart.bundle.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/Chart.bundle.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/chart.js/dist/Chart.bundle.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/Chart.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/chart.js/dist/Chart.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/Chart.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/chart.js/dist/Chart.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/axes/cartesian/category.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/axes/cartesian/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/axes/cartesian/linear.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/axes/cartesian/logarithmic.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/axes/cartesian/time.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/axes/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/axes/labelling.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/axes/radial/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/axes/radial/linear.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/axes/styling.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/charts/area.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/charts/bar.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/charts/bubble.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/charts/doughnut.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/charts/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/charts/line.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/charts/mixed.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/charts/polar.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/charts/radar.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/charts/scatter.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/configuration/animations.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/configuration/elements.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/configuration/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/configuration/layout.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/configuration/legend.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/configuration/title.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/configuration/tooltip.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/developers/api.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/developers/axes.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/developers/charts.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/developers/contributing.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/developers/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/developers/plugins.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/developers/updates.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/general/accessibility.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/general/colors.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/general/device-pixel-ratio.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/general/fonts.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/general/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/general/interactions/events.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/general/interactions/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/general/interactions/modes.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/general/options.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/general/responsive.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/getting-started/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/getting-started/installation.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/getting-started/integration.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/getting-started/usage.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/gitbook/fonts/fontawesome/FontAwesome.otf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/gitbook/fonts/fontawesome/fontawesome-webfont.eot" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/gitbook/fonts/fontawesome/fontawesome-webfont.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/gitbook/fonts/fontawesome/fontawesome-webfont.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/gitbook/fonts/fontawesome/fontawesome-webfont.woff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/gitbook/fonts/fontawesome/fontawesome-webfont.woff2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/gitbook/gitbook-plugin-anchorjs/anchor-style.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/gitbook/gitbook-plugin-chartjs/Chart.bundle.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/gitbook/gitbook-plugin-chartjs/Chart.bundle.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/gitbook/gitbook-plugin-chartjs/Chart.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/gitbook/gitbook-plugin-chartjs/Chart.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/gitbook/gitbook-plugin-chartjs/chartjs-plugin-deferred.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/gitbook/gitbook-plugin-chartjs/chartjs-plugin-deferred.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/gitbook/gitbook-plugin-chartjs/style.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/gitbook/gitbook-plugin-fontsettings/fontsettings.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/gitbook/gitbook-plugin-fontsettings/website.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/gitbook/gitbook-plugin-ga/plugin.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/gitbook/gitbook-plugin-highlight/ebook.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/gitbook/gitbook-plugin-highlight/website.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/gitbook/gitbook-plugin-search-plus/jquery.mark.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/gitbook/gitbook-plugin-search-plus/search.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/gitbook/gitbook-plugin-search-plus/search.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/gitbook/gitbook-plugin-sharing/buttons.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/gitbook/gitbook.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/gitbook/images/apple-touch-icon-precomposed-152.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/gitbook/images/favicon.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/gitbook/style.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/gitbook/theme.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/notes/comparison.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/notes/extensions.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/notes/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/notes/license.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/search_plus_index.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/dist/docs/style.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/docs/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/docs/SUMMARY.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/docs/axes/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/docs/axes/cartesian/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/docs/axes/cartesian/category.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/docs/axes/cartesian/linear.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/docs/axes/cartesian/logarithmic.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/docs/axes/cartesian/time.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/docs/axes/labelling.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/docs/axes/radial/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/docs/axes/radial/linear.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/docs/axes/styling.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/docs/charts/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/docs/charts/area.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/docs/charts/bar.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/docs/charts/bubble.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/docs/charts/doughnut.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/docs/charts/line.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/docs/charts/mixed.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/docs/charts/polar.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/docs/charts/radar.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/docs/charts/scatter.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/docs/configuration/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/docs/configuration/animations.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/docs/configuration/elements.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/docs/configuration/layout.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/docs/configuration/legend.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/docs/configuration/title.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/docs/configuration/tooltip.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/docs/developers/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/docs/developers/api.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/docs/developers/axes.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/docs/developers/charts.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/docs/developers/contributing.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/docs/developers/plugins.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/docs/developers/updates.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/docs/general/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/docs/general/accessibility.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/docs/general/colors.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/docs/general/device-pixel-ratio.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/docs/general/fonts.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/docs/general/interactions/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/docs/general/interactions/events.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/docs/general/interactions/modes.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/docs/general/options.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/docs/general/responsive.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/docs/getting-started/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/docs/getting-started/installation.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/docs/getting-started/integration.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/docs/getting-started/usage.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/docs/notes/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/docs/notes/comparison.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/docs/notes/extensions.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/docs/notes/license.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/docs/style.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/gulpfile.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/karma.conf.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/chart.js/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/samples/.eslintrc.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/samples/advanced/data-labelling.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/samples/advanced/progress-bar.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/samples/charts/area/analyser.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/samples/charts/area/line-boundaries.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/samples/charts/area/line-datasets.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/samples/charts/area/line-stacked.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/samples/charts/area/radar.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/samples/charts/bar/horizontal.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/samples/charts/bar/multi-axis.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/samples/charts/bar/stacked-group.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/samples/charts/bar/stacked.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/samples/charts/bar/vertical.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/samples/charts/bubble.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/samples/charts/combo-bar-line.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/samples/charts/doughnut.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/samples/charts/line/basic.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/samples/charts/line/interpolation-modes.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/samples/charts/line/line-styles.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/samples/charts/line/multi-axis.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/samples/charts/line/point-sizes.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/samples/charts/line/point-styles.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/samples/charts/line/skip-points.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/samples/charts/line/stepped.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/samples/charts/pie.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/samples/charts/polar-area.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/samples/charts/radar-skip-points.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/samples/charts/radar.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/samples/charts/scatter/basic.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/samples/charts/scatter/multi-axis.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/samples/favicon.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/samples/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/samples/legend/point-style.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/samples/legend/positioning.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/samples/logo.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/samples/samples.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/samples/scales/filtering-labels.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/samples/scales/gridlines-display.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/samples/scales/gridlines-style.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/samples/scales/linear/min-max-suggested.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/samples/scales/linear/min-max.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/samples/scales/linear/step-size.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/samples/scales/logarithmic/line.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/samples/scales/logarithmic/scatter.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/samples/scales/multiline-labels.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/samples/scales/non-numeric-y.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/samples/scales/time/combo.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/samples/scales/time/financial.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/samples/scales/time/line-point-data.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/samples/scales/time/line.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/samples/scales/toggle-scale-type.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/samples/scriptable/bubble.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/samples/style.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/samples/tooltips/border.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/samples/tooltips/callbacks.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/samples/tooltips/custom-line.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/samples/tooltips/custom-pie.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/samples/tooltips/custom-points.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/samples/tooltips/interactions.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/samples/tooltips/positioning.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/samples/utils.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/scripts/deploy.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/scripts/release.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/src/chart.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/src/charts/Chart.Bar.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/src/charts/Chart.Bubble.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/src/charts/Chart.Doughnut.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/src/charts/Chart.Line.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/src/charts/Chart.PolarArea.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/src/charts/Chart.Radar.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/src/charts/Chart.Scatter.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/src/controllers/controller.bar.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/src/controllers/controller.bubble.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/src/controllers/controller.doughnut.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/src/controllers/controller.line.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/src/controllers/controller.polarArea.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/src/controllers/controller.radar.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/src/controllers/controller.scatter.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/src/core/core.animation.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/src/core/core.animations.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/src/core/core.controller.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/src/core/core.datasetController.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/src/core/core.defaults.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/src/core/core.element.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/src/core/core.helpers.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/src/core/core.interaction.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/src/core/core.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/src/core/core.layouts.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/src/core/core.plugins.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/src/core/core.scale.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/src/core/core.scaleService.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/src/core/core.ticks.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/src/core/core.tooltip.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/src/elements/element.arc.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/src/elements/element.line.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/src/elements/element.point.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/src/elements/element.rectangle.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/src/elements/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/src/helpers/helpers.canvas.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/src/helpers/helpers.core.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/src/helpers/helpers.easing.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/src/helpers/helpers.options.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/src/helpers/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/src/platforms/platform.basic.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/src/platforms/platform.dom.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/src/platforms/platform.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/src/plugins/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/src/plugins/plugin.filler.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/src/plugins/plugin.legend.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/src/plugins/plugin.title.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/src/scales/scale.category.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/src/scales/scale.linear.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/src/scales/scale.linearbase.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/src/scales/scale.logarithmic.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/src/scales/scale.radialLinear.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/src/scales/scale.time.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/.eslintrc.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/controller.bar/bar-thickness-absolute.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/controller.bar/bar-thickness-absolute.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/controller.bar/bar-thickness-flex-offset.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/controller.bar/bar-thickness-flex-offset.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/controller.bar/bar-thickness-flex.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/controller.bar/bar-thickness-flex.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/controller.bar/bar-thickness-max.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/controller.bar/bar-thickness-max.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/controller.bar/bar-thickness-min-interval.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/controller.bar/bar-thickness-min-interval.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/controller.bar/bar-thickness-multiple.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/controller.bar/bar-thickness-multiple.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/controller.bar/bar-thickness-no-overlap.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/controller.bar/bar-thickness-no-overlap.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/controller.bar/bar-thickness-offset.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/controller.bar/bar-thickness-offset.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/controller.bar/bar-thickness-single-xy.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/controller.bar/bar-thickness-single-xy.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/controller.bar/bar-thickness-single.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/controller.bar/bar-thickness-single.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/controller.bar/bar-thickness-stacked.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/controller.bar/bar-thickness-stacked.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/controller.bubble/point-style.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/controller.bubble/point-style.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/controller.line/point-style.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/controller.line/point-style.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/controller.polarArea/angle-array.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/controller.polarArea/angle-array.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/controller.polarArea/angle-undefined.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/controller.polarArea/angle-undefined.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/controller.radar/point-style.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/controller.radar/point-style.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/core.scale/label-offset-vertical-axes.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/core.scale/label-offset-vertical-axes.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/core.scale/tick-drawing.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/core.scale/tick-drawing.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/element.point/point-style-circle.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/element.point/point-style-circle.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/element.point/point-style-cross-rot.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/element.point/point-style-cross-rot.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/element.point/point-style-cross.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/element.point/point-style-cross.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/element.point/point-style-dash.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/element.point/point-style-dash.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/element.point/point-style-line.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/element.point/point-style-line.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/element.point/point-style-rect-rot.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/element.point/point-style-rect-rot.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/element.point/point-style-rect-rounded.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/element.point/point-style-rect-rounded.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/element.point/point-style-rect.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/element.point/point-style-rect.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/element.point/point-style-star.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/element.point/point-style-star.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/element.point/point-style-triangle.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/element.point/point-style-triangle.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/plugin.filler/fill-line-boundary-end-span.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/plugin.filler/fill-line-boundary-end-span.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/plugin.filler/fill-line-boundary-end.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/plugin.filler/fill-line-boundary-end.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/plugin.filler/fill-line-boundary-origin-span.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/plugin.filler/fill-line-boundary-origin-span.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/plugin.filler/fill-line-boundary-origin-spline-span.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/plugin.filler/fill-line-boundary-origin-spline-span.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/plugin.filler/fill-line-boundary-origin-spline.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/plugin.filler/fill-line-boundary-origin-spline.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/plugin.filler/fill-line-boundary-origin-stepped-span.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/plugin.filler/fill-line-boundary-origin-stepped-span.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/plugin.filler/fill-line-boundary-origin-stepped.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/plugin.filler/fill-line-boundary-origin-stepped.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/plugin.filler/fill-line-boundary-origin.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/plugin.filler/fill-line-boundary-origin.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/plugin.filler/fill-line-boundary-start-span.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/plugin.filler/fill-line-boundary-start-span.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/plugin.filler/fill-line-boundary-start.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/plugin.filler/fill-line-boundary-start.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/plugin.filler/fill-line-dataset-span.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/plugin.filler/fill-line-dataset-span.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/plugin.filler/fill-line-dataset-spline-span.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/plugin.filler/fill-line-dataset-spline-span.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/plugin.filler/fill-line-dataset-spline.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/plugin.filler/fill-line-dataset-spline.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/plugin.filler/fill-line-dataset.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/plugin.filler/fill-line-dataset.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/plugin.filler/fill-radar-boundary-origin-spline.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/plugin.filler/fill-radar-boundary-origin-spline.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/plugin.filler/fill-radar-boundary-origin.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/fixtures/plugin.filler/fill-radar-boundary-origin.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/jasmine.context.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/jasmine.index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/jasmine.matchers.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/jasmine.utils.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/specs/controller.bar.tests.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/specs/controller.bubble.tests.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/specs/controller.doughnut.tests.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/specs/controller.line.tests.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/specs/controller.polarArea.tests.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/specs/controller.radar.tests.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/specs/controller.scatter.test.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/specs/core.controller.tests.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/specs/core.datasetController.tests.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/specs/core.element.tests.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/specs/core.helpers.tests.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/specs/core.interaction.tests.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/specs/core.layouts.tests.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/specs/core.plugin.tests.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/specs/core.scale.tests.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/specs/core.scaleService.tests.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/specs/core.ticks.tests.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/specs/core.tooltip.tests.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/specs/element.arc.tests.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/specs/element.line.tests.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/specs/element.point.tests.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/specs/element.rectangle.tests.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/specs/global.defaults.tests.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/specs/global.deprecations.tests.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/specs/global.namespace.tests.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/specs/helpers.canvas.tests.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/specs/helpers.core.tests.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/specs/helpers.easing.tests.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/specs/helpers.options.tests.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/specs/platform.dom.tests.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/specs/plugin.filler.tests.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/specs/plugin.legend.tests.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/specs/plugin.title.tests.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/specs/scale.category.tests.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/specs/scale.linear.tests.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/specs/scale.logarithmic.tests.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/specs/scale.radialLinear.tests.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chart.js/test/specs/scale.time.tests.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/spectr.js" beforeDir="false" afterPath="$PROJECT_DIR$/spectr.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/style.css" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -32,20 +434,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/style.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="493">
-              <caret line="134" column="1" lean-forward="true" selection-start-line="134" selection-start-column="1" selection-end-line="134" selection-end-column="1" />
+            <state relative-caret-position="2278">
+              <caret line="134" column="1" selection-start-line="134" selection-start-column="1" selection-end-line="134" selection-end-column="1" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/getdata.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="340">
               <caret line="20" column="48" selection-start-line="20" selection-start-column="48" selection-end-line="20" selection-end-column="48" />
-              <folding>
-                <element signature="n#style#0;n#span#0;n#!!top" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -53,20 +452,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="17">
-              <caret line="34" column="98" selection-start-line="34" selection-start-column="98" selection-end-line="34" selection-end-column="98" />
-              <folding>
-                <element signature="n#style#0;n#span#0;n#div#3;n#div#0;n#div#2;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-              </folding>
+            <state relative-caret-position="-799">
+              <caret line="13" column="7" lean-forward="true" selection-start-line="13" selection-start-column="7" selection-end-line="13" selection-end-column="7" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/spectr.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="443" column="9" lean-forward="true" selection-start-line="443" selection-start-column="9" selection-end-line="443" selection-end-column="9" />
+            <state relative-caret-position="306">
+              <caret line="416" column="34" lean-forward="true" selection-start-line="416" selection-start-column="34" selection-end-line="416" selection-end-column="34" />
               <folding>
                 <element signature="e#23#544#0" />
               </folding>
@@ -140,7 +536,7 @@
     <servers />
   </component>
   <component name="ProjectFrameBounds" extendedState="7">
-    <option name="x" value="-8" />
+    <option name="x" value="952" />
     <option name="width" value="977" />
     <option name="height" value="1038" />
   </component>
@@ -148,7 +544,20 @@
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
-    <panes />
+    <panes>
+      <pane id="Scope" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="grotrian-chart-master" type="b2602c69:ProjectViewProjectNode" />
+              <item name="grotrian-chart-master" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+    </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
@@ -249,18 +658,19 @@
       <workItem from="1562255170391" duration="17126000" />
       <workItem from="1562517935437" duration="17443000" />
       <workItem from="1562693734111" duration="1614000" />
-      <workItem from="1562748852889" duration="16948000" />
+      <workItem from="1562748852889" duration="19740000" />
+      <workItem from="1563274861214" duration="17183000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="410763000" />
+    <option name="totallyTimeSpent" value="430738000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" weight="0.20604026" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.041608877" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -308,13 +718,6 @@
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/node_modules/chartjs-plugin-zoom/samples/pan-bar.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1343">
-          <caret line="79" column="22" lean-forward="true" selection-start-line="79" selection-start-column="22" selection-end-line="79" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/chartjs-plugin-zoom/samples/zoom-horizontal-bar.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="359">
@@ -527,28 +930,8 @@
     <entry file="file://$PROJECT_DIR$/data/H.js" />
     <entry file="file://$PROJECT_DIR$/style.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="493">
-          <caret line="134" column="1" lean-forward="true" selection-start-line="134" selection-start-column="1" selection-end-line="134" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/spectr.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="443" column="9" lean-forward="true" selection-start-line="443" selection-start-column="9" selection-end-line="443" selection-end-column="9" />
-          <folding>
-            <element signature="e#23#544#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/index.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="34" column="98" selection-start-line="34" selection-start-column="98" selection-end-line="34" selection-end-column="98" />
-          <folding>
-            <element signature="n#style#0;n#span#0;n#div#3;n#div#0;n#div#2;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
+        <state relative-caret-position="2278">
+          <caret line="134" column="1" selection-start-line="134" selection-start-column="1" selection-end-line="134" selection-end-column="1" />
         </state>
       </provider>
     </entry>
@@ -556,8 +939,25 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="340">
           <caret line="20" column="48" selection-start-line="20" selection-start-column="48" selection-end-line="20" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-799">
+          <caret line="13" column="7" lean-forward="true" selection-start-line="13" selection-start-column="7" selection-end-line="13" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/chart.js/dist/Chart.min.css">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spectr.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="416" column="34" lean-forward="true" selection-start-line="416" selection-start-column="34" selection-end-line="416" selection-end-column="34" />
           <folding>
-            <element signature="n#style#0;n#span#0;n#!!top" expanded="true" />
+            <element signature="e#23#544#0" />
           </folding>
         </state>
       </provider>

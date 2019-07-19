@@ -6,7 +6,7 @@
 
     <title>Пример когнитивного фильтра</title>
     <script src="node_modules/chart.js/dist/Chart.bundle.js"></script>
-    <script src="node_modules/chart.js/samples/utils.js"></script>
+    <!--<script src="node_modules/chart.js/samples/utils.js"></script>-->
     <script src="node_modules/hammerjs/hammer.min.js"></script>
     <script src="node_modules/chartjs-plugin-zoom/chartjs-plugin-zoom.min.js"></script>
     <script src="node_modules/jquery/dist/jquery.min.js"></script>

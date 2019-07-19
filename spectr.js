@@ -37,6 +37,7 @@ var atom,
     IP = 0,
     cm=true,
     ev=false,
+    filter = false,
     max,
     icon = [];
 
@@ -139,6 +140,8 @@ canvas8.ctx.lineTo(5, 48);
 canvas8.ctx.lineTo(5, 22);
 canvas8.ctx.lineTo(24, 0);
 
+
+//отображение иинтенсивности прозрачностью
 function click_intens(){
     if(document.getElementById('intens').checked){
         fill_icon(markers, icon, colorArr);
@@ -179,8 +182,9 @@ document.getElementById('eUp').addEventListener('click', function() {
                 }
                 term.x = x;
                 term.y = y;
-                let arr = termLabel[i].split("(");
-                termLabel[i] = arr[0] + "(" + term.x.toFixed(3) + ", " + term.y.toFixed(3) + ")";
+                let arr = termLabel[i].split("intensity:");
+                let arr1 = arr[1].split("(");
+                termLabel[i] = arr[0] + "intensity:" + arr1[0] + "(" + term.x.toFixed(3) + ", " + term.y.toFixed(3) + ")";
                 item.x = x;
                 item.y = y;
             });
@@ -195,8 +199,9 @@ document.getElementById('eUp').addEventListener('click', function() {
                 y = item.y + item.x;
                 term.x = x;
                 term.y = y;
-                let arr = termLabel[i].split("(");
-                termLabel[i] = arr[0] + "(" + term.x.toFixed(3) + ", " + term.y.toFixed(3) + ")";
+                let arr = termLabel[i].split("intensity:");
+                let arr1 = arr[1].split("(");
+                termLabel[i] = arr[0] + "intensity:" + arr1[0] + "(" + term.x.toFixed(3) + ", " + term.y.toFixed(3) + ")";
                 item.x = x;
                 item.y = y;
             });
@@ -258,8 +263,9 @@ document.getElementById('parity').addEventListener('click', function() {
                 }
                 term.x = x;
                 term.y = y;
-                let arr = termLabel[i].split("(");
-                termLabel[i] = arr[0] + "(" + term.x.toFixed(3) + ", " + term.y.toFixed(3) + ")";
+                let arr = termLabel[i].split("intensity:");
+                let arr1 = arr[1].split("(");
+                termLabel[i] = arr[0] + "intensity:" + arr1[0] + "(" + term.x.toFixed(3) + ", " + term.y.toFixed(3) + ")";
                 item.x = x;
                 item.y = y;
                 if (maxVal <x) maxVal = x;
@@ -281,8 +287,9 @@ document.getElementById('parity').addEventListener('click', function() {
                 }
                 term.x = x;
                 term.y = y;
-                let arr = termLabel[i].split("(");
-                termLabel[i] = arr[0] + "(" + term.x.toFixed(3) + ", " + term.y.toFixed(3) + ")";
+                let arr = termLabel[i].split("intensity:");
+                let arr1 = arr[1].split("(");
+                termLabel[i] = arr[0] + "intensity:" + arr1[0] + "(" + term.x.toFixed(3) + ", " + term.y.toFixed(3) + ")";
                 item.x = x;
                 item.y = y;
                 if (maxVal <x) maxVal = x;
@@ -342,8 +349,9 @@ document.getElementById('eUp_eD').addEventListener('click', function() {
                 }
                 term.x = x;
                 term.y = y - x;
-                let arr = termLabel[i].split("(");
-                termLabel[i] = arr[0] + "(" + term.x.toFixed(3) + ", " + term.y.toFixed(3) + ")";
+                let arr = termLabel[i].split("intensity:");
+                let arr1 = arr[1].split("(");
+                termLabel[i] = arr[0] + "intensity:" + arr1[0] + "(" + term.x.toFixed(3) + ", " + term.y.toFixed(3) + ")";
                 item.x = x;
                 item.y = y - x;
             });
@@ -356,8 +364,9 @@ document.getElementById('eUp_eD').addEventListener('click', function() {
                 y = item.y - item.x;
                 term.x = x;
                 term.y = y;
-                let arr = termLabel[i].split("(");
-                termLabel[i] = arr[0] + "(" + term.x.toFixed(3) + ", " + term.y.toFixed(3) + ")";
+                let arr = termLabel[i].split("intensity:");
+                let arr1 = arr[1].split("(");
+                termLabel[i] = arr[0] + "intensity:" + arr1[0] + "(" + term.x.toFixed(3) + ", " + term.y.toFixed(3) + ")";
                 item.x = x;
                 item.y = y;
             });
@@ -397,37 +406,7 @@ document.getElementById('resetZoom').addEventListener('click', function() {
 });
 
 function resize(new_atom) {
-    if(new_atom == 0){
-    if(document.getElementById('fullScreen').value == 'Full screen') {
-        let win_w, win_h, size;
-        win_w = $(window).width();
-        win_h = $(window).height();
-        if(win_w <= win_h) size = win_w;
-        else size = win_h;
-        $('#canvas').remove();
-        $('#chartCont').append('<canvas id="canvas"><canvas>');
-        if (window.myScatter) {
-            window.myScatter.clear();
-        }
-        graph(size, size);
-        document.getElementById('fullScreen').value = 'Exit full screen';
-    }
-    else {
-        let win_w, win_h, size;
-        win_w = $(window).width();
-        win_h = $(window).height();
-        if(win_w <= win_h) size = win_w;
-        else size = win_h;
-        size = Math.floor(size*3/4);
-        $('#canvas').remove();
-        $('#chartCont').append('<canvas id="canvas"><canvas>');
-        if (window.myScatter) {
-            window.myScatter.clear();
-        }
-        graph(size, size);
-        document.getElementById('fullScreen').value = 'Full screen';
-    }}
-    else {
+    if((new_atom == 1) || (filter == true)){
         if(document.getElementById('fullScreen').value == 'Full screen') {
             let win_w, win_h, size;
             win_w = $(window).width();
@@ -456,15 +435,46 @@ function resize(new_atom) {
             graph(size, size);
         }
     }
+    else {
+        if(document.getElementById('fullScreen').value == 'Full screen') {
+            let win_w, win_h, size;
+            win_w = $(window).width();
+            win_h = $(window).height();
+            if(win_w <= win_h) size = win_w;
+            else size = win_h;
+            $('#canvas').remove();
+            $('#chartCont').append('<canvas id="canvas"><canvas>');
+            if (window.myScatter) {
+                window.myScatter.clear();
+            }
+            graph(size, size);
+            document.getElementById('fullScreen').value = 'Exit full screen';
+        }
+        else {
+            let win_w, win_h, size;
+            win_w = $(window).width();
+            win_h = $(window).height();
+            if(win_w <= win_h) size = win_w;
+            else size = win_h;
+            size = Math.floor(size*3/4);
+            $('#canvas').remove();
+            $('#chartCont').append('<canvas id="canvas"><canvas>');
+            if (window.myScatter) {
+                window.myScatter.clear();
+            }
+            graph(size, size);
+            document.getElementById('fullScreen').value = 'Full screen';
+        }
+    }
     window.myScatter.options.title.text = 'Transitions of ' + document.getElementById("element").value;
     window.myScatter.update();
 }
 
-
+//переключение размерности
 var rad = document.getElementsByName('myRadios');
 for (var i = 0; i < rad.length; i++) {
     rad[i].addEventListener('change', function() {
-        if (this.value == 1) {
+        if (this.value == 1) {   //размерность cm^-1
             cm = true;
             ev = false;
             part2 = labelcm;
@@ -520,9 +530,18 @@ for (var i = 0; i < rad.length; i++) {
                 scatterChartData.datasets[2].data[0].y = IP;
             }
 
+            maxVal = 0;
+            max = 0;
+            dataSpectr.forEach(function (item) {
+                if (maxVal <  item.x) maxVal = item.x;
+                if (max < item.y) max = item.y;
+            });
+            if (max < maxVal) max = maxVal;
+            myScatter.options.scales.xAxes[0].ticks.suggestedMax = max;
+            myScatter.options.scales.yAxes[0].ticks.suggestedMax = max;
             window.myScatter.update();
         }
-        else {
+        else {   //размерность evV
             ev = true;
             cm = false;
             part2 = labeleV;
@@ -582,6 +601,15 @@ for (var i = 0; i < rad.length; i++) {
                 scatterChartData.datasets[2].data[0].y = IP;
             }
 
+            maxVal = 0;
+            max = 0;
+            dataSpectr.forEach(function (item) {
+                if (maxVal <  item.x) maxVal = item.x;
+                if (max < item.y) max = item.y;
+            });
+            if (max < maxVal) max = maxVal;
+            myScatter.options.scales.xAxes[0].ticks.suggestedMax = max;
+            myScatter.options.scales.yAxes[0].ticks.suggestedMax = max;
             window.myScatter.update();
         }
         myScatter.options.scales.yAxes[0].scaleLabel.labelString = part1Y + part2;
@@ -634,7 +662,10 @@ function updateChart(new_atom, min, max){
             },
             success:(
                 function (data) {
-                    if (new_atom == 1) atom = data;
+                    if (new_atom == 1) {
+                        atom = data;
+                        filter = false;
+                    }
 
                     customTooltips = function (tooltip) {
                         var tooltipEl = document.getElementById('chartjs-tooltip');
@@ -715,16 +746,16 @@ function updateChart(new_atom, min, max){
                                     pref = "";
 
                                 if (transition.lower_level_termmultiply == 0) {
-                                    term.lt = "<sup>" + pref + "</sup>" + "<span>" + transition.lower_level_termfirstpart + "</span>" + "<sup>" + transition.lower_level_termmultiply + "</sup>" + "<sub>" + transition.lower_level_j + "</sub>";
-                                } else term.lt = "<sup>" + pref + "</sup>" + "<span>" + transition.lower_level_termfirstpart + "</span>" + "<sub>" + transition.lower_level_j + "</sub>";
+                                    term.lt = "<span>" + transition.lower_level_config.replace(/@\{0\}/gi, "&deg;").replace(/@\{([^\}\{]*)\}/gi, "<sup>$1</sup>").replace(/~\{([^\}\{]*)\}/gi, "<sub>$1</sub>").replace(/#/gi, "&deg;") + ": " + "</span>" + "<sup>" + pref + "</sup>" + "<span>" + transition.lower_level_termfirstpart + "</span>" + "<sup>" + transition.lower_level_termmultiply + "</sup>" + "<sub>" + transition.lower_level_j + "</sub>";
+                                } else term.lt = "<span>" + transition.lower_level_config.replace(/@\{0\}/gi, "&deg;").replace(/@\{([^\}\{]*)\}/gi, "<sup>$1</sup>").replace(/~\{([^\}\{]*)\}/gi, "<sub>$1</sub>").replace(/#/gi, "&deg;") + ": " + "</span>" + "<sup>" + pref + "</sup>" + "<span>" + transition.lower_level_termfirstpart + "</span>" + "<sub>" + transition.lower_level_j + "</sub>";
 
 
                                 let test = transition.upper_level_termmultiply;
                                 if (transition.upper_level_termprefix) pref = transition.upper_level_termprefix;
                                 else pref = "";
                                 if (test === 0) {
-                                    term.ut = "<sup>" + pref + "</sup>" + "<span>" + transition.upper_level_termfirstpart + "</span>" + "<sup>" + transition.upper_level_termmultiply + "</sup>" + "<sub>" + transition.upper_level_j + "</sub>";
-                                } else term.ut = "<sup>" + pref + "</sup>" + "<span>" + transition.upper_level_termfirstpart + "</span>" + "<sub>" + transition.upper_level_j  + "</sub>";
+                                    term.ut = "<span>" + transition.upper_level_config.replace(/@\{0\}/gi, "&deg;").replace(/@\{([^\}\{]*)\}/gi, "<sup>$1</sup>").replace(/~\{([^\}\{]*)\}/gi, "<sub>$1</sub>").replace(/#/gi, "&deg;") + ": " + "</span>" + "<sup>" + pref + "</sup>" + "<span>" + transition.upper_level_termfirstpart + "</span>" + "<sup>" + transition.upper_level_termmultiply + "</sup>" + "<sub>" + transition.upper_level_j + "</sub>";
+                                } else term.ut = "<span>" + transition.upper_level_config.replace(/@\{0\}/gi, "&deg;").replace(/@\{([^\}\{]*)\}/gi, "<sup>$1</sup>").replace(/~\{([^\}\{]*)\}/gi, "<sub>$1</sub>").replace(/#/gi, "&deg;") + ": " + "</span>" + "<sup>" + pref + "</sup>" + "<span>" + transition.upper_level_termfirstpart + "</span>" + "<sub>" + transition.upper_level_j  + "</sub>";
 
 
                                 if (multUp != multLow) {
@@ -774,16 +805,16 @@ function updateChart(new_atom, min, max){
                                     pref = "";
 
                                 if (transition.lower_level_termmultiply == 0) {
-                                    term.lt = "<sup>" + pref + "</sup>" + "<span>" + transition.lower_level_termfirstpart + "</span>" + "<sup>" + transition.lower_level_termmultiply + "</sup>" + "<sub>" + transition.lower_level_j + "</sub>";
-                                } else term.lt = "<sup>" + pref + "</sup>" + "<span>" + transition.lower_level_termfirstpart + "</span>" + "<sub>" + transition.lower_level_j + "</sub>";
+                                    term.lt = "<span>" + transition.lower_level_config.replace(/@\{0\}/gi, "&deg;").replace(/@\{([^\}\{]*)\}/gi, "<sup>$1</sup>").replace(/~\{([^\}\{]*)\}/gi, "<sub>$1</sub>").replace(/#/gi, "&deg;") + ": " + "</span>" + "<sup>" + pref + "</sup>" + "<span>" + transition.lower_level_termfirstpart + "</span>" + "<sup>" + transition.lower_level_termmultiply + "</sup>" + "<sub>" + transition.lower_level_j + "</sub>";
+                                } else term.lt = "<span>" + transition.lower_level_config.replace(/@\{0\}/gi, "&deg;").replace(/@\{([^\}\{]*)\}/gi, "<sup>$1</sup>").replace(/~\{([^\}\{]*)\}/gi, "<sub>$1</sub>").replace(/#/gi, "&deg;") + ": " + "</span>" + "<sup>" + pref + "</sup>" + "<span>" + transition.lower_level_termfirstpart + "</span>" + "<sub>" + transition.lower_level_j + "</sub>";
 
 
                                 let test = transition.upper_level_termmultiply;
                                 if (transition.upper_level_termprefix) pref = transition.upper_level_termprefix;
                                 else pref = "";
                                 if (test === 0) {
-                                    term.ut = "<sup>" + pref + "</sup>" + "<span>" + transition.upper_level_termfirstpart + "</span>" + "<sup>" + transition.upper_level_termmultiply + "</sup>" + "<sub>" + transition.upper_level_j + "</sub>";
-                                } else term.ut = "<sup>" + pref + "</sup>" + "<span>" + transition.upper_level_termfirstpart + "</span>" + "<sub>" + transition.upper_level_j  + "</sub>";
+                                    term.ut = "<span>" + transition.upper_level_config.replace(/@\{0\}/gi, "&deg;").replace(/@\{([^\}\{]*)\}/gi, "<sup>$1</sup>").replace(/~\{([^\}\{]*)\}/gi, "<sub>$1</sub>").replace(/#/gi, "&deg;") + ": " + "</span>" + "<sup>" + pref + "</sup>" + "<span>" + transition.upper_level_termfirstpart + "</span>" + "<sup>" + transition.upper_level_termmultiply + "</sup>" + "<sub>" + transition.upper_level_j + "</sub>";
+                                } else term.ut = "<span>" + transition.upper_level_config.replace(/@\{0\}/gi, "&deg;").replace(/@\{([^\}\{]*)\}/gi, "<sup>$1</sup>").replace(/~\{([^\}\{]*)\}/gi, "<sub>$1</sub>").replace(/#/gi, "&deg;") + ": " + "</span>" + "<sup>" + pref + "</sup>" + "<span>" + transition.upper_level_termfirstpart + "</span>" + "<sub>" + transition.upper_level_j  + "</sub>";
 
 
                                 if (multUp != multLow) {
@@ -1040,6 +1071,7 @@ function graph(h, w) {
 
 
 function show_selected(){
+    filter = true;
     let min = document.getElementById("min").value;
     let max = document.getElementById("max").value;
     updateChart(0, min, max);
@@ -1047,11 +1079,13 @@ function show_selected(){
 }
 
 function show_visible(){
+    filter = true;
     updateChart(0, 3800, 7600);
     click_intens();
 }
 
 function show_all(){
+    filter = true;
     updateChart(0, 0, 0);
     click_intens();
 }

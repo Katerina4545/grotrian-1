@@ -32,7 +32,7 @@
 
     <br><div class='resize'>
         <input type='button' id="resetZoom" value="Reset Zoom" class='bluebtn'>
-        <input type='button' id="fullScreen" value="Full screen" class='bluebtn' onclick="resize(0)">
+        <input type='button' id="fullScreen" value="Full screen" class='bluebtn' onclick="resize(1)">
     </div>
 
 

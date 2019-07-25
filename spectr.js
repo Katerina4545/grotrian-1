@@ -35,9 +35,8 @@ var atom,
     termLabel = [],
     maxVal = 0,
     IP = 0,
-    cm=true,
-    ev=false,
-    filter = false,
+    cm = true,
+    ev = false,
     max,
     icon = [];
 
@@ -405,8 +404,8 @@ document.getElementById('resetZoom').addEventListener('click', function() {
     window.myScatter.update();
 });
 
-function resize(new_atom) {
-    if((new_atom == 1) || (filter == true)){
+function resize(click) {
+    if(click == 0){
         if(document.getElementById('fullScreen').value == 'Full screen') {
             let win_w, win_h, size;
             win_w = $(window).width();
@@ -435,7 +434,7 @@ function resize(new_atom) {
             graph(size, size);
         }
     }
-    else {
+    else if (click == 1){
         if(document.getElementById('fullScreen').value == 'Full screen') {
             let win_w, win_h, size;
             win_w = $(window).width();
@@ -466,6 +465,7 @@ function resize(new_atom) {
             document.getElementById('fullScreen').value = 'Full screen';
         }
     }
+
     window.myScatter.options.title.text = 'Transitions of ' + document.getElementById("element").value;
     window.myScatter.update();
 }
@@ -483,8 +483,9 @@ for (var i = 0; i < rad.length; i++) {
                 item.y = item.y/(1.23977*Math.pow(10,-4));
                 term.x = item.x;
                 term.y = item.y;
-                let arr = scatterChartData.labels[i].split("(");
-                scatterChartData.labels[i] = arr[0] + "(" + term.x.toFixed(3) + ", " + term.y.toFixed(3) + ")";
+                let arr = termLabel[i].split("intensity:");
+                let arr1 = arr[1].split("(");
+                termLabel[i] = arr[0] + "intensity:" + arr1[0] + "(" + term.x.toFixed(3) + ", " + term.y.toFixed(3) + ")";
                 scatterChartData.datasets[0].data[i].x =item.x;
                 scatterChartData.datasets[0].data[i].y =item.y;
             });
@@ -550,8 +551,9 @@ for (var i = 0; i < rad.length; i++) {
                 item.y = item.y*1.23977*Math.pow(10,-4);
                 term.x = item.x;
                 term.y = item.y;
-                let arr = scatterChartData.labels[i].split("(");
-                scatterChartData.labels[i] = arr[0] + "(" + term.x.toFixed(3) + ", " + term.y.toFixed(3) + ")";
+                let arr = termLabel[i].split("intensity:");
+                let arr1 = arr[1].split("(");
+                termLabel[i] = arr[0] + "intensity:" + arr1[0] + "(" + term.x.toFixed(3) + ", " + term.y.toFixed(3) + ")";
                 scatterChartData.datasets[0].data[i].x =item.x;
                 scatterChartData.datasets[0].data[i].y =item.y;
             });
@@ -664,7 +666,6 @@ function updateChart(new_atom, min, max){
                 function (data) {
                     if (new_atom == 1) {
                         atom = data;
-                        filter = false;
                     }
 
                     customTooltips = function (tooltip) {
@@ -906,7 +907,7 @@ function updateChart(new_atom, min, max){
                         labels: termLabel,
                     };
 
-                    resize(new_atom);
+                    resize(0);
 
                     window.myScatter.options.title.text = 'Transitions of ' + document.getElementById("element").value;
                     myScatter.options.scales.xAxes[0].ticks.suggestedMax = max;
@@ -1071,7 +1072,6 @@ function graph(h, w) {
 
 
 function show_selected(){
-    filter = true;
     let min = document.getElementById("min").value;
     let max = document.getElementById("max").value;
     updateChart(0, min, max);
@@ -1079,13 +1079,11 @@ function show_selected(){
 }
 
 function show_visible(){
-    filter = true;
     updateChart(0, 3800, 7600);
     click_intens();
 }
 
 function show_all(){
-    filter = true;
     updateChart(0, 0, 0);
     click_intens();
 }

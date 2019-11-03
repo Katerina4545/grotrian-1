@@ -3,7 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="edcc2bbf-c940-4d2a-a98e-16bc69ee4c1c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/index.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/getdata.php" beforeDir="false" afterPath="$PROJECT_DIR$/getdata.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/spectr.js" beforeDir="false" afterPath="$PROJECT_DIR$/spectr.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -38,19 +38,10 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/getdata.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="340">
-              <caret line="20" column="48" selection-start-line="20" selection-start-column="48" selection-end-line="20" selection-end-column="48" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="340">
-              <caret line="20" column="6" lean-forward="true" selection-start-line="20" selection-start-column="6" selection-end-line="20" selection-end-column="6" />
+            <state relative-caret-position="306">
+              <caret line="18" column="18" selection-start-line="18" selection-start-column="9" selection-end-line="18" selection-end-column="18" />
             </state>
           </provider>
         </entry>
@@ -58,8 +49,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/spectr.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1496">
-              <caret line="469" column="30" selection-start-line="469" selection-start-column="30" selection-end-line="469" selection-end-column="30" />
+            <state relative-caret-position="338">
+              <caret line="1173" column="23" lean-forward="true" selection-start-line="1173" selection-start-column="23" selection-end-line="1173" selection-end-column="23" />
               <folding>
                 <element signature="e#23#544#0" />
               </folding>
@@ -79,9 +70,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>294</find>
-      <find>5895</find>
-      <find>multipl</find>
       <find>consol</find>
       <find>visDa</find>
       <find>visDataSpectr</find>
@@ -94,7 +82,6 @@
       <find>term</find>
       <find>table</find>
       <find>new</find>
-      <find>color</find>
       <find>maxV</find>
       <find>max</find>
       <find>marke</find>
@@ -102,6 +89,17 @@
       <find>cm</find>
       <find>gra</find>
       <find>filter</find>
+      <find>tool</find>
+      <find>color</find>
+      <find>colorArr</find>
+      <find>windo</find>
+      <find>window</find>
+      <find>back</find>
+      <find>markers</find>
+      <find>data</find>
+      <find>dataSpectr</find>
+      <find>colorA</find>
+      <find>intens</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -123,8 +121,8 @@
         <option value="$PROJECT_DIR$/node_modules/chartjs-plugin-zoom/samples/zoom-bar-x.html" />
         <option value="$PROJECT_DIR$/data/H.js" />
         <option value="$PROJECT_DIR$/index.html" />
-        <option value="$PROJECT_DIR$/getdata.php" />
         <option value="$PROJECT_DIR$/style.css" />
+        <option value="$PROJECT_DIR$/getdata.php" />
         <option value="$PROJECT_DIR$/index.php" />
         <option value="$PROJECT_DIR$/spectr.js" />
       </list>
@@ -134,17 +132,16 @@
     <servers />
   </component>
   <component name="ProjectFrameBounds" extendedState="7">
-    <option name="x" value="590" />
-    <option name="y" value="-10" />
-    <option name="width" value="980" />
-    <option name="height" value="1040" />
+    <option name="x" value="247" />
+    <option name="y" value="408" />
+    <option name="width" value="978" />
+    <option name="height" value="1039" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -156,6 +153,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -173,15 +171,15 @@
     <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\OSPanel\domains\grotrian-chart-master\node_modules\chart.js\test\fixtures\element.point" />
-      <recent name="C:\OSPanel\domains\grotrian-chart-master\node_modules\chart.js\test\fixtures\controller.line" />
-      <recent name="C:\OSPanel\domains\grotrian-chart-master\node_modules\chart.js\test\fixtures\controller.bubble" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\OSPanel\domains\grotrian-chart-master" />
       <recent name="D:\Develop\Projects\spectrlite\js" />
       <recent name="D:\Develop\Projects\spectrlite" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\OSPanel\domains\grotrian-chart-master\node_modules\chart.js\test\fixtures\element.point" />
+      <recent name="C:\OSPanel\domains\grotrian-chart-master\node_modules\chart.js\test\fixtures\controller.line" />
+      <recent name="C:\OSPanel\domains\grotrian-chart-master\node_modules\chart.js\test\fixtures\controller.bubble" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -261,23 +259,27 @@
       <workItem from="1563274861214" duration="19853000" />
       <workItem from="1563537052780" duration="2111000" />
       <workItem from="1563584838944" duration="1796000" />
-      <workItem from="1564048738324" duration="250000" />
+      <workItem from="1564048738324" duration="1994000" />
+      <workItem from="1566654260050" duration="74000" />
+      <workItem from="1571831191102" duration="8764000" />
+      <workItem from="1572489620854" duration="49933000" />
+      <workItem from="1572768890977" duration="3494000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="437565000" />
+    <option name="totallyTimeSpent" value="501574000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19664429" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.09695291" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.3286119" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.042979944" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -291,7 +293,7 @@
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="Remote Host" order="3" weight="0.3295302" />
-      <window_info anchor="right" id="Database" order="4" weight="0.3295302" />
+      <window_info anchor="right" id="Database" order="4" visible="true" weight="0.020134227" />
     </layout>
     <layout-to-restore>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.020134227" />
@@ -431,6 +433,13 @@
     <entry file="file://$PROJECT_DIR$/../test.ru/index.php">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
+    <entry file="file://$PROJECT_DIR$/getdata.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="410">
+          <caret line="55" column="34" lean-forward="true" selection-start-line="55" selection-start-column="34" selection-end-line="55" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/style.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2278">
@@ -438,24 +447,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/getdata.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="20" column="48" selection-start-line="20" selection-start-column="48" selection-end-line="20" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/index.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="20" column="6" lean-forward="true" selection-start-line="20" selection-start-column="6" selection-end-line="20" selection-end-column="6" />
+        <state relative-caret-position="306">
+          <caret line="18" column="18" selection-start-line="18" selection-start-column="9" selection-end-line="18" selection-end-column="18" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/spectr.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1496">
-          <caret line="469" column="30" selection-start-line="469" selection-start-column="30" selection-end-line="469" selection-end-column="30" />
+        <state relative-caret-position="338">
+          <caret line="1173" column="23" lean-forward="true" selection-start-line="1173" selection-start-column="23" selection-end-line="1173" selection-end-column="23" />
           <folding>
             <element signature="e#23#544#0" />
           </folding>

@@ -38,6 +38,7 @@ var atom,
     cm = true,
     ev = false,
     max,
+    idx,
     icon = [];
 
 var labeleV = "[eV]",
@@ -149,7 +150,7 @@ function click_intens(){
         window.myScatter.update();
     }
     else {
-        let col = [];
+        var col = [];
         colorArr.forEach(function(item){
             let a = item.split('a');
             let b = a[1].split(',');
@@ -741,22 +742,32 @@ function updateChart(new_atom, min, max){
                                 multLow = transition.lower_level_termprefix;
                                 multUp = transition.upper_level_termprefix;
 
-                                if (transition.lower_level_termprefix)
-                                    pref = transition.lower_level_termprefix;
-                                else
-                                    pref = "";
+                                if (transition.lower_level_termprefix) pref = transition.lower_level_termprefix;
+                                else pref = "";
 
+                                let second = "";
+                                if((transition.lower_level_termsecondpart!=null) && (transition.lower_level_termsecondpart!=""))  second = transition.lower_level_termsecondpart;
+
+                                let temp;
+                                if((transition.lower_level_config!=null) && (transition.lower_level_config!=""))
+                                    temp = transition.lower_level_config.replace(/@\{0\}/gi, "&deg;").replace(/@\{([^\}\{]*)\}/gi, "<sup>$1</sup>").replace(/~\{([^\}\{]*)\}/gi, "<sub>$1</sub>").replace(/#/gi, "&deg;");
+                                else  temp = "";
                                 if (transition.lower_level_termmultiply == 0) {
-                                    term.lt = "<span>" + transition.lower_level_config.replace(/@\{0\}/gi, "&deg;").replace(/@\{([^\}\{]*)\}/gi, "<sup>$1</sup>").replace(/~\{([^\}\{]*)\}/gi, "<sub>$1</sub>").replace(/#/gi, "&deg;") + ": " + "</span>" + "<sup>" + pref + "</sup>" + "<span>" + transition.lower_level_termfirstpart + "</span>" + "<sup>" + transition.lower_level_termmultiply + "</sup>" + "<sub>" + transition.lower_level_j + "</sub>";
-                                } else term.lt = "<span>" + transition.lower_level_config.replace(/@\{0\}/gi, "&deg;").replace(/@\{([^\}\{]*)\}/gi, "<sup>$1</sup>").replace(/~\{([^\}\{]*)\}/gi, "<sub>$1</sub>").replace(/#/gi, "&deg;") + ": " + "</span>" + "<sup>" + pref + "</sup>" + "<span>" + transition.lower_level_termfirstpart + "</span>" + "<sub>" + transition.lower_level_j + "</sub>";
+                                    term.lt = "<span>" + temp + ": " + "<span>" + second + "</span>" +"</span>" + "<sup>" + pref + "</sup>" + "<span>" + transition.lower_level_termfirstpart + "</span>" + "<sup>" + transition.lower_level_termmultiply + "</sup>" + "<sub>" + transition.lower_level_j + "</sub>";
+                                } else term.lt = "<span>" + temp + ": " + "<span>" + second + "</span>" +"</span>" + "<sup>" + pref + "</sup>" + "<span>" + transition.lower_level_termfirstpart + "</span>" + "<sub>" + transition.lower_level_j + "</sub>";
 
 
                                 let test = transition.upper_level_termmultiply;
                                 if (transition.upper_level_termprefix) pref = transition.upper_level_termprefix;
                                 else pref = "";
+                                second = "";
+                                if((transition.upper_level_termsecondpart!=null) && (transition.upper_level_termsecondpart!=""))  second = transition.upper_level_termsecondpart;
+                                if((transition.upper_level_config!=null) && (transition.upper_level_config!=""))
+                                    temp = transition.upper_level_config.replace(/@\{0\}/gi, "&deg;").replace(/@\{([^\}\{]*)\}/gi, "<sup>$1</sup>").replace(/~\{([^\}\{]*)\}/gi, "<sub>$1</sub>").replace(/#/gi, "&deg;");
+                                else  temp = "";
                                 if (test === 0) {
-                                    term.ut = "<span>" + transition.upper_level_config.replace(/@\{0\}/gi, "&deg;").replace(/@\{([^\}\{]*)\}/gi, "<sup>$1</sup>").replace(/~\{([^\}\{]*)\}/gi, "<sub>$1</sub>").replace(/#/gi, "&deg;") + ": " + "</span>" + "<sup>" + pref + "</sup>" + "<span>" + transition.upper_level_termfirstpart + "</span>" + "<sup>" + transition.upper_level_termmultiply + "</sup>" + "<sub>" + transition.upper_level_j + "</sub>";
-                                } else term.ut = "<span>" + transition.upper_level_config.replace(/@\{0\}/gi, "&deg;").replace(/@\{([^\}\{]*)\}/gi, "<sup>$1</sup>").replace(/~\{([^\}\{]*)\}/gi, "<sub>$1</sub>").replace(/#/gi, "&deg;") + ": " + "</span>" + "<sup>" + pref + "</sup>" + "<span>" + transition.upper_level_termfirstpart + "</span>" + "<sub>" + transition.upper_level_j  + "</sub>";
+                                    term.ut = "<span>" + temp + ": " + "<span>" + second + "</span>" +"</span>" + "<sup>" + pref + "</sup>" + "<span>" + transition.upper_level_termfirstpart + "</span>" + "<sup>" + transition.upper_level_termmultiply + "</sup>" + "<sub>" + transition.upper_level_j + "</sub>";
+                                } else term.ut = "<span>" + temp + ": " + "<span>" + second + "</span>" +"</span>" + "<sup>" + pref + "</sup>" + "<span>" + transition.upper_level_termfirstpart + "</span>" + "<sub>" + transition.upper_level_j  + "</sub>";
 
 
                                 if (multUp != multLow) {
@@ -804,18 +815,28 @@ function updateChart(new_atom, min, max){
                                     pref = transition.lower_level_termprefix;
                                 else
                                     pref = "";
-
+                                let second = "";
+                                if((transition.lower_level_termsecondpart!=null) && (transition.lower_level_termsecondpart!=""))  second = transition.lower_level_termsecondpart;
+                                let temp;
+                                if((transition.lower_level_config!=null) && (transition.lower_level_config!=""))
+                                    temp = transition.lower_level_config.replace(/@\{0\}/gi, "&deg;").replace(/@\{([^\}\{]*)\}/gi, "<sup>$1</sup>").replace(/~\{([^\}\{]*)\}/gi, "<sub>$1</sub>").replace(/#/gi, "&deg;");
+                                else  temp = "";
                                 if (transition.lower_level_termmultiply == 0) {
-                                    term.lt = "<span>" + transition.lower_level_config.replace(/@\{0\}/gi, "&deg;").replace(/@\{([^\}\{]*)\}/gi, "<sup>$1</sup>").replace(/~\{([^\}\{]*)\}/gi, "<sub>$1</sub>").replace(/#/gi, "&deg;") + ": " + "</span>" + "<sup>" + pref + "</sup>" + "<span>" + transition.lower_level_termfirstpart + "</span>" + "<sup>" + transition.lower_level_termmultiply + "</sup>" + "<sub>" + transition.lower_level_j + "</sub>";
-                                } else term.lt = "<span>" + transition.lower_level_config.replace(/@\{0\}/gi, "&deg;").replace(/@\{([^\}\{]*)\}/gi, "<sup>$1</sup>").replace(/~\{([^\}\{]*)\}/gi, "<sub>$1</sub>").replace(/#/gi, "&deg;") + ": " + "</span>" + "<sup>" + pref + "</sup>" + "<span>" + transition.lower_level_termfirstpart + "</span>" + "<sub>" + transition.lower_level_j + "</sub>";
+                                    term.lt = "<span>" + temp + ": " + "<span>" + second + "</span>" +"</span>" + "<sup>" + pref + "</sup>" + "<span>" + transition.lower_level_termfirstpart + "</span>" + "<sup>" + transition.lower_level_termmultiply + "</sup>" + "<sub>" + transition.lower_level_j + "</sub>";
+                                } else term.lt = "<span>" + temp + ": " + "<span>" + second + "</span>" +"</span>" + "<sup>" + pref + "</sup>" + "<span>" + transition.lower_level_termfirstpart + "</span>" + "<sub>" + transition.lower_level_j + "</sub>";
 
 
                                 let test = transition.upper_level_termmultiply;
                                 if (transition.upper_level_termprefix) pref = transition.upper_level_termprefix;
                                 else pref = "";
+                                second = "";
+                                if((transition.upper_level_termsecondpart!=null) && (transition.upper_level_termsecondpart!=""))  second = transition.upper_level_termsecondpart;
+                                if((transition.upper_level_config!=null) && (transition.upper_level_config!=""))
+                                    temp = transition.upper_level_config.replace(/@\{0\}/gi, "&deg;").replace(/@\{([^\}\{]*)\}/gi, "<sup>$1</sup>").replace(/~\{([^\}\{]*)\}/gi, "<sub>$1</sub>").replace(/#/gi, "&deg;");
+                                else  temp = "";
                                 if (test === 0) {
-                                    term.ut = "<span>" + transition.upper_level_config.replace(/@\{0\}/gi, "&deg;").replace(/@\{([^\}\{]*)\}/gi, "<sup>$1</sup>").replace(/~\{([^\}\{]*)\}/gi, "<sub>$1</sub>").replace(/#/gi, "&deg;") + ": " + "</span>" + "<sup>" + pref + "</sup>" + "<span>" + transition.upper_level_termfirstpart + "</span>" + "<sup>" + transition.upper_level_termmultiply + "</sup>" + "<sub>" + transition.upper_level_j + "</sub>";
-                                } else term.ut = "<span>" + transition.upper_level_config.replace(/@\{0\}/gi, "&deg;").replace(/@\{([^\}\{]*)\}/gi, "<sup>$1</sup>").replace(/~\{([^\}\{]*)\}/gi, "<sub>$1</sub>").replace(/#/gi, "&deg;") + ": " + "</span>" + "<sup>" + pref + "</sup>" + "<span>" + transition.upper_level_termfirstpart + "</span>" + "<sub>" + transition.upper_level_j  + "</sub>";
+                                    term.ut = "<span>" + temp + ": " + "<span>" + second + "</span>" +"</span>" + "<sup>" + pref + "</sup>" + "<span>" + transition.upper_level_termfirstpart + "</span>" + "<sup>" + transition.upper_level_termmultiply + "</sup>" + "<sub>" + transition.upper_level_j + "</sub>";
+                                } else term.ut = "<span>" + temp + ": " + "<span>" + second + "</span>" +"</span>" + "<sup>" + pref + "</sup>" + "<span>" + transition.upper_level_termfirstpart + "</span>" + "<sub>" + transition.upper_level_j  + "</sub>";
 
 
                                 if (multUp != multLow) {
@@ -1004,7 +1025,7 @@ function graph(h, w) {
             elements: {
                 line: {
                     tension: 0
-                }
+                },
             },
             responsive: false,
             bezierCurve: false,
@@ -1026,10 +1047,10 @@ function graph(h, w) {
                     },
                 callbacks:{
                     label: function(tooltipItem, data) {
-                        var label = data.labels[tooltipItem.index] || '';
-                        return label;
+                        return data.labels[tooltipItem.index] || '';
                     },
                 },
+                intersect: true,
                 enabled: false,
                 displayColors: false,
                 mode: 'index',
@@ -1046,6 +1067,13 @@ function graph(h, w) {
                         beginAtZero: true,
                         maxRotation: 0,
                         minRotation: 0,
+                        callback: function(value) {
+                            if (value >= 0) {
+                                let t = value.toFixed(3);
+                                return Number(t);
+                            }
+                            else return "";
+                        },
                     },
                     scaleLabel: {
                         display: true,
@@ -1058,6 +1086,14 @@ function graph(h, w) {
                         beginAtZero: true,
                         maxRotation: 0,
                         minRotation: 0,
+                        callback: function(value) {
+                            let t;
+                            if (value >= 0) {
+                                t = value.toFixed(3);
+                                return Number(t);
+                            }
+                            else return "";
+                        },
                     },
                     scaleLabel: {
                         display: true,
@@ -1090,4 +1126,60 @@ function show_all(){
 
 updateChart(1, 0, 0);
 
+document.getElementById('chartCont').addEventListener('click', function(evt) {
+    let point = myScatter.getElementAtEvent(evt)[0];
+    let nIcon = [],
+        col = [];
+    if (point) {
+        let er=0;
+        idx = point._index;
+        for(let i = 0; i<idx; i++) {
+            if (!atom.transitions[i].ID_LOWER_LEVEL || !atom.transitions[i].ID_UPPER_LEVEL) er++;
+        }
+        let hovered = atom.transitions[idx + er];
+        er=0;
+        for(let i = 0; i<atom.transitions.length; i++){
+            if (atom.transitions[i].ID_LOWER_LEVEL && atom.transitions[i].ID_UPPER_LEVEL) {
+                if ((hovered.lower_level_termprefix == atom.transitions[i].lower_level_termprefix) &&
+                    (hovered.upper_level_termprefix == atom.transitions[i].upper_level_termprefix) &&
+                    (hovered.lower_level_config == atom.transitions[i].lower_level_config) &&
+                    (hovered.upper_level_config == atom.transitions[i].upper_level_config) &&
+                    (hovered.lower_level_termfirstpart == atom.transitions[i].lower_level_termfirstpart) &&
+                    (hovered.upper_level_termfirstpart == atom.transitions[i].upper_level_termfirstpart) &&
+                    (hovered.lower_level_termmultiply == atom.transitions[i].lower_level_termmultiply) &&
+                    (hovered.upper_level_termmultiply == atom.transitions[i].upper_level_termmultiply) &&
+                    (hovered.lower_level_termsecondpart == atom.transitions[i].lower_level_termsecondpart) &&
+                    (hovered.upper_level_termsecondpart == atom.transitions[i].upper_level_termsecondpart)
+                )
+                {
+                    let item = colorArr[i-er];
+                    let b = item.split(',');
+                    col.push(b[0]+','+b[1]+','+b[2]+', 1.0)');
+                }
+                else{
+                    let item = colorArr[i-er];
+                    let b = item.split(',');
+                    col.push(b[0]+','+b[1]+','+b[2]+', 0.03)');
+                }
+            }
+            else er++;
+        }
 
+        fill_icon(markers, nIcon, col);
+        scatterChartData.datasets[0].pointStyle = nIcon;
+        scatterChartData.datasets[0].pointBorderColor = col;
+        window.myScatter.update();
+    }
+    else {
+        click_intens();
+    }
+});
+
+document.getElementById('chartCont').addEventListener('mousemove', function(evt) {
+    let point = myScatter.getElementAtEvent(evt)[0];
+    if (!point) {
+        if(!document.getElementById('chartjs-tooltip').hidden)
+        document.getElementById('chartjs-tooltip').hidden=true;
+    }
+    else document.getElementById('chartjs-tooltip').hidden=false;
+});

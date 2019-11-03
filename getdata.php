@@ -17,7 +17,6 @@ if(empty($errors)){
         $symbol = $_POST['ABBR'];
         $ion = $_POST['IONIZATION'];
 
-
         $url = "http://grotrian.nsu.ru/ru/json";
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);

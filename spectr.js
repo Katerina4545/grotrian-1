@@ -1095,6 +1095,7 @@ function graph(h, w) {
                         beginAtZero: true,
                         maxRotation: 0,
                         minRotation: 0,
+                        precision: 2,
                         callback: function(value) {
                             let t;
                             if (value >= 0) {

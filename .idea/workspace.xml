@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="edcc2bbf-c940-4d2a-a98e-16bc69ee4c1c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/getdata.php" beforeDir="false" afterPath="$PROJECT_DIR$/getdata.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/spectr.js" beforeDir="false" afterPath="$PROJECT_DIR$/spectr.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -31,8 +30,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/style.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2278">
-              <caret line="134" column="1" selection-start-line="134" selection-start-column="1" selection-end-line="134" selection-end-column="1" />
+            <state relative-caret-position="2431">
+              <caret line="143" selection-start-line="143" selection-end-line="143" />
             </state>
           </provider>
         </entry>
@@ -49,8 +48,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/spectr.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="338">
-              <caret line="1173" column="23" lean-forward="true" selection-start-line="1173" selection-start-column="23" selection-end-line="1173" selection-end-column="23" />
+            <state relative-caret-position="525">
+              <caret line="1103" column="43" lean-forward="true" selection-start-line="1103" selection-start-column="43" selection-end-line="1103" selection-end-column="43" />
               <folding>
                 <element signature="e#23#544#0" />
               </folding>
@@ -83,7 +82,6 @@
       <find>table</find>
       <find>new</find>
       <find>maxV</find>
-      <find>max</find>
       <find>marke</find>
       <find>ev</find>
       <find>cm</find>
@@ -100,6 +98,7 @@
       <find>dataSpectr</find>
       <find>colorA</find>
       <find>intens</find>
+      <find>max</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -132,29 +131,16 @@
     <servers />
   </component>
   <component name="ProjectFrameBounds" extendedState="7">
-    <option name="x" value="247" />
-    <option name="y" value="408" />
-    <option name="width" value="978" />
-    <option name="height" value="1039" />
+    <option name="x" value="157" />
+    <option name="y" value="261" />
+    <option name="width" value="979" />
+    <option name="height" value="1040" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
-    <panes>
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="grotrian-chart-master" type="b2602c69:ProjectViewProjectNode" />
-              <item name="grotrian-chart-master" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-      <pane id="Scope" />
-    </panes>
+    <panes />
   </component>
   <component name="PropertiesComponent">
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
@@ -264,11 +250,12 @@
       <workItem from="1571831191102" duration="8764000" />
       <workItem from="1572489620854" duration="49933000" />
       <workItem from="1572768890977" duration="3494000" />
+      <workItem from="1578795676359" duration="4192000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="501574000" />
+    <option name="totallyTimeSpent" value="505766000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
@@ -442,8 +429,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/style.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2278">
-          <caret line="134" column="1" selection-start-line="134" selection-start-column="1" selection-end-line="134" selection-end-column="1" />
+        <state relative-caret-position="2431">
+          <caret line="143" selection-start-line="143" selection-end-line="143" />
         </state>
       </provider>
     </entry>
@@ -456,8 +443,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/spectr.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="338">
-          <caret line="1173" column="23" lean-forward="true" selection-start-line="1173" selection-start-column="23" selection-end-line="1173" selection-end-column="23" />
+        <state relative-caret-position="525">
+          <caret line="1103" column="43" lean-forward="true" selection-start-line="1103" selection-start-column="43" selection-end-line="1103" selection-end-column="43" />
           <folding>
             <element signature="e#23#544#0" />
           </folding>

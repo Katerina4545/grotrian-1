@@ -620,7 +620,7 @@ for (var i = 0; i < rad.length; i++) {
     });
 }
 
-function updateChart(new_atom, min, max){
+function updateChart(new_atom, min, maxW){
     maxVal=0;
     IP = 0;
     cm=true;
@@ -724,7 +724,7 @@ function updateChart(new_atom, min, max){
                         tooltipEl.style.padding = tooltip.yPadding + 'px ' + tooltip.xPadding + 'px';
                     };
 
-                    if (((min == 0) && (max == 0))){
+                    if (((min == 0) && (maxW == 0))){
                         atom.transitions.forEach(function (transition) {
                             if (transition.ID_LOWER_LEVEL && transition.ID_UPPER_LEVEL) {
                                 let pref,
@@ -795,7 +795,7 @@ function updateChart(new_atom, min, max){
                     }
                     else{
                         atom.transitions.forEach(function (transition) {
-                            if (transition.ID_LOWER_LEVEL && transition.ID_UPPER_LEVEL && (transition.WAVELENGTH > min) && (transition.WAVELENGTH < max)) {
+                            if (transition.ID_LOWER_LEVEL && transition.ID_UPPER_LEVEL && (transition.WAVELENGTH > min) && (transition.WAVELENGTH < maxW)) {
                                 let pref,
                                     multCol = ({m: '', c: '', l: ''}),
                                     len = transition.WAVELENGTH,
@@ -933,7 +933,6 @@ function updateChart(new_atom, min, max){
                     window.myScatter.options.title.text = 'Transitions of ' + document.getElementById("element").value;
                     myScatter.options.scales.xAxes[0].ticks.suggestedMax = max;
                     myScatter.options.scales.yAxes[0].ticks.suggestedMax = max;
-
                     window.myScatter.update();
 
                 }
@@ -1067,9 +1066,11 @@ function graph(h, w) {
                         beginAtZero: true,
                         maxRotation: 0,
                         minRotation: 0,
+                        precision: 2,
                         callback: function(value) {
+                            if (value == max) return "";
                             if (value >= 0) {
-                                let t = value.toFixed(3);
+                                let t = value.toFixed(2);
                                 return Number(t);
                             }
                             else return "";
@@ -1078,7 +1079,15 @@ function graph(h, w) {
                     scaleLabel: {
                         display: true,
                         labelString: part1Y + part2
-                    }
+                    },
+                    afterTickToLabelConversion: function(scaleInstance) {
+                        if(scaleInstance.ticks[scaleInstance.ticks.length - 1] !== 0) {
+                            scaleInstance.ticks[scaleInstance.ticks.length - 1] = null;
+                            scaleInstance.ticksAsNumbers[scaleInstance.ticksAsNumbers.length - 1] = null;
+                        }
+                        scaleInstance.ticks[0] = null;
+                        scaleInstance.ticksAsNumbers[0] = null;
+                    },
                 }],
                 xAxes: [{
                     ticks:{
@@ -1089,7 +1098,7 @@ function graph(h, w) {
                         callback: function(value) {
                             let t;
                             if (value >= 0) {
-                                t = value.toFixed(3);
+                                t = value.toFixed(2);
                                 return Number(t);
                             }
                             else return "";
@@ -1098,7 +1107,15 @@ function graph(h, w) {
                     scaleLabel: {
                         display: true,
                         labelString: part1X + part2
-                    }
+                    },
+                    afterTickToLabelConversion: function(scaleInstance) {
+                        if(scaleInstance.ticks[0] !== 0) {
+                            scaleInstance.ticks[0] = null;
+                            scaleInstance.ticksAsNumbers[0] = null;
+                        }
+                        scaleInstance.ticks[scaleInstance.ticks.length - 1] = null;
+                        scaleInstance.ticksAsNumbers[scaleInstance.ticksAsNumbers.length - 1] = null;
+                    },
                 }]
             }
         },

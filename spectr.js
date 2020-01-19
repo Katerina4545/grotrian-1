@@ -1142,6 +1142,16 @@ function show_all(){
     click_intens();
 }
 
+function getRandomColor() {
+    let color = 'rgb(';
+    for (let i = 0; i < 2; i++) {
+        color += Math.floor(Math.random() * 255)+",";
+    }
+    color += Math.floor(Math.random() * 255)+")";
+    return color;
+}
+
+
 updateChart(1, 0, 0);
 
 document.getElementById('chartCont').addEventListener('click', function(evt) {
@@ -1149,13 +1159,40 @@ document.getElementById('chartCont').addEventListener('click', function(evt) {
     let nIcon = [],
         col = [];
     if (point) {
-        let er=0;
+        let up_l, low_l;
+        let er = 0;
         idx = point._index;
         for(let i = 0; i<idx; i++) {
             if (!atom.transitions[i].ID_LOWER_LEVEL || !atom.transitions[i].ID_UPPER_LEVEL) er++;
         }
         let hovered = atom.transitions[idx + er];
-        er=0;
+        er = 0;
+
+
+        let pref = "", 
+            temp = "",
+            second = "";
+        if (hovered.lower_level_termprefix) pref = hovered.lower_level_termprefix;
+        if((hovered.lower_level_termsecondpart!=null) && (hovered.lower_level_termsecondpart!=""))  second = hovered.lower_level_termsecondpart;
+        if((hovered.lower_level_config!=null) && (hovered.lower_level_config!=""))
+            temp = hovered.lower_level_config.replace(/@\{0\}/gi, "&deg;").replace(/@\{([^\}\{]*)\}/gi, "<sup>$1</sup>").replace(/~\{([^\}\{]*)\}/gi, "<sub>$1</sub>").replace(/#/gi, "&deg;");
+        if (hovered.lower_level_termmultiply == 0) {
+            low_l = "<span>" + temp + ": " + "<span>" + second + "</span>" +"</span>" + "<sup>" + pref + "</sup>" + "<span>" + hovered.lower_level_termfirstpart + "</span>" + "<sup>" + hovered.lower_level_termmultiply + "</sup>" + "<sub>" + "J" + "</sub>";
+        } else low_l = "<span>" + temp + ": " + "<span>" + second + "</span>" +"</span>" + "<sup>" + pref + "</sup>" + "<span>" + hovered.lower_level_termfirstpart + "</span>" + "<sub>" + "J" + "</sub>";
+
+        pref = "";
+        temp = "";
+        second = "";
+        if (hovered.upper_level_termprefix) pref = hovered.upper_level_termprefix;
+        if((hovered.upper_level_termsecondpart!=null) && (hovered.upper_level_termsecondpart!=""))  second = hovered.upper_level_termsecondpart;
+        if((hovered.upper_level_config!=null) && (hovered.upper_level_config!=""))
+            temp = hovered.upper_level_config.replace(/@\{0\}/gi, "&deg;").replace(/@\{([^\}\{]*)\}/gi, "<sup>$1</sup>").replace(/~\{([^\}\{]*)\}/gi, "<sub>$1</sub>").replace(/#/gi, "&deg;");
+        if (hovered.upper_level_termmultiply === 0) {
+            up_l = "<span>" + temp + ": " + "<span>" + second + "</span>" +"</span>" + "<sup>" + pref + "</sup>" + "<span>" + hovered.upper_level_termfirstpart + "</span>" + "<sup>" + hovered.upper_level_termmultiply + "</sup>" + "<sub>" + "J" + "</sub>";
+        } else up_l = "<span>" + temp + ": " + "<span>" + second + "</span>" +"</span>" + "<sup>" + pref + "</sup>" + "<span>" + hovered.upper_level_termfirstpart + "</span>" + "<sub>" + "J"  + "</sub>";
+
+        $('#up_l').html(up_l);
+        $('#low_l').html(low_l);
         for(let i = 0; i<atom.transitions.length; i++){
             if (atom.transitions[i].ID_LOWER_LEVEL && atom.transitions[i].ID_UPPER_LEVEL) {
                 if ((hovered.lower_level_termprefix == atom.transitions[i].lower_level_termprefix) &&
@@ -1189,6 +1226,8 @@ document.getElementById('chartCont').addEventListener('click', function(evt) {
         window.myScatter.update();
     }
     else {
+        $('#up_l').html("");
+        $('#low_l').html("");
         click_intens();
     }
 });

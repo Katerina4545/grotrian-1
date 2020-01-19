@@ -50,6 +50,20 @@
     <div class="nav">
         <input type="checkbox"  id="intens" value=1 onclick="click_intens()" checked>отображение интенсивности прозрачностью
     </div>
+    <div class="nav">
+        <table border="0">
+            <tbody>
+            <tr>
+                <td><b>lower level: </b></td>
+                <td id="low_l"></td>
+            </tr>
+            <tr>
+                <td><b>upper level: </b></td>
+                <td id="up_l"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <div id="container">

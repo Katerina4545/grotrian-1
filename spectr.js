@@ -1,20 +1,19 @@
-var crc32=function(r){
-    for(var a,o=[],c=0;c<256;c++){
-        a=c;
-        for(var f=0;f<8;f++)a=1&a?3988292384^a>>>1:a>>>1;
-        o[c]=a
+var crc32=function(r) {
+    let hash = 0;
+    if (r.length == 0) return hash;
+    for (i = 0; i < r.length; i++) {
+        let char = r.charCodeAt(i);
+        hash = ((hash << 5) - hash) + char;
+        hash = hash & hash;
     }
-    for(var n=-1,t=0;t<r.length;t++)n=n>>>8^o[255&(n^r.charCodeAt(t))];
-    return((-1^n)>>>0).toString(16).toUpperCase()
+    return hash;
 };
 
-/*var f = [];
-arr1.set('key0', f);
-arr1.get('key0').push('value0');
-arr1.get('key0').push('value1');
-console.log(arr1.get('key0')[0]);
-console.log(arr1.get('key0')[1]);
-console.log(arr1.get('key0').length);*/
+function hashStr(transition) {
+    return transition.lower_level_config + transition.lower_level_termprefix + transition.lower_level_termfirstpart + transition.lower_level_termmultiply +
+        transition.lower_level_termsecondpart + transition.upper_level_config + transition.upper_level_termprefix + transition.lower_level_termfirstpart +
+        transition.upper_level_termmultiply + transition.lower_level_termsecondpart;
+}
 
 function inArabic(rim) {
     switch (rim) {
@@ -813,11 +812,7 @@ function updateChart(new_atom, min, maxW){
                                 dataSpectr.push(point);
                                 if (transition.INTENSITY == 0) intensArray.push(0);
                                 else intensArray.push(Math.log10(transition.INTENSITY));
-
-                                let hash = crc32(transition.lower_level_termprefix + transition.upper_level_termprefix + transition.lower_level_config +
-                                    transition.upper_level_config + transition.lower_level_termfirstpart + transition.upper_level_termfirstpart +
-                                    transition.lower_level_termmultiply + transition.upper_level_termmultiply + transition.lower_level_termsecondpart +
-                                    transition.upper_level_termsecondpart);
+                                let hash = crc32(hashStr(transition));
                                 if (hashMap.has(hash)){
                                     hashMap.get(hash).push(numb);
                                 }
@@ -898,10 +893,7 @@ function updateChart(new_atom, min, maxW){
                                 if (transition.INTENSITY == 0) intensArray.push(0);
                                 else intensArray.push(Math.log10(transition.INTENSITY));
 
-                                let hash = crc32(transition.lower_level_termprefix + transition.upper_level_termprefix + transition.lower_level_config +
-                                    transition.upper_level_config + transition.lower_level_termfirstpart + transition.upper_level_termfirstpart +
-                                    transition.lower_level_termmultiply + transition.upper_level_termmultiply + transition.lower_level_termsecondpart +
-                                    transition.upper_level_termsecondpart);
+                                let hash = crc32(hashStr(transition));
                                 if (hashMap.has(hash)){
                                     hashMap.get(hash).push(numb);
                                 }
@@ -1246,10 +1238,7 @@ document.getElementById('chartCont').addEventListener('click', function(evt) {
         $('#up_l').html(up_l);
         $('#low_l').html(low_l);
 
-        let hash = crc32(hovered.lower_level_termprefix + hovered.upper_level_termprefix + hovered.lower_level_config +
-            hovered.upper_level_config + hovered.lower_level_termfirstpart + hovered.upper_level_termfirstpart +
-            hovered.lower_level_termmultiply + hovered.upper_level_termmultiply + hovered.lower_level_termsecondpart +
-            hovered.upper_level_termsecondpart);
+        let hash = crc32(hashStr(hovered));
         if(hashMap.has(hash)) {
             let j = 0;
             for(let i = 0; i<atom.transitions.length; i++) {
@@ -1266,36 +1255,6 @@ document.getElementById('chartCont').addEventListener('click', function(evt) {
                 col[hashMap.get(hash)[g]] = (b[0]+','+b[1]+','+b[2]+', 1.0)');
             }
         }
-        /*for(let i = 0; i<atom.transitions.length; i++){
-            if (atom.transitions[i].ID_LOWER_LEVEL && atom.transitions[i].ID_UPPER_LEVEL) {
-                if ((hovered.lower_level_termprefix == atom.transitions[i].lower_level_termprefix) &&
-                    (hovered.upper_level_termprefix == atom.transitions[i].upper_level_termprefix) &&
-                    (hovered.lower_level_config == atom.transitions[i].lower_level_config) &&
-                    (hovered.upper_level_config == atom.transitions[i].upper_level_config) &&
-                    (hovered.lower_level_termfirstpart == atom.transitions[i].lower_level_termfirstpart) &&
-                    (hovered.upper_level_termfirstpart == atom.transitions[i].upper_level_termfirstpart) &&
-                    (hovered.lower_level_termmultiply == atom.transitions[i].lower_level_termmultiply) &&
-                    (hovered.upper_level_termmultiply == atom.transitions[i].upper_level_termmultiply) &&
-                    (hovered.lower_level_termsecondpart == atom.transitions[i].lower_level_termsecondpart) &&
-                    (hovered.upper_level_termsecondpart == atom.transitions[i].upper_level_termsecondpart)
-                )
-                {
-                    console.log(crc32(atom.transitions[i].lower_level_termprefix+atom.transitions[i].upper_level_termprefix+atom.transitions[i].lower_level_config+
-                        atom.transitions[i].upper_level_config+atom.transitions[i].lower_level_termfirstpart+atom.transitions[i].upper_level_termfirstpart+
-                        atom.transitions[i].lower_level_termmultiply+atom.transitions[i].upper_level_termmultiply+atom.transitions[i].lower_level_termsecondpart+
-                        atom.transitions[i].upper_level_termsecondpart));
-                    let item = colorArr[i-er];
-                    let b = item.split(',');
-                    col.push(b[0]+','+b[1]+','+b[2]+', 1.0)');
-                }
-                else{
-                    let item = colorArr[i-er];
-                    let b = item.split(',');
-                    col.push(b[0]+','+b[1]+','+b[2]+', 0.03)');
-                }
-            }
-            else er++;
-        }*/
 
         fill_icon(markers, nIcon, col);
         scatterChartData.datasets[0].pointStyle = nIcon;

@@ -1,3 +1,21 @@
+var crc32=function(r){
+    for(var a,o=[],c=0;c<256;c++){
+        a=c;
+        for(var f=0;f<8;f++)a=1&a?3988292384^a>>>1:a>>>1;
+        o[c]=a
+    }
+    for(var n=-1,t=0;t<r.length;t++)n=n>>>8^o[255&(n^r.charCodeAt(t))];
+    return((-1^n)>>>0).toString(16).toUpperCase()
+};
+
+/*var f = [];
+arr1.set('key0', f);
+arr1.get('key0').push('value0');
+arr1.get('key0').push('value1');
+console.log(arr1.get('key0')[0]);
+console.log(arr1.get('key0')[1]);
+console.log(arr1.get('key0').length);*/
+
 function inArabic(rim) {
     switch (rim) {
         case 'I':
@@ -39,7 +57,8 @@ var atom,
     ev = false,
     max,
     idx,
-    icon = [];
+    icon = [],
+    hashMap = new Map();
 
 var labeleV = "[eV]",
     labelcm = "[1/cm]",
@@ -621,6 +640,7 @@ for (var i = 0; i < rad.length; i++) {
 }
 
 function updateChart(new_atom, min, maxW){
+    hashMap.clear();
     maxVal=0;
     IP = 0;
     cm=true;
@@ -725,8 +745,11 @@ function updateChart(new_atom, min, maxW){
                     };
 
                     if (((min == 0) && (maxW == 0))){
+                        let numb =0;
                         atom.transitions.forEach(function (transition) {
                             if (transition.ID_LOWER_LEVEL && transition.ID_UPPER_LEVEL) {
+                                if (transition.upper_level_termsecondpart == null) transition.upper_level_termsecondpart = "";
+                                if (transition.lower_level_termsecondpart == null) transition.lower_level_termsecondpart = "";
                                 let pref,
                                     multCol = ({m: '', c: '', l: ''}),
                                     len = transition.WAVELENGTH,
@@ -790,10 +813,25 @@ function updateChart(new_atom, min, maxW){
                                 dataSpectr.push(point);
                                 if (transition.INTENSITY == 0) intensArray.push(0);
                                 else intensArray.push(Math.log10(transition.INTENSITY));
+
+                                let hash = crc32(transition.lower_level_termprefix + transition.upper_level_termprefix + transition.lower_level_config +
+                                    transition.upper_level_config + transition.lower_level_termfirstpart + transition.upper_level_termfirstpart +
+                                    transition.lower_level_termmultiply + transition.upper_level_termmultiply + transition.lower_level_termsecondpart +
+                                    transition.upper_level_termsecondpart);
+                                if (hashMap.has(hash)){
+                                    hashMap.get(hash).push(numb);
+                                }
+                                else {
+                                    let tr = [];
+                                    tr.push(numb);
+                                    hashMap.set(hash, tr);
+                                }
+                                numb++;
                             }
                         });
                     }
                     else{
+                        let numb =0;
                         atom.transitions.forEach(function (transition) {
                             if (transition.ID_LOWER_LEVEL && transition.ID_UPPER_LEVEL && (transition.WAVELENGTH > min) && (transition.WAVELENGTH < maxW)) {
                                 let pref,
@@ -859,6 +897,20 @@ function updateChart(new_atom, min, maxW){
                                 dataSpectr.push(point);
                                 if (transition.INTENSITY == 0) intensArray.push(0);
                                 else intensArray.push(Math.log10(transition.INTENSITY));
+
+                                let hash = crc32(transition.lower_level_termprefix + transition.upper_level_termprefix + transition.lower_level_config +
+                                    transition.upper_level_config + transition.lower_level_termfirstpart + transition.upper_level_termfirstpart +
+                                    transition.lower_level_termmultiply + transition.upper_level_termmultiply + transition.lower_level_termsecondpart +
+                                    transition.upper_level_termsecondpart);
+                                if (hashMap.has(hash)){
+                                    hashMap.get(hash).push(numb);
+                                }
+                                else {
+                                    let tr = [];
+                                    tr.push(numb);
+                                    hashMap.set(hash, tr);
+                                }
+                                numb++;
                             }
                         });
                     }
@@ -1169,7 +1221,7 @@ document.getElementById('chartCont').addEventListener('click', function(evt) {
         er = 0;
 
 
-        let pref = "", 
+        let pref = "",
             temp = "",
             second = "";
         if (hovered.lower_level_termprefix) pref = hovered.lower_level_termprefix;
@@ -1193,7 +1245,28 @@ document.getElementById('chartCont').addEventListener('click', function(evt) {
 
         $('#up_l').html(up_l);
         $('#low_l').html(low_l);
-        for(let i = 0; i<atom.transitions.length; i++){
+
+        let hash = crc32(hovered.lower_level_termprefix + hovered.upper_level_termprefix + hovered.lower_level_config +
+            hovered.upper_level_config + hovered.lower_level_termfirstpart + hovered.upper_level_termfirstpart +
+            hovered.lower_level_termmultiply + hovered.upper_level_termmultiply + hovered.lower_level_termsecondpart +
+            hovered.upper_level_termsecondpart);
+        if(hashMap.has(hash)) {
+            let j = 0;
+            for(let i = 0; i<atom.transitions.length; i++) {
+                if (atom.transitions[i].ID_LOWER_LEVEL && atom.transitions[i].ID_UPPER_LEVEL) {
+                    let item = colorArr[j];
+                    let b = item.split(',');
+                    col.push(b[0]+','+b[1]+','+b[2]+', 0.03)');
+                    j++;
+                }
+            }
+            for(let g = 0; g<hashMap.get(hash).length; g++){
+                let item = colorArr[hashMap.get(hash)[g]];
+                let b = item.split(',');
+                col[hashMap.get(hash)[g]] = (b[0]+','+b[1]+','+b[2]+', 1.0)');
+            }
+        }
+        /*for(let i = 0; i<atom.transitions.length; i++){
             if (atom.transitions[i].ID_LOWER_LEVEL && atom.transitions[i].ID_UPPER_LEVEL) {
                 if ((hovered.lower_level_termprefix == atom.transitions[i].lower_level_termprefix) &&
                     (hovered.upper_level_termprefix == atom.transitions[i].upper_level_termprefix) &&
@@ -1207,6 +1280,10 @@ document.getElementById('chartCont').addEventListener('click', function(evt) {
                     (hovered.upper_level_termsecondpart == atom.transitions[i].upper_level_termsecondpart)
                 )
                 {
+                    console.log(crc32(atom.transitions[i].lower_level_termprefix+atom.transitions[i].upper_level_termprefix+atom.transitions[i].lower_level_config+
+                        atom.transitions[i].upper_level_config+atom.transitions[i].lower_level_termfirstpart+atom.transitions[i].upper_level_termfirstpart+
+                        atom.transitions[i].lower_level_termmultiply+atom.transitions[i].upper_level_termmultiply+atom.transitions[i].lower_level_termsecondpart+
+                        atom.transitions[i].upper_level_termsecondpart));
                     let item = colorArr[i-er];
                     let b = item.split(',');
                     col.push(b[0]+','+b[1]+','+b[2]+', 1.0)');
@@ -1218,7 +1295,7 @@ document.getElementById('chartCont').addEventListener('click', function(evt) {
                 }
             }
             else er++;
-        }
+        }*/
 
         fill_icon(markers, nIcon, col);
         scatterChartData.datasets[0].pointStyle = nIcon;

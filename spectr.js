@@ -9,10 +9,23 @@ var crc32=function(r) {
     return hash;
 };
 
+var randomColors = ["rgba(255, 0, 0, 1)",
+    "rgba(0, 0, 255, 1)",
+    "rgba(255, 152, 0, 1)",
+    "rgba(255, 114, 255, 1)",
+    "rgba(0, 255, 0, 1)",
+    "rgba(83, 0, 113, 1)"/*,
+    "rgb(255, 255, 0)",
+    "rgb(84, 115, 0)",
+    "rgb(255, 130, 0)",
+    "rgb(0, 255, 255)",
+    "rbg(139, 0, 0)",
+    "rbg(98, 133, 255)"*/];
+
 function hashStr(transition) {
     return transition.lower_level_config + transition.lower_level_termprefix + transition.lower_level_termfirstpart + transition.lower_level_termmultiply +
-        transition.lower_level_termsecondpart + transition.upper_level_config + transition.upper_level_termprefix + transition.lower_level_termfirstpart +
-        transition.upper_level_termmultiply + transition.lower_level_termsecondpart;
+        transition.lower_level_termsecondpart + transition.upper_level_config + transition.upper_level_termprefix + transition.upper_level_termfirstpart +
+        transition.upper_level_termmultiply + transition.upper_level_termsecondpart;
 }
 
 function inArabic(rim) {
@@ -54,9 +67,11 @@ var atom,
     IP = 0,
     cm = true,
     ev = false,
+    selcted = false,
     max,
     idx,
     icon = [],
+    randCol = new Array(markers.length),
     hashMap = new Map();
 
 var labeleV = "[eV]",
@@ -162,8 +177,9 @@ canvas8.ctx.lineTo(24, 0);
 //отображение иинтенсивности прозрачностью
 function click_intens(){
     if(document.getElementById('intens').checked){
-        fill_icon(markers, icon, colorArr);
+        fill_icon(markers, icon, colorArr, null);
         scatterChartData.datasets[0].pointStyle = icon;
+        scatterChartData.datasets[0].pointBackgroundColor = 'rgba(255, 255, 255, 0)';
         scatterChartData.datasets[0].pointBorderColor = colorArr;
         window.myScatter.update();
     }
@@ -174,8 +190,9 @@ function click_intens(){
             let b = a[1].split(',');
             col.push(a[0]+b[0]+','+b[1]+','+b[2]+')');
         });
-        fill_icon(markers, icon, col);
+        fill_icon(markers, icon, col, null);
         scatterChartData.datasets[0].pointStyle = icon;
+        scatterChartData.datasets[0].pointBackgroundColor = 'rgba(255, 255, 255, 0)';
         scatterChartData.datasets[0].pointBorderColor = col;
         window.myScatter.update();
     }
@@ -651,6 +668,8 @@ function updateChart(new_atom, min, maxW){
     icon.length = 0;
     colorArr.length = 0;
     if (new_atom == 1)document.getElementById('intens').checked = true;
+    document.getElementById('intens').disabled = false;
+    document.getElementById('random').checked = false;
     document.getElementsByName('myRadios')[0].checked = true;
     document.getElementsByName('myRadios')[1].checked = false;
     document.getElementById('eUp_eD').checked = false;
@@ -744,6 +763,7 @@ function updateChart(new_atom, min, maxW){
                     };
 
                     if (((min == 0) && (maxW == 0))){
+                        selcted = false;
                         let numb =0;
                         atom.transitions.forEach(function (transition) {
                             if (transition.ID_LOWER_LEVEL && transition.ID_UPPER_LEVEL) {
@@ -776,7 +796,11 @@ function updateChart(new_atom, min, maxW){
                                 else  temp = "";
                                 if (transition.lower_level_termmultiply == 0) {
                                     term.lt = "<span>" + temp + ": " + "<span>" + second + "</span>" +"</span>" + "<sup>" + pref + "</sup>" + "<span>" + transition.lower_level_termfirstpart + "</span>" + "<sup>" + transition.lower_level_termmultiply + "</sup>" + "<sub>" + transition.lower_level_j + "</sub>";
-                                } else term.lt = "<span>" + temp + ": " + "<span>" + second + "</span>" +"</span>" + "<sup>" + pref + "</sup>" + "<span>" + transition.lower_level_termfirstpart + "</span>" + "<sub>" + transition.lower_level_j + "</sub>";
+                                    transition.low_l = "<span>" + temp + ": " + "<span>" + second + "</span>" +"</span>" + "<sup>" + pref + "</sup>" + "<span>" + transition.lower_level_termfirstpart + "</span>" + "<sup>" + transition.lower_level_termmultiply + "</sup>" + "<sub>J</sub>";
+                                } else {
+                                    transition.low_l = "<span>" + temp + ": " + "<span>" + second + "</span>" +"</span>" + "<sup>" + pref + "</sup>" + "<span>" + transition.lower_level_termfirstpart + "</span>" + "<sub>J</sub>";
+                                    term.lt = "<span>" + temp + ": " + "<span>" + second + "</span>" +"</span>" + "<sup>" + pref + "</sup>" + "<span>" + transition.lower_level_termfirstpart + "</span>" + "<sub>" + transition.lower_level_j + "</sub>";
+                                }
 
 
                                 let test = transition.upper_level_termmultiply;
@@ -788,8 +812,12 @@ function updateChart(new_atom, min, maxW){
                                     temp = transition.upper_level_config.replace(/@\{0\}/gi, "&deg;").replace(/@\{([^\}\{]*)\}/gi, "<sup>$1</sup>").replace(/~\{([^\}\{]*)\}/gi, "<sub>$1</sub>").replace(/#/gi, "&deg;");
                                 else  temp = "";
                                 if (test === 0) {
+                                    transition.up_l = "<span>" + temp + ": " + "<span>" + second + "</span>" +"</span>" + "<sup>" + pref + "</sup>" + "<span>" + transition.upper_level_termfirstpart + "</span>" + "<sup>" + transition.upper_level_termmultiply + "</sup>" + "<sub>J</sub>";
                                     term.ut = "<span>" + temp + ": " + "<span>" + second + "</span>" +"</span>" + "<sup>" + pref + "</sup>" + "<span>" + transition.upper_level_termfirstpart + "</span>" + "<sup>" + transition.upper_level_termmultiply + "</sup>" + "<sub>" + transition.upper_level_j + "</sub>";
-                                } else term.ut = "<span>" + temp + ": " + "<span>" + second + "</span>" +"</span>" + "<sup>" + pref + "</sup>" + "<span>" + transition.upper_level_termfirstpart + "</span>" + "<sub>" + transition.upper_level_j  + "</sub>";
+                                } else {
+                                    term.ut = "<span>" + temp + ": " + "<span>" + second + "</span>" +"</span>" + "<sup>" + pref + "</sup>" + "<span>" + transition.upper_level_termfirstpart + "</span>" + "<sub>" + transition.upper_level_j  + "</sub>";
+                                    transition.up_l = "<span>" + temp + ": " + "<span>" + second + "</span>" +"</span>" + "<sup>" + pref + "</sup>" + "<span>" + transition.upper_level_termfirstpart + "</span>" + "<sub>J</sub>";
+                                }
 
 
                                 if (multUp != multLow) {
@@ -814,11 +842,13 @@ function updateChart(new_atom, min, maxW){
                                 else intensArray.push(Math.log10(transition.INTENSITY));
                                 let hash = crc32(hashStr(transition));
                                 if (hashMap.has(hash)){
-                                    hashMap.get(hash).push(numb);
+                                    transition.numb = numb;
+                                    hashMap.get(hash).push(transition);
                                 }
                                 else {
                                     let tr = [];
-                                    tr.push(numb);
+                                    transition.numb = numb;
+                                    tr.push(transition);
                                     hashMap.set(hash, tr);
                                 }
                                 numb++;
@@ -826,6 +856,7 @@ function updateChart(new_atom, min, maxW){
                         });
                     }
                     else{
+                        selcted = true;
                         let numb =0;
                         atom.transitions.forEach(function (transition) {
                             if (transition.ID_LOWER_LEVEL && transition.ID_UPPER_LEVEL && (transition.WAVELENGTH > min) && (transition.WAVELENGTH < maxW)) {
@@ -895,16 +926,44 @@ function updateChart(new_atom, min, maxW){
 
                                 let hash = crc32(hashStr(transition));
                                 if (hashMap.has(hash)){
-                                    hashMap.get(hash).push(numb);
+                                    transition.numb = numb;
+                                    hashMap.get(hash).push(transition);
                                 }
                                 else {
                                     let tr = [];
-                                    tr.push(numb);
+                                    transition.numb = numb;
+                                    tr.push(transition);
                                     hashMap.set(hash, tr);
                                 }
                                 numb++;
                             }
                         });
+                    }
+
+                    let arr = [];
+                    for (let key of hashMap.keys()) {
+                        let sum = 0;
+                        for (let g = 0; g < hashMap.get(key).length; g++) {
+                            sum += Number(hashMap.get(key)[g].WAVELENGTH);
+                        }
+                        sum = sum/hashMap.get(key).length;
+                        let el = ({hash: key, wlen: sum});
+                        arr.push(el);
+                    }
+                    arr.sort((prev, next) => prev.wlen - next.wlen);
+                    let tempMap = new Map();
+                    for(let i = 0; i<arr.length; i++){
+                        tempMap.set(arr[i].hash, hashMap.get(arr[i].hash));
+                    }
+                    hashMap = tempMap;
+
+                    let n = 0;
+                    for (let key of hashMap.keys()) {
+                        for (let g = 0; g < hashMap.get(key).length; g++) {
+                            randCol[hashMap.get(key)[g].numb] = randomColors[n];
+                        }
+                        n++;
+                        if(n==randomColors.length) n = 0;
                     }
 
                     var maxItem = Math.max.apply(null, intensArray);
@@ -917,7 +976,7 @@ function updateChart(new_atom, min, maxW){
                         colorArr.push(markers[i].c);
                     });
 
-                    fill_icon(markers, icon, colorArr);
+                    fill_icon(markers, icon, colorArr, null);
 
                     maxVal = 0;
                     max = 0;
@@ -985,9 +1044,12 @@ function updateChart(new_atom, min, maxW){
     }
 }
 
-function fill_icon(markers, icon, col) {
+function fill_icon(markers, icon, col, fillArr) {
     icon.length = 0;
+    let fill;
     markers.forEach(function (item, i) {
+        if (fillArr == null) fill = 'rgba(255, 255, 255, 0)';
+        else fill = fillArr[i];
         let image = new Image();
         if (item.m === 0) {
             icon.push('crossRot');
@@ -996,7 +1058,7 @@ function fill_icon(markers, icon, col) {
         } else if (item.m === 2) {
             canvas.ctx.strokeStyle = col[i];
             canvas.ctx.lineWidth = 10;
-            canvas.ctx.fillStyle = 'rgba(255, 255, 255, 0)';
+            canvas.ctx.fillStyle = fill;
             canvas.ctx.fill();
             canvas.ctx.stroke();
             image.src = canvas.toDataURL();
@@ -1011,7 +1073,7 @@ function fill_icon(markers, icon, col) {
         } else if (item.m === 5) {
             canvas5.ctx.strokeStyle = col[i];
             canvas5.ctx.lineWidth = 9;
-            canvas5.ctx.fillStyle = 'rgba(255, 255, 255, 0)';
+            canvas5.ctx.fillStyle = fill;
             canvas5.ctx.fill();
             canvas5.ctx.stroke();
             image.src = canvas5.toDataURL();
@@ -1022,7 +1084,7 @@ function fill_icon(markers, icon, col) {
         } else if (item.m === 6) {
             canvas6.ctx.strokeStyle = col[i];
             canvas6.ctx.lineWidth = 9;
-            canvas6.ctx.fillStyle = 'rgba(255, 255, 255, 0)';
+            canvas6.ctx.fillStyle = fill;
             canvas6.ctx.fill();
             canvas6.ctx.stroke();
             image.src = canvas6.toDataURL();
@@ -1033,7 +1095,7 @@ function fill_icon(markers, icon, col) {
         } else if (item.m === 7) {
             canvas7.ctx.strokeStyle = col[i];
             canvas7.ctx.lineWidth = 9;
-            canvas7.ctx.fillStyle = 'rgba(255, 255, 255, 0)';
+            canvas7.ctx.fillStyle = fill;
             canvas7.ctx.fill();
             canvas7.ctx.stroke();
             image.src = canvas7.toDataURL();
@@ -1044,7 +1106,7 @@ function fill_icon(markers, icon, col) {
         } else if (item.m === 8) {
             canvas8.ctx.strokeStyle = col[i];
             canvas8.ctx.lineWidth = 9;
-            canvas8.ctx.fillStyle = 'rgba(255, 255, 255, 0)';
+            canvas8.ctx.fillStyle = fill;
             canvas8.ctx.fill();
             canvas8.ctx.stroke();
             image.src = canvas8.toDataURL();
@@ -1177,6 +1239,8 @@ function show_selected(){
 }
 
 function show_visible(){
+    document.getElementById("max").value = 7600;
+    document.getElementById("min").value = 3800;
     updateChart(0, 3800, 7600);
     click_intens();
 }
@@ -1186,77 +1250,87 @@ function show_all(){
     click_intens();
 }
 
-function getRandomColor() {
-    let color = 'rgb(';
-    for (let i = 0; i < 2; i++) {
-        color += Math.floor(Math.random() * 255)+",";
-    }
-    color += Math.floor(Math.random() * 255)+")";
-    return color;
-}
 
+function click_random() {
+    if(document.getElementById('random').checked) {
+        document.getElementById('intens').disabled = true;
+        let nIcon = [];
+        fill_icon(markers, nIcon, randCol, randCol);
+        scatterChartData.datasets[0].pointBackgroundColor = randCol;
+        scatterChartData.datasets[0].pointStyle = nIcon;
+        scatterChartData.datasets[0].pointBorderColor = randCol;
+        window.myScatter.update();
+    }
+    else {
+        document.getElementById('intens').disabled = false;
+        click_intens();
+    }
+}
 
 updateChart(1, 0, 0);
 
 document.getElementById('chartCont').addEventListener('click', function(evt) {
     let point = myScatter.getElementAtEvent(evt)[0];
     let nIcon = [],
+        ncolArr = [],
         col = [];
     if (point) {
-        let up_l, low_l;
+        if(document.getElementById('random').checked) ncolArr = randCol;
+        else ncolArr = colorArr;
         let er = 0;
         idx = point._index;
         for(let i = 0; i<idx; i++) {
             if (!atom.transitions[i].ID_LOWER_LEVEL || !atom.transitions[i].ID_UPPER_LEVEL) er++;
         }
         let hovered = atom.transitions[idx + er];
-        er = 0;
 
-
-        let pref = "",
-            temp = "",
-            second = "";
-        if (hovered.lower_level_termprefix) pref = hovered.lower_level_termprefix;
-        if((hovered.lower_level_termsecondpart!=null) && (hovered.lower_level_termsecondpart!=""))  second = hovered.lower_level_termsecondpart;
-        if((hovered.lower_level_config!=null) && (hovered.lower_level_config!=""))
-            temp = hovered.lower_level_config.replace(/@\{0\}/gi, "&deg;").replace(/@\{([^\}\{]*)\}/gi, "<sup>$1</sup>").replace(/~\{([^\}\{]*)\}/gi, "<sub>$1</sub>").replace(/#/gi, "&deg;");
-        if (hovered.lower_level_termmultiply == 0) {
-            low_l = "<span>" + temp + ": " + "<span>" + second + "</span>" +"</span>" + "<sup>" + pref + "</sup>" + "<span>" + hovered.lower_level_termfirstpart + "</span>" + "<sup>" + hovered.lower_level_termmultiply + "</sup>" + "<sub>" + "J" + "</sub>";
-        } else low_l = "<span>" + temp + ": " + "<span>" + second + "</span>" +"</span>" + "<sup>" + pref + "</sup>" + "<span>" + hovered.lower_level_termfirstpart + "</span>" + "<sub>" + "J" + "</sub>";
-
-        pref = "";
-        temp = "";
-        second = "";
-        if (hovered.upper_level_termprefix) pref = hovered.upper_level_termprefix;
-        if((hovered.upper_level_termsecondpart!=null) && (hovered.upper_level_termsecondpart!=""))  second = hovered.upper_level_termsecondpart;
-        if((hovered.upper_level_config!=null) && (hovered.upper_level_config!=""))
-            temp = hovered.upper_level_config.replace(/@\{0\}/gi, "&deg;").replace(/@\{([^\}\{]*)\}/gi, "<sup>$1</sup>").replace(/~\{([^\}\{]*)\}/gi, "<sub>$1</sub>").replace(/#/gi, "&deg;");
-        if (hovered.upper_level_termmultiply === 0) {
-            up_l = "<span>" + temp + ": " + "<span>" + second + "</span>" +"</span>" + "<sup>" + pref + "</sup>" + "<span>" + hovered.upper_level_termfirstpart + "</span>" + "<sup>" + hovered.upper_level_termmultiply + "</sup>" + "<sub>" + "J" + "</sub>";
-        } else up_l = "<span>" + temp + ": " + "<span>" + second + "</span>" +"</span>" + "<sup>" + pref + "</sup>" + "<span>" + hovered.upper_level_termfirstpart + "</span>" + "<sub>" + "J"  + "</sub>";
-
-        $('#up_l').html(up_l);
-        $('#low_l').html(low_l);
+        $('#up_l').html(hovered.up_l);
+        $('#low_l').html(hovered.low_l);
 
         let hash = crc32(hashStr(hovered));
         if(hashMap.has(hash)) {
             let j = 0;
-            for(let i = 0; i<atom.transitions.length; i++) {
-                if (atom.transitions[i].ID_LOWER_LEVEL && atom.transitions[i].ID_UPPER_LEVEL) {
-                    let item = colorArr[j];
-                    let b = item.split(',');
-                    col.push(b[0]+','+b[1]+','+b[2]+', 0.03)');
-                    j++;
+            if(selcted){
+                for (let i = 0; i < atom.transitions.length; i++) {
+                    if (atom.transitions[i].ID_LOWER_LEVEL && atom.transitions[i].ID_UPPER_LEVEL && (atom.transitions[i].WAVELENGTH > document.getElementById("min").value) && (atom.transitions[i].WAVELENGTH < document.getElementById("max").value)) {
+                        let item = ncolArr[j];
+                        let b = item.split(',');
+                        col.push(b[0] + ',' + b[1] + ',' + b[2] + ', 0.03)');
+                        j++;
+                    }
+                }
+                for (let g = 0; g < hashMap.get(hash).length; g++) {
+                    if ((hashMap.get(hash)[g].WAVELENGTH > document.getElementById("min").value) && (hashMap.get(hash)[g].WAVELENGTH < document.getElementById("max").value)){
+                        let item = ncolArr[hashMap.get(hash)[g].numb];
+                        let b = item.split(',');
+                        col[hashMap.get(hash)[g].numb] = (b[0] + ',' + b[1] + ',' + b[2] + ', 1.0)');
+                    }
                 }
             }
-            for(let g = 0; g<hashMap.get(hash).length; g++){
-                let item = colorArr[hashMap.get(hash)[g]];
-                let b = item.split(',');
-                col[hashMap.get(hash)[g]] = (b[0]+','+b[1]+','+b[2]+', 1.0)');
+            else {
+                for (let i = 0; i < atom.transitions.length; i++) {
+                    if (atom.transitions[i].ID_LOWER_LEVEL && atom.transitions[i].ID_UPPER_LEVEL) {
+                        let item = ncolArr[j];
+                        let b = item.split(',');
+                        col.push(b[0] + ',' + b[1] + ',' + b[2] + ', 0.03)');
+                        j++;
+                    }
+                }
+                for (let g = 0; g < hashMap.get(hash).length; g++) {
+                    let item = ncolArr[hashMap.get(hash)[g].numb];
+                    let b = item.split(',');
+                    col[hashMap.get(hash)[g].numb] = (b[0] + ',' + b[1] + ',' + b[2] + ', 1.0)');
+                }
             }
         }
-
-        fill_icon(markers, nIcon, col);
+        if(document.getElementById('random').checked) {
+            scatterChartData.datasets[0].pointBackgroundColor = col;
+            fill_icon(markers, nIcon, col, col);
+        }
+        else {
+            scatterChartData.datasets[0].pointBackgroundColor = 'rgba(255, 255, 255, 0)';
+            fill_icon(markers, nIcon, col, null);
+        }
         scatterChartData.datasets[0].pointStyle = nIcon;
         scatterChartData.datasets[0].pointBorderColor = col;
         window.myScatter.update();
@@ -1264,7 +1338,8 @@ document.getElementById('chartCont').addEventListener('click', function(evt) {
     else {
         $('#up_l').html("");
         $('#low_l').html("");
-        click_intens();
+        if(document.getElementById('random').checked) click_random();
+        else click_intens();
     }
 });
 

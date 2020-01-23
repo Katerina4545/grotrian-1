@@ -51,6 +51,9 @@
         <input type="checkbox"  id="intens" value=1 onclick="click_intens()" checked>отображение интенсивности прозрачностью
     </div>
     <div class="nav">
+        <input type="checkbox"  id="random" value=1 onclick="click_random()">отображение мультиплетов
+    </div>
+    <div class="nav">
         <table border="0">
             <tbody>
             <tr>

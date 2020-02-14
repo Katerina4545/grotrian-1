@@ -454,6 +454,11 @@ function resize(click) {
             if (window.myScatter) {
                 window.myScatter.clear();
             }
+            $('#zoom_chart').remove();
+            $('#chartZoom').append('<canvas id="zoom_chart"><canvas>');
+            if (window.zoomChart) {
+                window.zoomChart.clear();
+            }
             graph(size, size);
         }
         else {
@@ -464,9 +469,10 @@ function resize(click) {
             else size = win_h;
             $('#canvas').remove();
             $('#chartCont').append('<canvas id="canvas"><canvas>');
-            if (window.myScatter) {
-                window.myScatter.clear();
-            }
+            if (window.myScatter) window.myScatter.clear();
+            $('#zoom_chart').remove();
+            $('#chartZoom').append('<canvas id="zoom_chart"><canvas>');
+            if (window.zoomChart) window.zoomChart.clear();
             graph(size, size);
         }
     }
@@ -1120,8 +1126,12 @@ function fill_icon(markers, icon, col, fillArr) {
 
 function graph(h, w) {
     var ctx = document.getElementById('canvas').getContext('2d');
+    var ctxZoom = document.getElementById('zoom_chart').getContext('2d');
     ctx.canvas.height = h;
     ctx.canvas.width = w;
+
+    ctxZoom.canvas.height = 170;
+    ctxZoom.canvas.width = 170;
 
     window.myScatter = new Chart(ctx, {
         type: 'scatter',
@@ -1228,6 +1238,52 @@ function graph(h, w) {
         },
     });
     window.myScatter.update();
+
+    window.zoomChart = new Chart(ctxZoom, {
+        type: 'scatter',
+        data: {
+            datasets: [{
+                pointBorderWidth: 1,
+                pointBackgroundColor: 'rgba(255, 255, 255, 0)',
+                pointBorderColor: [],
+                pointRadius: 5,
+                data: [],
+                pointStyle: []
+            }]
+        },
+        options: {
+            elements: {
+                line: {
+                    tension: 0
+                },
+            },
+            responsive: false,
+            bezierCurve: false,
+            title: {
+                display: false,
+            },
+            legend: {
+                display: false,
+            },
+            /*tooltips: {
+                enabled: false,
+            },*/
+            scales: {
+                yAxes: [{
+                    ticks:{
+                        display: false,
+                    },
+                }],
+                xAxes: [{
+                    ticks:{
+                        display: false,
+                    },
+                }]
+            }
+        },
+    });
+
+    window.zoomChart.update();
 }
 
 
@@ -1273,6 +1329,7 @@ document.getElementById('chartCont').addEventListener('click', function(evt) {
     let point = myScatter.getElementAtEvent(evt)[0];
     let nIcon = [],
         ncolArr = [],
+        indexes = [],
         col = [];
     if (point) {
         if(document.getElementById('random').checked) ncolArr = randCol;
@@ -1304,6 +1361,7 @@ document.getElementById('chartCont').addEventListener('click', function(evt) {
                         let item = ncolArr[hashMap.get(hash)[g].numb];
                         let b = item.split(',');
                         col[hashMap.get(hash)[g].numb] = (b[0] + ',' + b[1] + ',' + b[2] + ', 1.0)');
+                        indexes.push(hashMap.get(hash)[g].numb);
                     }
                 }
             }
@@ -1320,6 +1378,7 @@ document.getElementById('chartCont').addEventListener('click', function(evt) {
                     let item = ncolArr[hashMap.get(hash)[g].numb];
                     let b = item.split(',');
                     col[hashMap.get(hash)[g].numb] = (b[0] + ',' + b[1] + ',' + b[2] + ', 1.0)');
+                    indexes.push(hashMap.get(hash)[g].numb);
                 }
             }
         }
@@ -1329,11 +1388,31 @@ document.getElementById('chartCont').addEventListener('click', function(evt) {
         }
         else {
             scatterChartData.datasets[0].pointBackgroundColor = 'rgba(255, 255, 255, 0)';
+            window.zoomChart.data.datasets[0].pointBackgroundColor = 'rgba(255, 255, 255, 0)';
             fill_icon(markers, nIcon, col, null);
         }
         scatterChartData.datasets[0].pointStyle = nIcon;
         scatterChartData.datasets[0].pointBorderColor = col;
         window.myScatter.update();
+
+        let data = [],
+            style = [],
+            bordercolor = [];
+
+        indexes.forEach(function (i) {
+            data.push(scatterChartData.datasets[0].data[i]);
+            style.push(nIcon[i]);
+            bordercolor.push(col[i]);
+        });
+
+        if(document.getElementById('random').checked) {
+            window.zoomChart.data.datasets[0].pointBackgroundColor = bordercolor;
+        }
+
+        window.zoomChart.data.datasets[0].data = data;
+        window.zoomChart.data.datasets[0].pointStyle = style;
+        window.zoomChart.data.datasets[0].pointBorderColor = bordercolor;
+        window.zoomChart.update();
     }
     else {
         $('#up_l').html("");

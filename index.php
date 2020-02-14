@@ -22,6 +22,10 @@
 
 <div class="tools">
     <div class="nav">
+        <div id="chartZoom" class="chartZoom" >
+            <canvas id="zoom_chart" width="170" height="170"></canvas>
+        </div>
+    </div>    <div class="nav">
         <input type='button' id="resetZoom" value="Reset Zoom" >
     </div>
     <div class="nav">

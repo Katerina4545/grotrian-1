@@ -10,6 +10,13 @@ canvas {
     background-color: #e6f2ff;
 }
 
+#chartZoom{
+    border: 2px double gray;
+    height: 172px;
+    width: 172px;
+    align-content: center;
+}
+
 #fullScreen{
     font: 14px Tahoma;
     height: 26px;
@@ -129,7 +136,7 @@ canvas {
     vertical-align: top;
 }
 .tools{
-    margin-top: 5%;
+    margin-top: 2%;
     margin-left: 40px;
 }
 

@@ -92,7 +92,8 @@ var colorArr = [],
     parity = false,
     eUp_eDcheck = false;
 
-var customTooltips;
+var customTooltips,
+    zoomTooltips;
 
 var canvas = document.createElement("canvas");
 canvas.id = "myCanvas";
@@ -177,7 +178,7 @@ canvas8.ctx.lineTo(24, 0);
 //отображение иинтенсивности прозрачностью
 function click_intens(){
     if(document.getElementById('intens').checked){
-        fill_icon(markers, icon, colorArr, null);
+        fill_icon(markers, icon, colorArr);
         scatterChartData.datasets[0].pointStyle = icon;
         scatterChartData.datasets[0].pointBackgroundColor = 'rgba(255, 255, 255, 0)';
         scatterChartData.datasets[0].pointBorderColor = colorArr;
@@ -190,7 +191,7 @@ function click_intens(){
             let b = a[1].split(',');
             col.push(a[0]+b[0]+','+b[1]+','+b[2]+')');
         });
-        fill_icon(markers, icon, col, null);
+        fill_icon(markers, icon, col);
         scatterChartData.datasets[0].pointStyle = icon;
         scatterChartData.datasets[0].pointBackgroundColor = 'rgba(255, 255, 255, 0)';
         scatterChartData.datasets[0].pointBorderColor = col;
@@ -713,36 +714,26 @@ function updateChart(new_atom, min, maxW){
                         atom = data;
                     }
 
-                    customTooltips = function (tooltip) {
-                        var tooltipEl = document.getElementById('chartjs-tooltip');
-
+                    function makeTooltip(tooltip, id, tooltipEl, obj){
                         if (tooltip.opacity === 0) {
                             tooltipEl.style.opacity = 0;
                             return;
                         }
-
                         tooltipEl.classList.remove('above', 'below', 'no-transform');
-                        if (tooltip.yAlign) {
-                            tooltipEl.classList.add(tooltip.yAlign);
-                        } else {
-                            tooltipEl.classList.add('no-transform');
-                        }
 
-                        function getBody(bodyItem) {
-                            return bodyItem.lines;
-                        }
+                        if (tooltip.yAlign) tooltipEl.classList.add(tooltip.yAlign);
+                         else tooltipEl.classList.add('no-transform');
+
+                        function getBody(bodyItem) {return bodyItem.lines;}
 
                         if (tooltip.body) {
                             var titleLines = tooltip.title || [];
                             var bodyLines = tooltip.body.map(getBody);
-
                             var innerHtml = '<thead>';
-
                             titleLines.forEach(function (title) {
                                 innerHtml += '<tr><th>' + title + '</th></tr>';
                             });
                             innerHtml += '</thead><tbody>';
-
                             bodyLines.forEach(function (body, i) {
                                 var colors = tooltip.labelColors[i];
                                 var style = 'background:' + colors.backgroundColor;
@@ -752,13 +743,11 @@ function updateChart(new_atom, min, maxW){
                                 innerHtml += '<tr><td>' + span + body + '</td></tr>';
                             });
                             innerHtml += '</tbody>';
-
                             var tableRoot = tooltipEl.querySelector('table');
                             tableRoot.innerHTML = innerHtml;
                         }
-                        var positionY = this._chart.canvas.offsetTop;
-                        var positionX = this._chart.canvas.offsetLeft;
-
+                        var positionY = obj._chart.canvas.offsetTop;
+                        var positionX = obj._chart.canvas.offsetLeft;
                         tooltipEl.style.opacity = 1;
                         tooltipEl.style.left = positionX + tooltip.caretX + 'px';
                         tooltipEl.style.top = positionY + tooltip.caretY + 'px';
@@ -766,6 +755,16 @@ function updateChart(new_atom, min, maxW){
                         tooltipEl.style.fontSize = tooltip.bodyFontSize;
                         tooltipEl.style.fontStyle = tooltip._bodyFontStyle;
                         tooltipEl.style.padding = tooltip.yPadding + 'px ' + tooltip.xPadding + 'px';
+                    }
+
+                    customTooltips = function (tooltip) {
+                        var tooltipEl = document.getElementById('chartjs-tooltip');
+                        makeTooltip(tooltip, "chartjs-tooltip-key", tooltipEl, this);
+                    };
+
+                    zoomTooltips = function (tooltip) {
+                        var tooltipEl = document.getElementById('zoom-tooltip');
+                        makeTooltip(tooltip, "zoom-tooltip-key", tooltipEl, this);
                     };
 
                     if (((min == 0) && (maxW == 0))){
@@ -982,7 +981,7 @@ function updateChart(new_atom, min, maxW){
                         colorArr.push(markers[i].c);
                     });
 
-                    fill_icon(markers, icon, colorArr, null);
+                    fill_icon(markers, icon, colorArr);
 
                     maxVal = 0;
                     max = 0;
@@ -1054,7 +1053,7 @@ function fill_icon(markers, icon, col, fillArr) {
     icon.length = 0;
     let fill;
     markers.forEach(function (item, i) {
-        if (fillArr == null) fill = 'rgba(255, 255, 255, 0)';
+        if (fillArr == undefined) fill = 'rgba(255, 255, 255, 0)';
         else fill = fillArr[i];
         let image = new Image();
         if (item.m === 0) {
@@ -1130,8 +1129,8 @@ function graph(h, w) {
     ctx.canvas.height = h;
     ctx.canvas.width = w;
 
-    ctxZoom.canvas.height = 170;
-    ctxZoom.canvas.width = 170;
+    ctxZoom.canvas.height = 200;
+    ctxZoom.canvas.width = 250;
 
     window.myScatter = new Chart(ctx, {
         type: 'scatter',
@@ -1182,11 +1181,11 @@ function graph(h, w) {
                         beginAtZero: true,
                         maxRotation: 0,
                         minRotation: 0,
-                        precision: 2,
+                        precision: 3,
                         callback: function(value) {
                             if (value == max) return "";
                             if (value >= 0) {
-                                let t = value.toFixed(2);
+                                let t = value.toFixed(3);
                                 return Number(t);
                             }
                             else return "";
@@ -1211,11 +1210,11 @@ function graph(h, w) {
                         beginAtZero: true,
                         maxRotation: 0,
                         minRotation: 0,
-                        precision: 2,
+                        precision: 3,
                         callback: function(value) {
                             let t;
                             if (value >= 0) {
-                                t = value.toFixed(2);
+                                t = value.toFixed(3);
                                 return Number(t);
                             }
                             else return "";
@@ -1249,7 +1248,8 @@ function graph(h, w) {
                 pointRadius: 5,
                 data: [],
                 pointStyle: []
-            }]
+            }],
+            labels: [],
         },
         options: {
             elements: {
@@ -1265,18 +1265,69 @@ function graph(h, w) {
             legend: {
                 display: false,
             },
-            /*tooltips: {
+            tooltips: {
+                filter: function (tooltipItem) {
+                    return tooltipItem.datasetIndex === 0;
+                },
+                callbacks:{
+                    label: function(tooltipItem, data) {
+                        return data.labels[tooltipItem.index] || '';
+                    },
+                },
+                intersect: true,
                 enabled: false,
-            },*/
+                displayColors: false,
+                mode: 'index',
+                position: 'nearest',
+                custom: zoomTooltips,
+            },
             scales: {
                 yAxes: [{
                     ticks:{
-                        display: false,
+                        maxTicksLimit: 4,
+                        maxRotation: 0,
+                        minRotation: 0,
+                        precision: 2,
+                        callback: function(value) {
+                            if (value == max) return "";
+                            if (value >= 0) {
+                                let t = value.toFixed(2);
+                                return Number(t);
+                            }
+                            else return "";
+                        },
+                    },
+                    afterTickToLabelConversion: function(scaleInstance) {
+                        if(scaleInstance.ticks[scaleInstance.ticks.length - 1] !== 0) {
+                            scaleInstance.ticks[scaleInstance.ticks.length - 1] = null;
+                            scaleInstance.ticksAsNumbers[scaleInstance.ticksAsNumbers.length - 1] = null;
+                        }
+                        scaleInstance.ticks[0] = null;
+                        scaleInstance.ticksAsNumbers[0] = null;
                     },
                 }],
                 xAxes: [{
                     ticks:{
-                        display: false,
+                        maxTicksLimit: 4,
+                        maxRotation: 0,
+                        minRotation: 0,
+                        precision: 2,
+                        callback: function(value) {
+                            let t;
+                            if (value >= 0) {
+                                t = value.toFixed(2);
+                                return Number(t);
+                            }
+                            else return "";
+                        },
+                    },
+                    afterTickToLabelConversion: function(scaleInstance) {
+                        if(scaleInstance.ticks[0] !== 0) {
+                            scaleInstance.ticks[0] = null;
+                            scaleInstance.ticksAsNumbers[0] = null;
+                        }
+                        scaleInstance.ticks[scaleInstance.ticks.length - 1] = null;
+                        scaleInstance.ticksAsNumbers[scaleInstance.ticksAsNumbers.length - 1] = null;
                     },
                 }]
             }
@@ -1389,7 +1440,7 @@ document.getElementById('chartCont').addEventListener('click', function(evt) {
         else {
             scatterChartData.datasets[0].pointBackgroundColor = 'rgba(255, 255, 255, 0)';
             window.zoomChart.data.datasets[0].pointBackgroundColor = 'rgba(255, 255, 255, 0)';
-            fill_icon(markers, nIcon, col, null);
+            fill_icon(markers, nIcon, col);
         }
         scatterChartData.datasets[0].pointStyle = nIcon;
         scatterChartData.datasets[0].pointBorderColor = col;
@@ -1397,10 +1448,12 @@ document.getElementById('chartCont').addEventListener('click', function(evt) {
 
         let data = [],
             style = [],
+            labels = [],
             bordercolor = [];
 
         indexes.forEach(function (i) {
             data.push(scatterChartData.datasets[0].data[i]);
+            labels.push(scatterChartData.labels[i]);
             style.push(nIcon[i]);
             bordercolor.push(col[i]);
         });
@@ -1412,6 +1465,7 @@ document.getElementById('chartCont').addEventListener('click', function(evt) {
         window.zoomChart.data.datasets[0].data = data;
         window.zoomChart.data.datasets[0].pointStyle = style;
         window.zoomChart.data.datasets[0].pointBorderColor = bordercolor;
+        window.zoomChart.data.labels = labels;
         window.zoomChart.update();
     }
     else {

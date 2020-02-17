@@ -23,7 +23,7 @@
 <div class="tools">
     <div class="nav">
         <div id="chartZoom" class="chartZoom" >
-            <canvas id="zoom_chart" width="170" height="170"></canvas>
+            <canvas id="zoom_chart" width="250" height="200"></canvas>
         </div>
     </div>    <div class="nav">
         <input type='button' id="resetZoom" value="Reset Zoom" >
@@ -108,6 +108,12 @@
 
 <div id="canvas-holder" style="width: 300px;">
     <div id="chartjs-tooltip">
+        <table></table>
+    </div>
+</div>
+
+<div id="canvas-holder1" style="width: 300px;">
+    <div id="zoom-tooltip">
         <table></table>
     </div>
 </div>

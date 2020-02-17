@@ -12,8 +12,8 @@ canvas {
 
 #chartZoom{
     border: 2px double gray;
-    height: 172px;
-    width: 172px;
+    height: 200px;
+    width: 250px;
     align-content: center;
 }
 
@@ -43,6 +43,28 @@ canvas {
     height: 10px;
     margin-right: 10px;
 }
+
+#zoom-tooltip {
+    opacity: 1;
+    position: absolute;
+    background: rgba(255, 255, 255, .7);
+    color: black;
+    font-size: 14px;
+    border-radius: 3px;
+    -webkit-transition: all .1s ease;
+    transition: all .1s ease;
+    pointer-events: none;
+    -webkit-transform: translate(-50%, 0);
+    transform: translate(-50%, 0);
+}
+
+.zoom-tooltip-key {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin-right: 10px;
+}
+
 .radio_buttons {
     font: 14px Tahoma;
 }

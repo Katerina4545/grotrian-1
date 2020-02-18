@@ -67,7 +67,7 @@ var atom,
     IP = 0,
     cm = true,
     ev = false,
-    selcted = false,
+    selected = false,
     max,
     idx,
     icon = [],
@@ -98,7 +98,7 @@ var customTooltips,
 //отображение иинтенсивности прозрачностью
 function click_intens(){
     if(document.getElementById('intens').checked){
-        fill_icon(markers, icon, colorArr);
+        fill_icon(markers, icon);
         scatterChartData.datasets[0].pointStyle = icon;
         scatterChartData.datasets[0].pointBackgroundColor = 'rgba(255, 255, 255, 0)';
         scatterChartData.datasets[0].pointBorderColor = colorArr;
@@ -111,7 +111,7 @@ function click_intens(){
             let b = a[1].split(',');
             col.push(a[0]+b[0]+','+b[1]+','+b[2]+')');
         });
-        fill_icon(markers, icon, col);
+        fill_icon(markers, icon);
         scatterChartData.datasets[0].pointStyle = icon;
         scatterChartData.datasets[0].pointBackgroundColor = 'rgba(255, 255, 255, 0)';
         scatterChartData.datasets[0].pointBorderColor = col;
@@ -503,6 +503,7 @@ for (var i = 0; i < rad.length; i++) {
             if (max < maxVal) max = maxVal;
             myScatter.options.scales.xAxes[0].ticks.suggestedMax = max;
             myScatter.options.scales.yAxes[0].ticks.suggestedMax = max;
+            myScatter.resetZoom();
             window.myScatter.update();
         }
         else {   //размерность evV
@@ -575,6 +576,7 @@ for (var i = 0; i < rad.length; i++) {
             if (max < maxVal) max = maxVal;
             myScatter.options.scales.xAxes[0].ticks.suggestedMax = max;
             myScatter.options.scales.yAxes[0].ticks.suggestedMax = max;
+            myScatter.resetZoom();
             window.myScatter.update();
         }
         myScatter.options.scales.yAxes[0].scaleLabel.labelString = part1Y + part2;
@@ -688,10 +690,10 @@ function updateChart(new_atom, min, maxW){
                     };
 
                     if (((min == 0) && (maxW == 0))){
-                        selcted = false;
+                        selected = false;
                         let numb =0;
                         let len = atom.transitions.length;
-                        for(var i = 0; i<len;i++){
+                        for(let i = 0; i<len;i++){
                             let transition = atom.transitions[i];
                             if (transition.ID_LOWER_LEVEL && transition.ID_UPPER_LEVEL) {
                                 if (transition.upper_level_termsecondpart == null) transition.upper_level_termsecondpart = "";
@@ -778,9 +780,11 @@ function updateChart(new_atom, min, maxW){
                         }
                     }
                     else{
-                        selcted = true;
-                        let numb =0;
-                        atom.transitions.forEach(function (transition) {
+                        selected = true;
+                        let numb = 0;
+                        let len = atom.transitions.length;
+                        for(let i = 0; i<len;i++){
+                            let transition = atom.transitions[i];
                             if (transition.ID_LOWER_LEVEL && transition.ID_UPPER_LEVEL && (transition.WAVELENGTH > min) && (transition.WAVELENGTH < maxW)) {
                                 if (transition.upper_level_termsecondpart == null) transition.upper_level_termsecondpart = "";
                                 if (transition.lower_level_termsecondpart == null) transition.lower_level_termsecondpart = "";
@@ -864,7 +868,8 @@ function updateChart(new_atom, min, maxW){
                                 }
                                 numb++;
                             }
-                        });
+                            else delete transition.numb;
+                        }
                     }
 
                     let arr = [];
@@ -903,7 +908,7 @@ function updateChart(new_atom, min, maxW){
                         colorArr.push(markers[i].c);
                     });
 
-                    fill_icon(markers, icon, colorArr);
+                    fill_icon(markers, icon);
 
                     maxVal = 0;
                     max = 0;
@@ -971,15 +976,10 @@ function updateChart(new_atom, min, maxW){
     }
 }
 
-function fill_icon(markers, icon, col, fillArr) {
-    let start = Date.now();
+function fill_icon(markers, icon) {
     icon.length = 0;
-    let fill;
     for(var i = 0; i<markers.length; i++){
-        let item = markers[i];
-        if (fillArr == undefined) fill = 'rgba(255, 255, 255, 0)';
-        else fill = fillArr[i];
-        let m = item.m;
+        let m = markers[i].m;
         switch (m) {
             case 0: icon.push('crossRot');
                     break;
@@ -1002,7 +1002,6 @@ function fill_icon(markers, icon, col, fillArr) {
             default:icon.push('star');
         }
     }
-    console.log(Date.now()-start);
 }
 
 function graph(h, w) {
@@ -1244,7 +1243,7 @@ function click_random() {
     if(document.getElementById('random').checked) {
         document.getElementById('intens').disabled = true;
         let nIcon = [];
-        fill_icon(markers, nIcon, randCol, randCol);
+        fill_icon(markers, nIcon);
         scatterChartData.datasets[0].pointBackgroundColor = randCol;
         scatterChartData.datasets[0].pointStyle = nIcon;
         scatterChartData.datasets[0].pointBorderColor = randCol;
@@ -1269,10 +1268,11 @@ document.getElementById('chartCont').addEventListener('click', function(evt) {
         else ncolArr = colorArr;
         let er = 0;
         idx = point._index;
-        for(let i = 0; i<idx; i++) {
-            if (!atom.transitions[i].ID_LOWER_LEVEL || !atom.transitions[i].ID_UPPER_LEVEL) er++;
-        }
-        let hovered = atom.transitions[idx + er];
+        let minW = document.getElementById("min").value;
+        let maxW = document.getElementById("max").value;
+        while (idx != atom.transitions[er].numb) er++;
+
+        let hovered = atom.transitions[er];
 
         $('#up_l').html(hovered.up_l);
         $('#low_l').html(hovered.low_l);
@@ -1280,9 +1280,9 @@ document.getElementById('chartCont').addEventListener('click', function(evt) {
         let hash = crc32(hashStr(hovered));
         if(hashMap.has(hash)) {
             let j = 0;
-            if(selcted){
+            if(selected){
                 for (let i = 0; i < atom.transitions.length; i++) {
-                    if (atom.transitions[i].ID_LOWER_LEVEL && atom.transitions[i].ID_UPPER_LEVEL && (atom.transitions[i].WAVELENGTH > document.getElementById("min").value) && (atom.transitions[i].WAVELENGTH < document.getElementById("max").value)) {
+                    if (atom.transitions[i].ID_LOWER_LEVEL && atom.transitions[i].ID_UPPER_LEVEL && (atom.transitions[i].WAVELENGTH > minW) && (atom.transitions[i].WAVELENGTH < maxW)) {
                         let item = ncolArr[j];
                         let b = item.split(',');
                         col.push(b[0] + ',' + b[1] + ',' + b[2] + ', 0.03)');
@@ -1290,7 +1290,7 @@ document.getElementById('chartCont').addEventListener('click', function(evt) {
                     }
                 }
                 for (let g = 0; g < hashMap.get(hash).length; g++) {
-                    if ((hashMap.get(hash)[g].WAVELENGTH > document.getElementById("min").value) && (hashMap.get(hash)[g].WAVELENGTH < document.getElementById("max").value)){
+                    if ((hashMap.get(hash)[g].WAVELENGTH > minW) && (hashMap.get(hash)[g].WAVELENGTH < maxW)){
                         let item = ncolArr[hashMap.get(hash)[g].numb];
                         let b = item.split(',');
                         col[hashMap.get(hash)[g].numb] = (b[0] + ',' + b[1] + ',' + b[2] + ', 1.0)');
@@ -1317,12 +1317,12 @@ document.getElementById('chartCont').addEventListener('click', function(evt) {
         }
         if(document.getElementById('random').checked) {
             scatterChartData.datasets[0].pointBackgroundColor = col;
-            fill_icon(markers, nIcon, col, col);
+            fill_icon(markers, nIcon);
         }
         else {
             scatterChartData.datasets[0].pointBackgroundColor = 'rgba(255, 255, 255, 0)';
             window.zoomChart.data.datasets[0].pointBackgroundColor = 'rgba(255, 255, 255, 0)';
-            fill_icon(markers, nIcon, col);
+            fill_icon(markers, nIcon);
         }
         scatterChartData.datasets[0].pointStyle = nIcon;
         scatterChartData.datasets[0].pointBorderColor = col;

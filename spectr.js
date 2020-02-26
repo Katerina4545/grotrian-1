@@ -22,6 +22,18 @@ var randomColors = ["rgba(255, 0, 0, 1)",
     "rbg(139, 0, 0)",
     "rbg(98, 133, 255)"*/];
 
+var svgColors = ["#FF0000",
+    "#008000",
+    "#0000FF",
+    "#FF00FF",
+    "#000000"];
+
+var barColors = ["rgba(255,0,0,0.2)",
+    "rgba(0,128,0,0.2)",
+    "rgba(0,0,255,0.2)",
+    "rgba(255,0,255,0.2)",
+    "rgba(0,0,0,0.2)"];
+
 function hashStr(transition) {
     return transition.lower_level_config + transition.lower_level_termprefix + transition.lower_level_termfirstpart + transition.lower_level_termmultiply +
         transition.lower_level_termsecondpart + transition.upper_level_config + transition.upper_level_termprefix + transition.upper_level_termfirstpart +
@@ -58,6 +70,7 @@ function inArabic(rim) {
 }
 
 var atom,
+    isdown = false,
     term = ({lt: "", ut: "", x: "", y: ""}),
     dataSpectr = [],
     intensArray = [],
@@ -72,7 +85,8 @@ var atom,
     idx,
     icon = [],
     randCol = new Array(markers.length),
-    hashMap = new Map();
+    hashMap = new Map(),
+    hashConfig = new Map();
 
 var labeleV = "[eV]",
     labelcm = "[1/cm]",
@@ -184,15 +198,15 @@ document.getElementById('eUp').addEventListener('click', function() {
             if (maxVal < item.x) maxVal = item.x;
         });
 
-        scatterChartData.datasets[2].data[0].x = maxVal;
+        scatterChartData.datasets[2].data[0].x = IP;
         scatterChartData.datasets[2].data[1].x = 0;
         scatterChartData.datasets[2].data[1].y = IP;
         scatterChartData.datasets[2].data[0].y = IP;
 
-        scatterChartData.datasets[3].data[0].x = 0;
-        scatterChartData.datasets[3].data[1].x = 0;
+        scatterChartData.datasets[3].data[0].x = IP;
+        scatterChartData.datasets[3].data[1].x = IP;
         scatterChartData.datasets[3].data[1].y = 0;
-        scatterChartData.datasets[3].data[0].y = 0;
+        scatterChartData.datasets[3].data[0].y = IP;
 
         window.myScatter.update();
     }
@@ -359,6 +373,7 @@ document.getElementById('eUp_eD').addEventListener('click', function() {
 document.getElementById('resetZoom').addEventListener('click', function() {
     myScatter.resetZoom();
     window.myScatter.update();
+    drawbottomAxis();
 });
 
 function resize(click) {
@@ -369,7 +384,7 @@ function resize(click) {
             win_h = $(window).height();
             if(win_w <= win_h) size = win_w;
             else size = win_h;
-            size = Math.floor(size*3/4);
+            size = Math.floor(size*5/6);
             $('#canvas').remove();
             $('#chartCont').append('<canvas id="canvas"><canvas>');
             if (window.myScatter) {
@@ -377,9 +392,7 @@ function resize(click) {
             }
             $('#zoom_chart').remove();
             $('#chartZoom').append('<canvas id="zoom_chart"><canvas>');
-            if (window.zoomChart) {
-                window.zoomChart.clear();
-            }
+            if (window.zoomChart) window.zoomChart.clear();
             graph(size, size);
         }
         else {
@@ -406,9 +419,10 @@ function resize(click) {
             else size = win_h;
             $('#canvas').remove();
             $('#chartCont').append('<canvas id="canvas"><canvas>');
-            if (window.myScatter) {
-                window.myScatter.clear();
-            }
+            if (window.myScatter) window.myScatter.clear();
+            $('#zoom_chart').remove();
+            $('#chartZoom').append('<canvas id="zoom_chart"><canvas>');
+            if (window.zoomChart) window.zoomChart.clear();
             graph(size, size);
             document.getElementById('fullScreen').value = 'Exit full screen';
         }
@@ -418,12 +432,13 @@ function resize(click) {
             win_h = $(window).height();
             if(win_w <= win_h) size = win_w;
             else size = win_h;
-            size = Math.floor(size*3/4);
+            size = Math.floor(size*5/6);
             $('#canvas').remove();
             $('#chartCont').append('<canvas id="canvas"><canvas>');
-            if (window.myScatter) {
-                window.myScatter.clear();
-            }
+            if (window.myScatter) window.myScatter.clear();
+            $('#zoom_chart').remove();
+            $('#chartZoom').append('<canvas id="zoom_chart"><canvas>');
+            if (window.zoomChart) window.zoomChart.clear();
             graph(size, size);
             document.getElementById('fullScreen').value = 'Full screen';
         }
@@ -431,6 +446,7 @@ function resize(click) {
 
     window.myScatter.options.title.text = 'Transitions of ' + document.getElementById("element").value;
     window.myScatter.update();
+    drawbottomAxis();
 }
 
 //переключение размерности
@@ -488,10 +504,15 @@ for (var i = 0; i < rad.length; i++) {
                     if (maxVal <  item.x) maxVal = item.x;
                 });
                 IP = atom.atom.IONIZATION_POTENCIAL;
-                scatterChartData.datasets[2].data[0].x = maxVal;
+                scatterChartData.datasets[2].data[0].x = IP;
                 scatterChartData.datasets[2].data[1].x = 0;
                 scatterChartData.datasets[2].data[1].y = IP;
                 scatterChartData.datasets[2].data[0].y = IP;
+
+                scatterChartData.datasets[3].data[0].x = IP;
+                scatterChartData.datasets[3].data[1].x = IP;
+                scatterChartData.datasets[3].data[1].y = 0;
+                scatterChartData.datasets[3].data[0].y = IP;
             }
 
             maxVal = 0;
@@ -505,6 +526,7 @@ for (var i = 0; i < rad.length; i++) {
             myScatter.options.scales.yAxes[0].ticks.suggestedMax = max;
             myScatter.resetZoom();
             window.myScatter.update();
+            drawbottomAxis();
         }
         else {   //размерность evV
             ev = true;
@@ -561,10 +583,15 @@ for (var i = 0; i < rad.length; i++) {
                 });
                 IP = atom.atom.IONIZATION_POTENCIAL;
                 IP = IP*1.23977*Math.pow(10,-4);
-                scatterChartData.datasets[2].data[0].x = maxVal;
+                scatterChartData.datasets[2].data[0].x = IP;
                 scatterChartData.datasets[2].data[1].x = 0;
                 scatterChartData.datasets[2].data[1].y = IP;
                 scatterChartData.datasets[2].data[0].y = IP;
+
+                scatterChartData.datasets[3].data[0].x = IP;
+                scatterChartData.datasets[3].data[1].x = IP;
+                scatterChartData.datasets[3].data[1].y = 0;
+                scatterChartData.datasets[3].data[0].y = IP;
             }
 
             maxVal = 0;
@@ -578,6 +605,7 @@ for (var i = 0; i < rad.length; i++) {
             myScatter.options.scales.yAxes[0].ticks.suggestedMax = max;
             myScatter.resetZoom();
             window.myScatter.update();
+            drawbottomAxis();
         }
         myScatter.options.scales.yAxes[0].scaleLabel.labelString = part1Y + part2;
         myScatter.options.scales.xAxes[0].scaleLabel.labelString = part1X + part2;
@@ -586,6 +614,7 @@ for (var i = 0; i < rad.length; i++) {
 
 function updateChart(new_atom, min, maxW){
     hashMap.clear();
+    hashConfig.clear();
     maxVal=0;
     IP = 0;
     cm=true;
@@ -718,8 +747,30 @@ function updateChart(new_atom, min, maxW){
                                 if (multLow) pref = multLow;
                                 second = transition.lower_level_termsecondpart;
                                 let lower_level_config = transition.lower_level_config;
-                                if((lower_level_config!=null) && (lower_level_config!=""))
+                                if((lower_level_config!=null) && (lower_level_config!="")) {
                                     temp = lower_level_config.replace(/@\{0\}/gi, "&deg;").replace(/@\{([^\}\{]*)\}/gi, "<sup>$1</sup>").replace(/~\{([^\}\{]*)\}/gi, "<sub>$1</sub>").replace(/#/gi, "&deg;");
+                                    let hash = crc32(temp);
+                                    if (hashConfig.has(hash)){
+                                        if(hashConfig.get(hash).min > x) {
+                                            hashConfig.get(hash).min = x;
+                                            hashConfig.get(hash).n_min = numb;
+                                        }
+                                        if(hashConfig.get(hash).max < x) {
+                                            hashConfig.get(hash).max = x;
+                                            hashConfig.get(hash).n_max = numb;
+                                        }
+                                    }
+                                    else {
+                                        let hashEl = {
+                                            config: temp,
+                                            min: x,
+                                            max: x,
+                                            n_max: numb,
+                                            n_min: numb,
+                                        };
+                                        hashConfig.set(hash, hashEl);
+                                    }
+                                }
                                 if (transition.lower_level_termmultiply == 0) {
                                     term.lt = "<span>" + temp + ": " + "<span>" + second + "</span>" +"</span>" + "<sup>" + pref + "</sup>" + "<span>" + transition.lower_level_termfirstpart + "</span>" + "<sup>&deg;</sup>" + "<sub>" + transition.lower_level_j + "</sub>";
                                     transition.low_l = "<span>" + temp + ": " + "<span>" + second + "</span>" +"</span>" + "<sup>" + pref + "</sup>" + "<span>" + transition.lower_level_termfirstpart + "</span>" + "<sup>&deg;</sup>";
@@ -808,8 +859,30 @@ function updateChart(new_atom, min, maxW){
                                 if (multLow) pref = multLow;
                                 second = transition.lower_level_termsecondpart;
                                 let lower_level_config = transition.lower_level_config;
-                                if((lower_level_config!=null) && (lower_level_config!=""))
+                                if((lower_level_config!=null) && (lower_level_config!="")) {
                                     temp = lower_level_config.replace(/@\{0\}/gi, "&deg;").replace(/@\{([^\}\{]*)\}/gi, "<sup>$1</sup>").replace(/~\{([^\}\{]*)\}/gi, "<sub>$1</sub>").replace(/#/gi, "&deg;");
+                                    let hash = crc32(temp);
+                                    if (hashConfig.has(hash)){
+                                        if(hashConfig.get(hash).min > x) {
+                                            hashConfig.get(hash).min = x;
+                                            hashConfig.get(hash).n_min = numb;
+                                        }
+                                        if(hashConfig.get(hash).max < x) {
+                                            hashConfig.get(hash).max = x;
+                                            hashConfig.get(hash).n_max = numb;
+                                        }
+                                    }
+                                    else {
+                                        let hashEl = {
+                                            config: temp,
+                                            min: x,
+                                            max: x,
+                                            n_max: numb,
+                                            n_min: numb,
+                                        };
+                                        hashConfig.set(hash, hashEl);
+                                    }
+                                }
                                 if (transition.lower_level_termmultiply == 0) {
                                     term.lt = "<span>" + temp + ": " + "<span>" + second + "</span>" +"</span>" + "<sup>" + pref + "</sup>" + "<span>" + transition.lower_level_termfirstpart + "</span>" + "<sup>&deg;</sup>" + "<sub>" + transition.lower_level_j + "</sub>";
                                     transition.low_l = "<span>" + temp + ": " + "<span>" + second + "</span>" +"</span>" + "<sup>" + pref + "</sup>" + "<span>" + transition.lower_level_termfirstpart + "</span>" + "<sup>&deg;</sup>";
@@ -837,7 +910,6 @@ function updateChart(new_atom, min, maxW){
                                 if (multUp != multLow) {
                                     multCol.m = 0;
                                 } else
-                                    ////
                                     multCol.m = multLow;
                                 if ((transition.color.R == 255) && (transition.color.G == 255) &&(transition.color.B == 255)){
                                     transition.color.R = 0;
@@ -941,7 +1013,7 @@ function updateChart(new_atom, min, maxW){
                         },{
                             pointBorderWidth: 0,
                             pointRadius: 0,
-                            data: [{x: maxVal, y: IP}, {x: 0, y: IP}],
+                            data: [{x: IP, y: IP}, {x: 0, y: IP}],
                             showLine: true,
                             fill: false,
                             borderDash: [4, 4],
@@ -952,7 +1024,7 @@ function updateChart(new_atom, min, maxW){
                         },{
                             pointBorderWidth: 0,
                             pointRadius: 0,
-                            data: [{x: 0, y: 0}, {x: 0, y: 0}],
+                            data: [{x: IP, y: IP}, {x: IP, y: 0}],
                             showLine: true,
                             fill: false,
                             borderDash: [4, 4],
@@ -964,13 +1036,32 @@ function updateChart(new_atom, min, maxW){
                         labels: termLabel,
                     };
 
+                    let c = 0;
+                    for (let elem of hashConfig.values()) {
+                        let setOfConfig = {
+                            pointBorderWidth: 0,
+                            pointRadius: 0,
+                            data: [{x: elem.min, y: 0}, {x: elem.min, y: max+10000}, {x: elem.max, y: max+10000}, {x: elem.max, y: 0}],
+                            showLine: true,
+                            fill: true,
+                            borderColor: barColors[c],
+                            borderWidth: 1,
+                            backgroundColor: barColors[c],
+                            pointHoverRadius: 0,
+                            pointHitRadius: 0
+                        };
+                        scatterChartData.datasets.push(setOfConfig);
+                        c++;
+                        if(c==svgColors.length) c = 0;
+                    }
+
                     resize(0);
 
                     window.myScatter.options.title.text = 'Transitions of ' + document.getElementById("element").value;
                     myScatter.options.scales.xAxes[0].ticks.suggestedMax = max;
                     myScatter.options.scales.yAxes[0].ticks.suggestedMax = max;
                     window.myScatter.update();
-
+                    drawbottomAxis();
                 }
             )
         })
@@ -1025,10 +1116,6 @@ function graph(h, w) {
             },
             responsive: false,
             bezierCurve: false,
-            title: {
-                display: true,
-                text: 'Transitions of ' + document.getElementById("element").value,
-            },
             pan: {
                 enabled: true,
                 mode: 'xy'
@@ -1087,6 +1174,7 @@ function graph(h, w) {
                     },
                 }],
                 xAxes: [{
+                    position: 'top',
                     ticks:{
                         suggestedMax: max,
                         beginAtZero: true,
@@ -1215,7 +1303,6 @@ function graph(h, w) {
             }
         },
     });
-
     window.zoomChart.update();
 }
 
@@ -1257,6 +1344,61 @@ function click_random() {
 }
 
 updateChart(1, 0, 0);
+
+function drawbottomAxis(){
+    let width = myScatter.canvas.width;
+    let ruler = "<svg width='" + width + "' height='65' id='ruler' style='background-color:white;'>";
+    let near = [];
+    let n = 0;
+    for (let elem of hashConfig.values()) {
+        let max_pixel = myScatter.getDatasetMeta(0).data[elem.n_max]._model.x;
+        let min_pixel = myScatter.getDatasetMeta(0).data[elem.n_min]._model.x;
+        let pr = (max_pixel - min_pixel) / width*25+7;
+        pr = pr > 35 ? 35 : pr;
+        if(max_pixel == min_pixel)
+            ruler += "<line x1='" + min_pixel + "' y1='0' x2='" + min_pixel + "' y2='" + pr + "' stroke-width='1' stroke='" + svgColors[n] + "'></line>";
+        else {
+            ruler += "<line x1='" + min_pixel + "' y1='0' x2='" + min_pixel + "' y2='" + pr + "' stroke-width='1' stroke='" + svgColors[n] + "'></line>";
+            ruler += "<line x1='" + min_pixel + "' y1='" + pr + "' x2='" + max_pixel + "' y2='" + pr + "' stroke-width='1' stroke='" + svgColors[n] + "'></line>";
+            ruler += "<line x1='" + max_pixel + "' y1='0' x2='" + max_pixel + "' y2='" + pr + "' stroke-width='1' stroke='" + svgColors[n] + "'></line>";
+        }
+        let mid = (max_pixel + min_pixel) / 2;
+        let cl = false;
+        let gap = elem.config.replace(/\<sub\>/gi, "").replace(/\<\/sub\>/gi, "").replace(/\<sup\>/gi, "").replace(/\<\/sup\>/gi, "").length * 7;
+        for(let i = 0; i<near.length; i++){
+            if(Math.abs(near[i]-mid)<gap) {
+                cl = true;
+                break;
+            }
+        }
+        if (!cl){
+            ruler += "<text x='" + mid + "' y='" + (pr+20) + "' fill='" + svgColors[n] + "' style='text-anchor: Middle;'><tspan>"
+                + elem.config.replace(/\<sup\>/gi, "</tspan><tspan dy='-9' style='font-size:11px;'>")
+                .replace(/\<\/sup\>/gi, "</tspan><tspan dy='9'>")
+                .replace(/\<sub\>/gi, "</tspan><tspan dy='9' style='font-size:11px;'>")
+                .replace(/\<\/sub\>/gi, "</tspan><tspan dy='-9'>")
+                + "</tspan></text>";
+            near.push(mid);
+        }
+        n++;
+        if(n==svgColors.length) n = 0;
+    }
+    ruler+= "</svg>";
+    $('#ruler').remove();
+    $('#chartCont').append(ruler);
+}
+
+document.getElementById('chartCont').addEventListener('mousedown', function() {
+    isdown = true;
+});
+
+document.getElementById('chartCont').addEventListener('mouseup', function() {
+    isdown = false;
+});
+
+document.getElementById('chartCont').addEventListener('wheel', function() {
+    drawbottomAxis();
+});
 
 document.getElementById('chartCont').addEventListener('click', function(evt) {
     let point = myScatter.getElementAtEvent(evt)[0];
@@ -1360,6 +1502,7 @@ document.getElementById('chartCont').addEventListener('click', function(evt) {
 });
 
 document.getElementById('chartCont').addEventListener('mousemove', function(evt) {
+    if(isdown) drawbottomAxis();
     let point = myScatter.getElementAtEvent(evt)[0];
     if (!point) {
         if(!document.getElementById('chartjs-tooltip').hidden)

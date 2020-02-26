@@ -837,6 +837,7 @@ function updateChart(new_atom, min, maxW){
                                 if (multUp != multLow) {
                                     multCol.m = 0;
                                 } else
+                                    ////
                                     multCol.m = multLow;
                                 if ((transition.color.R == 255) && (transition.color.G == 255) &&(transition.color.B == 255)){
                                     transition.color.R = 0;

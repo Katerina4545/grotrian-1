@@ -753,27 +753,9 @@ function updateChart(new_atom, min, maxW){
                                 let lower_level_config = transition.lower_level_config;
                                 if((lower_level_config!=null) && (lower_level_config!="")) {
                                     temp = lower_level_config.replace(/@\{0\}/gi, "&deg;").replace(/@\{([^\}\{]*)\}/gi, "<sup>$1</sup>").replace(/~\{([^\}\{]*)\}/gi, "<sub>$1</sub>").replace(/#/gi, "&deg;");
-                                    let hash = crc32(temp);
-                                    if (hashAtomicResidue.has(hash)){
-                                        if(hashAtomicResidue.get(hash).min > x) {
-                                            hashAtomicResidue.get(hash).min = x;
-                                            hashAtomicResidue.get(hash).n_min = numb;
-                                        }
-                                        if(hashAtomicResidue.get(hash).max < x) {
-                                            hashAtomicResidue.get(hash).max = x;
-                                            hashAtomicResidue.get(hash).n_max = numb;
-                                        }
-                                    }
-                                    else {
-                                        let hashEl = {
-                                            config: temp,
-                                            min: x,
-                                            max: x,
-                                            n_max: numb,
-                                            n_min: numb,
-                                        };
-                                        hashAtomicResidue.set(hash, hashEl);
-                                    }
+                                    let configWithoutResidues = temp.replace(/\((.+?)\)/gi, "");
+                                    fillHashConfigTable(hashAtomicResidue, temp, x, numb);
+                                    fillHashConfigTable(hashFullConfig, configWithoutResidues, x, numb);
                                 }
                                 if (transition.lower_level_termmultiply == 0) {
                                     term.lt = "<span>" + temp + ": " + "<span>" + second + "</span>" +"</span>" + "<sup>" + pref + "</sup>" + "<span>" + transition.lower_level_termfirstpart + "</span>" + "<sup>&deg;</sup>" + "<sub>" + transition.lower_level_j + "</sub>";
@@ -782,6 +764,9 @@ function updateChart(new_atom, min, maxW){
                                     transition.low_l = "<span>" + temp + ": " + "<span>" + second + "</span>" +"</span>" + "<sup>" + pref + "</sup>" + "<span>" + transition.lower_level_termfirstpart + "</span>";
                                     term.lt = "<span>" + temp + ": " + "<span>" + second + "</span>" +"</span>" + "<sup>" + pref + "</sup>" + "<span>" + transition.lower_level_termfirstpart + "</span>" + "<sub>" + transition.lower_level_j + "</sub>";
                                 }
+
+                                let termforhash = transition.low_l.replace(/\<\/span\>/gi, "").replace(/\<span\>/gi, "");
+                                fillHashConfigTable(hashTerm, termforhash, x, numb);
 
                                 pref = "";
                                 temp = "";
@@ -865,27 +850,9 @@ function updateChart(new_atom, min, maxW){
                                 let lower_level_config = transition.lower_level_config;
                                 if((lower_level_config!=null) && (lower_level_config!="")) {
                                     temp = lower_level_config.replace(/@\{0\}/gi, "&deg;").replace(/@\{([^\}\{]*)\}/gi, "<sup>$1</sup>").replace(/~\{([^\}\{]*)\}/gi, "<sub>$1</sub>").replace(/#/gi, "&deg;");
-                                    let hash = crc32(temp);
-                                    if (hashAtomicResidue.has(hash)){
-                                        if(hashAtomicResidue.get(hash).min > x) {
-                                            hashAtomicResidue.get(hash).min = x;
-                                            hashAtomicResidue.get(hash).n_min = numb;
-                                        }
-                                        if(hashAtomicResidue.get(hash).max < x) {
-                                            hashAtomicResidue.get(hash).max = x;
-                                            hashAtomicResidue.get(hash).n_max = numb;
-                                        }
-                                    }
-                                    else {
-                                        let hashEl = {
-                                            config: temp,
-                                            min: x,
-                                            max: x,
-                                            n_max: numb,
-                                            n_min: numb,
-                                        };
-                                        hashAtomicResidue.set(hash, hashEl);
-                                    }
+                                    let configWithoutResidues = temp.replace(/\((.+?)\)/gi, "");
+                                    fillHashConfigTable(hashAtomicResidue, temp, x, numb);
+                                    fillHashConfigTable(hashFullConfig, configWithoutResidues, x, numb);
                                 }
                                 if (transition.lower_level_termmultiply == 0) {
                                     term.lt = "<span>" + temp + ": " + "<span>" + second + "</span>" +"</span>" + "<sup>" + pref + "</sup>" + "<span>" + transition.lower_level_termfirstpart + "</span>" + "<sup>&deg;</sup>" + "<sub>" + transition.lower_level_j + "</sub>";
@@ -894,6 +861,9 @@ function updateChart(new_atom, min, maxW){
                                     transition.low_l = "<span>" + temp + ": " + "<span>" + second + "</span>" +"</span>" + "<sup>" + pref + "</sup>" + "<span>" + transition.lower_level_termfirstpart + "</span>";
                                     term.lt = "<span>" + temp + ": " + "<span>" + second + "</span>" +"</span>" + "<sup>" + pref + "</sup>" + "<span>" + transition.lower_level_termfirstpart + "</span>" + "<sub>" + transition.lower_level_j + "</sub>";
                                 }
+
+                                let termforhash = transition.low_l.replace(/\<\/span\>/gi, "").replace(/\<span\>/gi, "");
+                                fillHashConfigTable(hashTerm, termforhash, x, numb);
 
                                 pref = "";
                                 temp = "";
@@ -1564,4 +1534,28 @@ for (var i = 0; i < widthRad.length; i++) {
         }
         window.myScatter.update();
     });
+}
+
+function fillHashConfigTable(hashTable, str, x, numb) {
+    let hash = crc32(str);
+    if (hashTable.has(hash)){
+        if(hashTable.get(hash).min > x) {
+            hashTable.get(hash).min = x;
+            hashTable.get(hash).n_min = numb;
+        }
+        if(hashTable.get(hash).max < x) {
+            hashTable.get(hash).max = x;
+            hashTable.get(hash).n_max = numb;
+        }
+    }
+    else {
+        let hashEl = {
+            config: str,
+            min: x,
+            max: x,
+            n_max: numb,
+            n_min: numb,
+        };
+        hashTable.set(hash, hashEl);
+    }
 }

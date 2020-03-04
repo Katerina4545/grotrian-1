@@ -157,6 +157,13 @@ canvas {
     display: inline-block;
     vertical-align: top;
 }
+#first_cont{
+    display: inline-block;
+}
+#second_cont{
+    margin-left: 25px;
+    display: inline-block;
+}
 .tools{
     margin-top: 2%;
     margin-left: 40px;

@@ -97,7 +97,7 @@
     <div>
         <div id="spectra" >
             <br><b><label for="element">Элемент:</label></b>
-            <input type="text" size="15" id="element" value="H">
+            <input type="text" size="15" id="element" value="Mn">
             <input type='button' id='new_atom' value='OK' onclick="updateChart(1,0,0)">
         </div>
     </div>
@@ -136,6 +136,10 @@
     <div id="zoom-tooltip">
         <table></table>
     </div>
+</div>
+
+<div class="nav">
+    <div id="svg-holder" oncontextmenu="backtomain()"></div>
 </div>
 
 <script src="spectr.js"></script>

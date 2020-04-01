@@ -1,4 +1,5 @@
 <?php
+header('Access-Control-Allow-Origin: *');
 $errors = array();
 if($_POST['ABBR'] == "")    $errors[] = "error!";
 if($_POST['IONIZATION'] == "")   $errors[] = "error!";
@@ -46,9 +47,18 @@ if(empty($errors)){
         curl_close($ch);
         $returned = json_decode($returned, true);
 
+        $url = "http://grotrian.nsu.ru/ru/jsonlevels/".$id;
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);//для возврата результата в виде строки, вместо прямого вывода в браузер
+        $levels = curl_exec($ch);
+        curl_close($ch);
+        $levels = json_decode($levels, true);
+
         echo json_encode(array(
             'atom' => $atom_arr,
-            'transitions' => $returned
+            'transitions' => $returned,
+            'levels' => $levels,
         ));
     }
 }

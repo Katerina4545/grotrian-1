@@ -168,8 +168,24 @@ canvas {
     margin-top: 2%;
     margin-left: 40px;
 }
-
 .nav{
     horiz-align: left;
-    margin-bottom: 15px;
+    margin-top: 15px;
+}
+rect:hover {
+    fill-opacity:1;
+    fill: yellow;
+}
+rect {
+    fill-opacity:0.15;
+    fill: gray;
+}
+
+svg div{
+    text-align: center;
+    border-radius: 5px;
+    background-color: rgba(0,0,0,0.7);
+    color: #fff;
+    font-family: "Times New Roman";
+    padding: 5px 0;
 }

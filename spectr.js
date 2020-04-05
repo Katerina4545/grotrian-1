@@ -1622,42 +1622,111 @@ function fillArraysForSvgLevels(levels){
         termforhash = termforhash[1];
         if((config!=null) && (config!="")) {
             let configWithoutResidues = temp.replace(/\(([^?]+?)\)/gi, "");
-            let commonConfig = configWithoutResidues.replace(/\d+([a-z])$/, "n$1").replace(/>\d+([a-z]<sup>\d+<\/sup>)$/, ">n$1");
-            if(configTree[commonConfig] == undefined) {
-                configTree[commonConfig] = {};
-                configTree[commonConfig][configWithoutResidues]={"e_min": x, "e_max": x};
-                configTree[commonConfig][configWithoutResidues][temp]={"e_min": x, "e_max": x};
-                configTree[commonConfig][configWithoutResidues][temp][termforhash]={"e_min": x, "e_max": x};
+            if(configTree[configWithoutResidues] == undefined) {
+                configTree[configWithoutResidues]={"e_min": x, "e_max": x};
+                configTree[configWithoutResidues][temp]={"e_min": x, "e_max": x};
+                configTree[configWithoutResidues][temp][termforhash]={"e_min": x, "e_max": x};
             }
             else {
-                if(configTree[commonConfig][configWithoutResidues] != undefined) {
-                    defineBorder(configTree[commonConfig][configWithoutResidues], x);
-                    if(configTree[commonConfig][configWithoutResidues][temp] != undefined){
-                        defineBorder(configTree[commonConfig][configWithoutResidues][temp], x);
-                        if (configTree[commonConfig][configWithoutResidues][temp][termforhash] != undefined){
-                            defineBorder(configTree[commonConfig][configWithoutResidues][temp][termforhash], x);
+                    defineBorder(configTree[configWithoutResidues], x);
+                    if(configTree[configWithoutResidues][temp] != undefined){
+                        defineBorder(configTree[configWithoutResidues][temp], x);
+                        if (configTree[configWithoutResidues][temp][termforhash] != undefined){
+                            defineBorder(configTree[configWithoutResidues][temp][termforhash], x);
                         }
-                        else configTree[commonConfig][configWithoutResidues][temp][termforhash]={"e_min": x, "e_max": x};
+                        else configTree[configWithoutResidues][temp][termforhash]={"e_min": x, "e_max": x};
                     }
                     else {
-                        configTree[commonConfig][configWithoutResidues][temp]={"e_min": x, "e_max": x};
-                        configTree[commonConfig][configWithoutResidues][temp][termforhash]={"e_min": x, "e_max": x};
+                        configTree[configWithoutResidues][temp]={"e_min": x, "e_max": x};
+                        configTree[configWithoutResidues][temp][termforhash]={"e_min": x, "e_max": x};
                     }
-                }
-                else {
-                   // numbOfConfig++;
-                    configTree[commonConfig][configWithoutResidues]={"e_min": x, "e_max": x};
-                    configTree[commonConfig][configWithoutResidues][temp]={"e_min": x, "e_max": x};
-                    configTree[commonConfig][configWithoutResidues][temp][termforhash]={"e_min": x, "e_max": x};
-                }
             }
         }
 
     }
+
+    let freePlace = [];
+    freePlace.push({h: 30, arr: []});
+    freePlace[0].arr.push({min: 0, max: svgMaxVal});
+
+
+    let freePlaceConfig = [];
+    freePlaceConfig.push({h: 30, arr: []});
+    freePlaceConfig[0].arr.push({min: 0, max: svgMaxVal});
+
+    let freePlacemain = [];
+    freePlacemain.push({h: 30, arr: []});
+    freePlacemain[0].arr.push({min: 0, max: svgMaxVal});
+
+    let fitting = function(config, h, freePlace) {
+        let fit = false;
+        for (var i = 0; i < freePlace.length; i++) {
+            for (var k = 0; k < freePlace[i].arr.length; k++) {
+                let item = freePlace[i].arr[k];
+                if ((config.e_max <= item.max) && (config.e_min >= item.min)) {
+                    if((h <= freePlace[i].h) || (i == freePlace.length-1)) {
+                        freePlace[i].arr.push({min: config.e_max, max: item.max});
+                        item.max = config.e_min;
+                        fit = true;
+                        if(freePlace[i].h < h) freePlace[i].h = h;
+                        break;
+                    }
+                }
+            }
+            if (fit) break;
+        }
+        if(fit) return 0;
+        else {
+            freePlace.push({h: h, arr: []});
+            freePlace[freePlace.length-1].arr.push({min: 0, max: svgMaxVal});
+            fitting(config, h, freePlace);
+        }
+    };
+
+    for (var configWithoutResidues in configTree) {
+        if (configWithoutResidues != "e_min" && configWithoutResidues != "e_max" && configWithoutResidues != "h") {
+            for (var fullConfig in configTree[configWithoutResidues]) {
+                if (fullConfig != "e_min" && fullConfig != "e_max"  && fullConfig != "h") {
+
+                    freePlace.length = 0;
+                    freePlace.push({h: 30, arr: []});
+                    freePlace[0].arr.push({min: 0, max: svgMaxVal});
+                    let hei=0;
+                    for (var term in configTree[configWithoutResidues][fullConfig]) {
+                        if (term != "e_min" && term != "e_max" && term != "h") {
+                            let t = configTree[configWithoutResidues][fullConfig][term];
+                            fitting(t,30, freePlace);
+                        }
+                    }
+                    let fc = configTree[configWithoutResidues][fullConfig];
+                    for(var i = 0; i<freePlace.length; i++) hei+=freePlace[i].h;
+                    fc.h = hei;
+                }
+            }
+        }
+    }
+
+    for (var configWithoutResidues in configTree) {
+        if (configWithoutResidues != "e_min" && configWithoutResidues != "e_max" && configWithoutResidues != "h") {
+            freePlaceConfig.length = 0;
+            freePlaceConfig.push({h: 30, arr: []});
+            freePlaceConfig[0].arr.push({min: 0, max: svgMaxVal});
+            let hei = 0;
+            for (var fullConfig in configTree[configWithoutResidues]) {
+                if (fullConfig != "e_min" && fullConfig != "e_max" && fullConfig != "h") {
+                    let fc = configTree[configWithoutResidues][fullConfig];
+                    fitting(fc, fc.h, freePlaceConfig);
+                }
+            }
+            let res = configTree[configWithoutResidues];
+            for(var i = 0; i<freePlaceConfig.length; i++) hei+=freePlaceConfig[i].h;
+            res.h = hei;
+        }
+    }
 }
 
 function drawSvgConfig(){
-    let mainsvg = "";
+    let mainsvg;
     let tooltips = "";
     let width = $(window).width();
     let minpx = 50,
@@ -1668,8 +1737,7 @@ function drawSvgConfig(){
     let h = svgMaxVal/10;
     mainsvg = "<svg width='" + width + "' height='"+ svgheight+ "' id='level_svg' style='background-color:white;'>";
     let heightpx = -40;
-    let termRect = "",
-        fcRect = "";
+
 
     mainsvg += "<line x1='" + minpx + "' y1='"+(heightpx+70)+"' x2='" + (width-100) + "' y2='"+(heightpx+70)+"' stroke-width='2' stroke='black'></line>";
     mainsvg += "<line x1='"+ (width-115) + "' y1='"+(heightpx+65)+"' x2='" + (width-100) + "' y2='"+(heightpx+70)+"' stroke-width='2' stroke='black'></line>";
@@ -1680,58 +1748,83 @@ function drawSvgConfig(){
     }
     mainsvg += "<foreignObject x='"+(width-140)+"' y='"+(heightpx+40)+"' width='50' height='40'><div style='text-align: left; border-radius: 0; background-color: white; color: black; padding: 0 0'>cm<sup>-1</sup></div></foreignObject>";
 
+    let freePlace = [];
+    freePlace.push({h: 30, arr: []});
+    freePlace[0].arr.push({min: 0, max: svgMaxVal});
 
-    heightpx = 50;
 
-    for (var common_config in configTree) {
-        let old1 = heightpx;
-        for (var configWithoutResidues in configTree[common_config]) {
-            let old2 = heightpx;
-            let prefullcE = -1;
-            for (var fullConfig in configTree[common_config][configWithoutResidues]) {
-                if (fullConfig != "e_min" && fullConfig != "e_max") {
-                    let old3 = heightpx;
-                    let pretermE = -1;
-                    for (var term in configTree[common_config][configWithoutResidues][fullConfig]){
-                        if (term != "e_min" && term != "e_max") {
-                            let t = configTree[common_config][configWithoutResidues][fullConfig][term];
-                            heightpx += 30;
-                            if (t.e_min > pretermE) heightpx -=30;
-                            termRect += "<rect id='"+fullConfig+": "+term+"' x='" + EtoPx(t.e_min, svgMaxVal, 0,maxpx, minpx) + "' y='" + heightpx + "' width='" + (EtoPx(t.e_max, svgMaxVal,0, maxpx, minpx) - EtoPx(t.e_min, svgMaxVal, 0,maxpx, minpx) + 1) + "' height='30' style='stroke:black;stroke-width:1;' onmouseover='showtooltip(this);' onmouseout='hidetooltip(this);'></rect>";
-                            tooltips += "<foreignObject id='"+fullConfig+": "+term+"_tooltip"+"' display='none' x='"+(EtoPx(t.e_max, svgMaxVal,0, maxpx, minpx)+ 1)+"' y='"+(heightpx)+"' width='150' height='100'><div>"+fullConfig+": "+term+"<br>E<sub>min</sub>: "+t.e_min+" cm<sup>-1</sup><br>E<sub>max</sub>: "+t.e_max+" cm<sup>-1</sup></div></foreignObject>";
-                            pretermE = t.e_max;
-                        }
+    let freePlaceConfig = [];
+    freePlaceConfig.push({h: 30, arr: []});
+    freePlaceConfig[0].arr.push({min: 0, max: svgMaxVal});
+
+    let freePlacemain = [];
+    freePlacemain.push({h: 30, arr: []});
+    freePlacemain[0].arr.push({min: 0, max: svgMaxVal});
+
+    let drawfit = function(config, id, h, freePlace, begin, color) {
+        let fit = false;
+        for (var i = 0; i < freePlace.length; i++) {
+            for (var k = 0; k < freePlace[i].arr.length; k++) {
+                let item = freePlace[i].arr[k];
+                if ((config.e_max <= item.max) && (config.e_min >= item.min)) {
+                    if((h <= freePlace[i].h) || (i == freePlace.length-1)) {
+                        freePlace[i].arr.push({min: config.e_max, max: item.max});
+                        item.max = config.e_min;
+                        fit = true;
+                        let offset = 0;
+                        for(var v = 0; v<i; v++) offset+=freePlace[v].h;
+                        if(freePlace[i].h < h) freePlace[i].h = h;
+                        config.b = offset + begin;
+                        let gap = 0;
+                        mainsvg += "<rect id='" + id + "' x='" + EtoPx(config.e_min, svgMaxVal, 0, maxpx, minpx) + "' y='" + (offset + begin) + "' width='" + (EtoPx(config.e_max, svgMaxVal, 0, maxpx, minpx) - EtoPx(config.e_min, svgMaxVal, 0, maxpx, minpx) + 1) + "' height='" + h + "' style='stroke:"+color+";stroke-width:1;' onmouseover='showtooltip(this);' onmouseout='hidetooltip(this);'";
+                        if(color=="green") mainsvg+= "onclick='showfullConfig(this);'></rect>";
+                        else if(color=="red") mainsvg+= "onclick='showConfig(this);'></rect>";
+                        else mainsvg+= "></rect>";
+                        tooltips += "<foreignObject id='" + id + "_tooltip" + "' display='none' x='" + (EtoPx(config.e_max, svgMaxVal, 0, maxpx, minpx) + 1) + "' y='" + (offset+begin)+ "' width='150' height='100'><div>" + id + "<br>E<sub>min</sub>: " + config.e_min + " cm<sup>-1</sup><br>E<sub>max</sub>: " + config.e_max + " cm<sup>-1</sup></div></foreignObject>";
+                        break;
                     }
-                    let fc = configTree[common_config][configWithoutResidues][fullConfig];
-                    heightpx += 30;
-                    if (fc.e_min > prefullcE) heightpx -=30;
-                    if(old3 == heightpx) heightpx+=30;
-                    fcRect += "<rect id='"+fullConfig+"' x='" + EtoPx(fc.e_min, svgMaxVal,0, maxpx, minpx) + "' y='" + old3 + "' width='" + (EtoPx(fc.e_max, svgMaxVal,0, maxpx, minpx) - EtoPx(fc.e_min, svgMaxVal,0, maxpx, minpx) + 1) + "' height='" + Math.abs(heightpx - old3) + "' style='stroke:green;stroke-width:1;' onmouseover='showtooltip(this);' onmouseout='hidetooltip(this);' onclick='showfullConfig(this);'></rect>";
-                    tooltips += "<foreignObject id='"+fullConfig+"_tooltip"+"' display='none' x='"+(EtoPx(fc.e_max, svgMaxVal,0, maxpx, minpx)+ 1)+"' y='"+(old3 + Math.abs(heightpx - old3) )+"' width='150' height='100'><div>"+fullConfig+"<br>E<sub>min</sub>: "+fc.e_min+" cm<sup>-1</sup><br>E<sub>max</sub>: "+fc.e_max+" cm<sup>-1</sup></div></foreignObject>";
-                    prefullcE = fc.e_max;
                 }
             }
-            let res = configTree[common_config][configWithoutResidues];
-            mainsvg += "<rect id='"+configWithoutResidues+"' x='" + EtoPx(res.e_min, svgMaxVal,0, maxpx, minpx) + "' y='" + old2 + "' width='" + (EtoPx(res.e_max, svgMaxVal, 0,maxpx, minpx) - EtoPx(res.e_min, svgMaxVal,0, maxpx, minpx) + 1) + "' height='" + Math.abs(heightpx - old2) + "' style='stroke:red;stroke-width:1;' onmouseover='showtooltip(this);' onmouseout='hidetooltip(this);' onclick='showConfig(this);'></rect>";
-            tooltips += "<foreignObject id='"+configWithoutResidues+"_tooltip"+"' display='none' x='"+(EtoPx(res.e_max, svgMaxVal, 0,maxpx, minpx)+ 1)+"' y='"+(old2 + Math.abs(heightpx - old2) )+"' width='150' height='100'><div>"+configWithoutResidues+"<br>E<sub>min</sub>: "+res.e_min+" cm<sup>-1</sup><br>E<sub>max</sub>: "+res.e_max+" cm<sup>-1</sup></div></foreignObject>";
-            mainsvg += fcRect;
-            mainsvg += termRect;
-            termRect = "";
-            fcRect = "";
-            heightpx += 5;
+            if (fit) break;
         }
-        heightpx += 5;
-        mainsvg += "<line x1='"+ (maxpx+30) + "' y1='" + old1 + "' x2='" + (maxpx+30) + "' y2='" + (heightpx-10) + "' stroke-width='2' stroke='black'></line>";
-        mainsvg += "<line x1='"+ (maxpx+30) + "' y1='" + old1 + "' x2='" + (maxpx+20) + "' y2='" + old1 + "' stroke-width='2' stroke='black'></line>";
-        mainsvg += "<line x1='"+ (maxpx+30) + "' y1='" + (heightpx-10) + "' x2='" + (maxpx+20) + "' y2='" + (heightpx-10) + "' stroke-width='2' stroke='black'></line>";
-        mainsvg += "<line x1='"+ minpx + "' y1='" + (heightpx-5) + "' x2='" + (maxpx+20) + "' y2='" + (heightpx-5) + "' stroke-width='1' stroke='grey'></line>";
-        mainsvg += "<text x='" + (maxpx+35) + "' y='" + (heightpx - 10 + old1)/2 + "' fill='black'><tspan>"
-        + common_config.replace(/\<sup\>/gi, "</tspan><tspan dy='-9' style='font-size:11px;'>")
-            .replace(/\<\/sup\>/gi, "</tspan><tspan dy='9'>")
-            .replace(/\<sub\>/gi, "</tspan><tspan dy='9' style='font-size:11px;'>")
-            .replace(/\<\/sub\>/gi, "</tspan><tspan dy='-9'>")
-        + "</tspan></text>";
+        if(fit) return 0;
+        else {
+            freePlace.push({h: h, arr: []});
+            freePlace[freePlace.length-1].arr.push({min: 0, max: svgMaxVal});
+            drawfit(config, id, h, freePlace, begin, color);
+        }
+    };
+
+    freePlacemain = [];
+    freePlacemain.push({h: 30, arr: []});
+    freePlacemain[0].arr.push({min: 0, max: svgMaxVal});
+
+    for (var configWithoutResidues in configTree) {
+        if (configWithoutResidues != "e_min" && configWithoutResidues != "e_max" && configWithoutResidues != "b" && configWithoutResidues != "h") {
+            let res = configTree[configWithoutResidues];
+            drawfit(res, configWithoutResidues, res.h, freePlacemain, 60, "red");
+            freePlaceConfig = [];
+            freePlaceConfig.push({h: 30, arr: []});
+            freePlaceConfig[0].arr.push({min: 0, max: svgMaxVal});
+
+            for (var fullConfig in configTree[configWithoutResidues]) {
+                if (fullConfig != "e_min" && fullConfig != "e_max" && fullConfig != "b" && fullConfig != "h") {
+                    let fc = configTree[configWithoutResidues][fullConfig];
+                    drawfit(fc, fullConfig, fc.h, freePlaceConfig, res.b, "green");
+                    freePlace = [];
+                    freePlace.push({h: 30, arr: []});
+                    freePlace[0].arr.push({min: 0, max: svgMaxVal});
+                    for (var term in configTree[configWithoutResidues][fullConfig]) {
+                        if (term != "e_min" && term != "e_max" && term != "b" && term != "h") {
+                            let t = configTree[configWithoutResidues][fullConfig][term];
+                            drawfit(t, fullConfig + ": " + term, 30, freePlace, fc.b, "black");
+                        }
+                    }
+                }
+            }
+        }
     }
+
 
     mainsvg += tooltips;
     let lines = "<line id='line1' x1='0' y1='0' x2='0' y2='0' stroke-width='1' stroke='black' display='none' stroke-dasharray='4 2'></line>";
@@ -1792,24 +1885,21 @@ function showConfig(config) {
         configWithoutResidues = config;
     }
     else configWithoutResidues = config.getAttribute("id");
-    let common_config = configWithoutResidues.replace(/\d+([a-z])$/, "n$1").replace(/>\d+([a-z]<sup>\d+<\/sup>)$/, ">n$1");
     let svg="";
     let tooltips = "";
     let width = $(window).width();
     let minpx = 50,
         svgheight = 1000,
         maxpx = width - 200;
-    let maxE = configTree[common_config][configWithoutResidues].e_max;
+    let maxE = configTree[configWithoutResidues].e_max;
     maxE = maxE.toString().split(".")[0];
     maxE = Number(maxE)+2;
-    let minE = configTree[common_config][configWithoutResidues].e_min;
+    let minE = configTree[configWithoutResidues].e_min;
     minE = minE.toString().split(".")[0];
     minE = Number(minE)-2;
     let h = (maxE - minE)/10;
     svg = "<svg width='" + width + "' height='"+ svgheight+ "' id='level_svg' style='background-color:white;'>";
     let heightpx = -40;
-    let termRect = "",
-        fcRect = "";
 
     svg += "<line x1='" + minpx + "' y1='"+(heightpx+70)+"' x2='" + (width-100) + "' y2='"+(heightpx+70)+"' stroke-width='2' stroke='black'></line>";
     svg += "<line x1='"+ (width-115) + "' y1='"+(heightpx+65)+"' x2='" + (width-100) + "' y2='"+(heightpx+70)+"' stroke-width='2' stroke='black'></line>";
@@ -1819,38 +1909,77 @@ function showConfig(config) {
         svg += "<text x='" + EtoPx(w, maxE,minE, maxpx, minpx) + "' y='" + (heightpx+59) + "' fill='black' style='text-anchor: Middle;'>" + w.toFixed(1) + "</text>";
     }
     svg += "<foreignObject x='"+(width-140)+"' y='"+(heightpx+40)+"' width='50' height='40'><div style='text-align: left; border-radius: 0; background-color: white; color: black; padding: 0 0'>cm<sup>-1</sup></div></foreignObject>";
-    heightpx = 50;
 
-    let old2 = heightpx;
-    let prefullcE = -1;
-    for (var fullConfig in configTree[common_config][configWithoutResidues]) {
-        if (fullConfig != "e_min" && fullConfig != "e_max") {
-            let old3 = heightpx;
-            let pretermE = -1;
-            for (var term in configTree[common_config][configWithoutResidues][fullConfig]){
-                if (term != "e_min" && term != "e_max") {
-                    let t = configTree[common_config][configWithoutResidues][fullConfig][term];
-                    heightpx += 30;
-                    if (t.e_min > pretermE) heightpx -=30;
-                    termRect += "<rect id='"+fullConfig+": "+term+"' x='" + EtoPx(t.e_min, maxE, minE,maxpx, minpx) + "' y='" + heightpx + "' width='" + (EtoPx(t.e_max, maxE, minE,maxpx, minpx) - EtoPx(t.e_min, maxE,minE, maxpx, minpx) + 1) + "' height='30' style='stroke:black;stroke-width:1;' onmouseover='showtooltip(this);' onmouseout='hidetooltip(this);'></rect>";
-                    tooltips += "<foreignObject id='"+fullConfig+": "+term+"_tooltip"+"' display='none' x='"+(EtoPx(t.e_max, maxE,minE, maxpx, minpx)+ 1)+"' y='"+(heightpx)+"' width='150' height='100'><div>"+fullConfig+": "+term+"<br>E<sub>min</sub>: "+t.e_min+" cm<sup>-1</sup><br>E<sub>max</sub>: "+t.e_max+" cm<sup>-1</sup></div></foreignObject>";
-                    pretermE = t.e_max;
+    let freePlace = [];
+    freePlace.push({h: 30, arr: []});
+    freePlace[0].arr.push({min: 0, max: svgMaxVal});
+
+    let freePlaceConfig = [];
+    freePlaceConfig.push({h: 30, arr: []});
+    freePlaceConfig[0].arr.push({min: 0, max: svgMaxVal});
+
+    let freePlacemain = [];
+    freePlacemain.push({h: 30, arr: []});
+    freePlacemain[0].arr.push({min: 0, max: svgMaxVal});
+
+    let drawfit = function(config, id, h, freePlace, begin, color) {
+        let fit = false;
+        for (var i = 0; i < freePlace.length; i++) {
+            for (var k = 0; k < freePlace[i].arr.length; k++) {
+                let item = freePlace[i].arr[k];
+                if ((config.e_max <= item.max) && (config.e_min >= item.min)) {
+                    if((h <= freePlace[i].h) || (i == freePlace.length-1)) {
+                        freePlace[i].arr.push({min: config.e_max, max: item.max});
+                        item.max = config.e_min;
+                        fit = true;
+                        let offset = 0;
+                        for(var v = 0; v<i; v++) offset+=freePlace[v].h;
+                        if(freePlace[i].h < h) freePlace[i].h = h;
+                        config.b = offset + begin;
+                        svg += "<rect id='" + id + "' x='" + EtoPx(config.e_min, maxE, minE, maxpx, minpx) + "' y='" + (offset + begin) + "' width='" + (EtoPx(config.e_max, maxE, minE, maxpx, minpx) - EtoPx(config.e_min, maxE, minE, maxpx, minpx) + 1) + "' height='" + h + "' style='stroke:"+color+";stroke-width:1;' onmouseover='showtooltip(this);' onmouseout='hidetooltip(this);'";
+                        if(color=="green") svg+= "onclick='showfullConfig(this);'></rect>";
+                        else svg+= "></rect>";
+                        tooltips += "<foreignObject id='" + id + "_tooltip" + "' display='none' x='" + (EtoPx(config.e_max, maxE, minE, maxpx, minpx) + 1) + "' y='" + (offset+begin)+ "' width='150' height='100'><div>" + id + "<br>E<sub>min</sub>: " + config.e_min + " cm<sup>-1</sup><br>E<sub>max</sub>: " + config.e_max + " cm<sup>-1</sup></div></foreignObject>";
+                        break;
+                    }
                 }
             }
-            let fc = configTree[common_config][configWithoutResidues][fullConfig];
-            heightpx += 30;
-            if (fc.e_min > prefullcE) heightpx -=30;
-            if(old3 == heightpx) heightpx+=30;
-            fcRect += "<rect id='"+fullConfig+"' x='" + EtoPx(fc.e_min, maxE,minE, maxpx, minpx) + "' y='" + old3 + "' width='" + (EtoPx(fc.e_max, maxE,minE, maxpx, minpx) - EtoPx(fc.e_min, maxE, minE,maxpx, minpx) + 1) + "' height='" + Math.abs(heightpx - old3) + "' style='stroke:green;stroke-width:1;' onmouseover='showtooltip(this);' onmouseout='hidetooltip(this);' onclick='showfullConfig(this);'></rect>";
-            tooltips += "<foreignObject id='"+fullConfig+"_tooltip"+"' display='none' x='"+(EtoPx(fc.e_max, maxE,minE, maxpx, minpx)+ 1)+"' y='"+(old3 + Math.abs(heightpx - old3) )+"' width='150' height='100'><div>"+fullConfig+"<br>E<sub>min</sub>: "+fc.e_min+" cm<sup>-1</sup><br>E<sub>max</sub>: "+fc.e_max+" cm<sup>-1</sup></div></foreignObject>";
-            prefullcE = fc.e_max;
+            if (fit) break;
+        }
+        if(fit) return 0;
+        else {
+            freePlace.push({h: h, arr: []});
+            freePlace[freePlace.length-1].arr.push({min: 0, max: svgMaxVal});
+            drawfit(config, id, h, freePlace, begin, color);
+        }
+    };
+
+    freePlacemain = [];
+    freePlacemain.push({h: 30, arr: []});
+    freePlacemain[0].arr.push({min: 0, max: svgMaxVal});
+
+
+    let res = configTree[configWithoutResidues];
+    drawfit(res, configWithoutResidues, res.h, freePlacemain, 60, "red");
+    freePlaceConfig = [];
+    freePlaceConfig.push({h: 30, arr: []});
+    freePlaceConfig[0].arr.push({min: 0, max: svgMaxVal});
+
+    for (var fullConfig in configTree[configWithoutResidues]) {
+        if (fullConfig != "e_min" && fullConfig != "e_max" && fullConfig != "b" && fullConfig != "h") {
+            let fc = configTree[configWithoutResidues][fullConfig];
+            drawfit(fc, fullConfig, fc.h, freePlaceConfig, res.b, "green");
+            freePlace = [];
+            freePlace.push({h: 30, arr: []});
+            freePlace[0].arr.push({min: 0, max: svgMaxVal});
+            for (var term in configTree[configWithoutResidues][fullConfig]) {
+                if (term != "e_min" && term != "e_max" && term != "b" && term != "h") {
+                    let t = configTree[configWithoutResidues][fullConfig][term];
+                    drawfit(t, fullConfig + ": " + term, 30, freePlace, fc.b, "black");
+                }
+            }
         }
     }
-    let res = configTree[common_config][configWithoutResidues];
-    svg += "<rect id='"+configWithoutResidues+"' x='" + EtoPx(res.e_min, maxE, minE,maxpx, minpx) + "' y='" + old2 + "' width='" + (EtoPx(res.e_max, maxE,minE, maxpx, minpx) - EtoPx(res.e_min, maxE,minE, maxpx, minpx) + 1) + "' height='" + Math.abs(heightpx - old2) + "' style='stroke:red;stroke-width:1;' onmouseover='showtooltip(this);' onmouseout='hidetooltip(this);'></rect>";
-    tooltips += "<foreignObject id='"+configWithoutResidues+"_tooltip"+"' display='none' x='"+(EtoPx(res.e_max, maxE, minE,maxpx, minpx)+ 1)+"' y='"+(old2 + Math.abs(heightpx - old2) )+"' width='150' height='100'><div>"+configWithoutResidues+"<br>E<sub>min</sub>: "+res.e_min+" cm<sup>-1</sup><br>E<sub>max</sub>: "+res.e_max+" cm<sup>-1</sup></div></foreignObject>";
-    svg += fcRect;
-    svg += termRect;
 
     svg += tooltips;
     let lines = "<line id='line1' x1='0' y1='0' x2='0' y2='0' stroke-width='1' stroke='black' display='none' stroke-dasharray='4 2'></line>";
@@ -1865,27 +1994,24 @@ var prevConfigWithoutResidues;
 
 function showfullConfig(elem){
     lvl = 2;
-    let fullConfig = elem.getAttribute("id");
+    let fullConfig = elem.getAttribute("id").replace(/°/gi, "&deg;");
     let configWithoutResidues = fullConfig.replace(/\(([^?]+?)\)/gi, "");
     prevConfigWithoutResidues = configWithoutResidues;
-    let common_config = configWithoutResidues.replace(/\d+([a-z])$/, "n$1").replace(/>\d+([a-z]<sup>\d+<\/sup>)$/, ">n$1");
-    let svg = "";
+    let svg;
     let tooltips = "";
     let width = $(window).width();
     let minpx = 50,
         svgheight = 1000,
         maxpx = width - 200;
-    let maxE = configTree[common_config][configWithoutResidues][fullConfig].e_max;
+    let maxE = configTree[configWithoutResidues][fullConfig].e_max;
     maxE = maxE.toString().split(".")[0];
     maxE = Number(maxE)+2;
-    let minE = configTree[common_config][configWithoutResidues][fullConfig].e_min;
+    let minE = configTree[configWithoutResidues][fullConfig].e_min;
     minE = minE.toString().split(".")[0];
     minE = Number(minE)-2;
     let h = (maxE - minE)/10;
     svg = "<svg width='" + width + "' height='"+ svgheight+ "' id='level_svg' style='background-color:white;'>";
     let heightpx = -40;
-    let termRect = "",
-        fcRect = "";
 
     svg += "<line x1='" + minpx + "' y1='"+(heightpx+70)+"' x2='" + (width-100) + "' y2='"+(heightpx+70)+"' stroke-width='2' stroke='black'></line>";
     svg += "<line x1='"+ (width-115) + "' y1='"+(heightpx+65)+"' x2='" + (width-100) + "' y2='"+(heightpx+70)+"' stroke-width='2' stroke='black'></line>";
@@ -1895,27 +2021,68 @@ function showfullConfig(elem){
         svg += "<text x='" + EtoPx(w, maxE, minE, maxpx, minpx) + "' y='" + (heightpx+59) + "' fill='black' style='text-anchor: Middle;'>" + w.toFixed(1) + "</text>";
     }
     svg += "<foreignObject x='"+(width-140)+"' y='"+(heightpx+40)+"' width='50' height='40'><div style='text-align: left; border-radius: 0; background-color: white; color: black; padding: 0 0'>cm<sup>-1</sup></div></foreignObject>";
-    heightpx = 50;
 
-    let old3 = heightpx;
-    let pretermE = -1;
-    for (var term in configTree[common_config][configWithoutResidues][fullConfig]){
-        if (term != "e_min" && term != "e_max") {
-            let t = configTree[common_config][configWithoutResidues][fullConfig][term];
-            heightpx += 30;
-            if (t.e_min > pretermE) heightpx -=30;
-            termRect += "<rect id='"+fullConfig+": "+term+"' x='" + EtoPx(t.e_min, maxE, minE,maxpx, minpx) + "' y='" + heightpx + "' width='" + (EtoPx(t.e_max, maxE, minE,maxpx, minpx) - EtoPx(t.e_min, maxE,minE, maxpx, minpx) + 1) + "' height='30' style='stroke:black;stroke-width:1;' onmouseover='showtooltip(this);' onmouseout='hidetooltip(this);'></rect>";
-            tooltips += "<foreignObject id='"+fullConfig+": "+term+"_tooltip"+"' display='none' x='"+(EtoPx(t.e_max, maxE,minE, maxpx, minpx)+ 1)+"' y='"+(heightpx)+"' width='150' height='100'><div>"+fullConfig+": "+term+"<br>E<sub>min</sub>: "+t.e_min+" cm<sup>-1</sup><br>E<sub>max</sub>: "+t.e_max+" cm<sup>-1</sup></div></foreignObject>";
-            pretermE = t.e_max;
+    let freePlace = [];
+    freePlace.push({h: 30, arr: []});
+    freePlace[0].arr.push({min: 0, max: svgMaxVal});
+
+    let freePlaceConfig = [];
+    freePlaceConfig.push({h: 30, arr: []});
+    freePlaceConfig[0].arr.push({min: 0, max: svgMaxVal});
+
+    let freePlacemain = [];
+    freePlacemain.push({h: 30, arr: []});
+    freePlacemain[0].arr.push({min: 0, max: svgMaxVal});
+
+    let drawfit = function(config, id, h, freePlace, begin, color) {
+        let fit = false;
+        for (var i = 0; i < freePlace.length; i++) {
+            for (var k = 0; k < freePlace[i].arr.length; k++) {
+                let item = freePlace[i].arr[k];
+                if ((config.e_max <= item.max) && (config.e_min >= item.min)) {
+                    if((h <= freePlace[i].h) || (i == freePlace.length-1)) {
+                        freePlace[i].arr.push({min: config.e_max, max: item.max});
+                        item.max = config.e_min;
+                        fit = true;
+                        let offset = 0;
+                        for(var v = 0; v<i; v++) offset+=freePlace[v].h;
+                        if(freePlace[i].h < h) freePlace[i].h = h;
+                        config.b = offset + begin;
+                        svg += "<rect id='" + id + "' x='" + EtoPx(config.e_min, maxE, minE, maxpx, minpx) + "' y='" + (offset + begin) + "' width='" + (EtoPx(config.e_max, maxE, minE, maxpx, minpx) - EtoPx(config.e_min, maxE, minE, maxpx, minpx) + 1) + "' height='" + h + "' style='stroke:"+color+";stroke-width:1;' onmouseover='showtooltip(this);' onmouseout='hidetooltip(this);'></rect>";
+                        tooltips += "<foreignObject id='" + id + "_tooltip" + "' display='none' x='" + (EtoPx(config.e_max, maxE, minE, maxpx, minpx) + 1) + "' y='" + (offset+begin)+ "' width='150' height='100'><div>" + id + "<br>E<sub>min</sub>: " + config.e_min + " cm<sup>-1</sup><br>E<sub>max</sub>: " + config.e_max + " cm<sup>-1</sup></div></foreignObject>";
+                        break;
+                    }
+                }
+            }
+            if (fit) break;
+        }
+        if(fit) return 0;
+        else {
+            freePlace.push({h: h, arr: []});
+            freePlace[freePlace.length-1].arr.push({min: 0, max: svgMaxVal});
+            drawfit(config, id, h, freePlace, begin, color);
+        }
+    };
+
+    freePlacemain = [];
+    freePlacemain.push({h: 30, arr: []});
+    freePlacemain[0].arr.push({min: 0, max: svgMaxVal});
+
+
+
+
+    let fc = configTree[configWithoutResidues][fullConfig];
+    drawfit(fc, fullConfig, fc.h, freePlaceConfig, 60, "green");
+    freePlace = [];
+    freePlace.push({h: 30, arr: []});
+    freePlace[0].arr.push({min: 0, max: svgMaxVal});
+    for (var term in configTree[configWithoutResidues][fullConfig]) {
+        if (term != "e_min" && term != "e_max" && term != "b" && term != "h") {
+            let t = configTree[configWithoutResidues][fullConfig][term];
+            drawfit(t, fullConfig + ": " + term, 30, freePlace, fc.b, "black");
         }
     }
-    let fc = configTree[common_config][configWithoutResidues][fullConfig];
-    heightpx += 30;
-    if(old3 == heightpx) heightpx+=30;
-    fcRect += "<rect id='"+fullConfig+"' x='" + EtoPx(fc.e_min, maxE,minE, maxpx, minpx) + "' y='" + old3 + "' width='" + (EtoPx(fc.e_max, maxE,minE, maxpx, minpx) - EtoPx(fc.e_min, maxE, minE,maxpx, minpx) + 1) + "' height='" + Math.abs(heightpx - old3) + "' style='stroke:green;stroke-width:1;' onmouseover='showtooltip(this);' onmouseout='hidetooltip(this);'></rect>";
-    tooltips += "<foreignObject id='"+fullConfig+"_tooltip"+"' display='none' x='"+(EtoPx(fc.e_max, maxE,minE, maxpx, minpx)+ 1)+"' y='"+(old3 + Math.abs(heightpx - old3) )+"' width='150' height='100'><div>"+fullConfig+"<br>E<sub>min</sub>: "+fc.e_min+" cm<sup>-1</sup><br>E<sub>max</sub>: "+fc.e_max+" cm<sup>-1</sup></div></foreignObject>";
-    svg += fcRect;
-    svg += termRect;
+
     svg += tooltips;
     let lines = "<line id='line1' x1='0' y1='0' x2='0' y2='0' stroke-width='1' stroke='black' display='none' stroke-dasharray='4 2'></line>";
     lines += "<line id='line2' x1='0' y1='0' x2='0' y2='0' stroke-width='1' stroke='black' display='none' stroke-dasharray='4 2'></line>";

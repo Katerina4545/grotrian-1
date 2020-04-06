@@ -1620,12 +1620,14 @@ function fillArraysForSvgLevels(levels){
 
         termforhash = termforhash.split(": ");
         termforhash = termforhash[1];
+        let termJ = termforhash+"<sub>"+level.J+"</sub>";
         if((config!=null) && (config!="")) {
             let configWithoutResidues = temp.replace(/\(([^?]+?)\)/gi, "");
             if(configTree[configWithoutResidues] == undefined) {
                 configTree[configWithoutResidues]={"e_min": x, "e_max": x};
                 configTree[configWithoutResidues][temp]={"e_min": x, "e_max": x};
                 configTree[configWithoutResidues][temp][termforhash]={"e_min": x, "e_max": x};
+                configTree[configWithoutResidues][temp][termforhash][termJ]={"e_min": x, "e_max": x};
             }
             else {
                     defineBorder(configTree[configWithoutResidues], x);
@@ -1633,22 +1635,33 @@ function fillArraysForSvgLevels(levels){
                         defineBorder(configTree[configWithoutResidues][temp], x);
                         if (configTree[configWithoutResidues][temp][termforhash] != undefined){
                             defineBorder(configTree[configWithoutResidues][temp][termforhash], x);
+                            if (configTree[configWithoutResidues][temp][termforhash][termJ] != undefined){
+                                defineBorder(configTree[configWithoutResidues][temp][termforhash][termJ], x);
+                            }
+                            else configTree[configWithoutResidues][temp][termforhash][termJ]={"e_min": x, "e_max": x};
                         }
-                        else configTree[configWithoutResidues][temp][termforhash]={"e_min": x, "e_max": x};
+                        else {
+                            configTree[configWithoutResidues][temp][termforhash]={"e_min": x, "e_max": x};
+                            configTree[configWithoutResidues][temp][termforhash][termJ]={"e_min": x, "e_max": x};
+                        }
                     }
                     else {
                         configTree[configWithoutResidues][temp]={"e_min": x, "e_max": x};
                         configTree[configWithoutResidues][temp][termforhash]={"e_min": x, "e_max": x};
+                        configTree[configWithoutResidues][temp][termforhash][termJ]={"e_min": x, "e_max": x};
                     }
             }
         }
 
     }
 
+    let freePlaceJ = [];
+    freePlaceJ.push({h: 30, arr: []});
+    freePlaceJ[0].arr.push({min: 0, max: svgMaxVal});
+
     let freePlace = [];
     freePlace.push({h: 30, arr: []});
     freePlace[0].arr.push({min: 0, max: svgMaxVal});
-
 
     let freePlaceConfig = [];
     freePlaceConfig.push({h: 30, arr: []});
@@ -1687,6 +1700,32 @@ function fillArraysForSvgLevels(levels){
         if (configWithoutResidues != "e_min" && configWithoutResidues != "e_max" && configWithoutResidues != "h") {
             for (var fullConfig in configTree[configWithoutResidues]) {
                 if (fullConfig != "e_min" && fullConfig != "e_max"  && fullConfig != "h") {
+                    for (var term in configTree[configWithoutResidues][fullConfig]) {
+                        if (term != "e_min" && term != "e_max" && term != "h") {
+                            freePlaceJ.length = 0;
+                            freePlaceJ.push({h: 30, arr: []});
+                            freePlaceJ[0].arr.push({min: 0, max: svgMaxVal});
+                            let hei=0;
+                            for (var termJ in configTree[configWithoutResidues][fullConfig][term]) {
+                                if (termJ != "e_min" && termJ != "e_max" && termJ != "h") {
+                                    let j = configTree[configWithoutResidues][fullConfig][term][termJ];
+                                    fitting(j,30, freePlaceJ);
+                                }
+                            }
+                            let t = configTree[configWithoutResidues][fullConfig][term];
+                            for(var i = 0; i<freePlaceJ.length; i++) hei+=freePlaceJ[i].h;
+                            t.h = hei;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    for (var configWithoutResidues in configTree) {
+        if (configWithoutResidues != "e_min" && configWithoutResidues != "e_max" && configWithoutResidues != "h") {
+            for (var fullConfig in configTree[configWithoutResidues]) {
+                if (fullConfig != "e_min" && fullConfig != "e_max"  && fullConfig != "h") {
 
                     freePlace.length = 0;
                     freePlace.push({h: 30, arr: []});
@@ -1695,7 +1734,7 @@ function fillArraysForSvgLevels(levels){
                     for (var term in configTree[configWithoutResidues][fullConfig]) {
                         if (term != "e_min" && term != "e_max" && term != "h") {
                             let t = configTree[configWithoutResidues][fullConfig][term];
-                            fitting(t,30, freePlace);
+                            fitting(t,t.h, freePlace);
                         }
                     }
                     let fc = configTree[configWithoutResidues][fullConfig];
@@ -1761,6 +1800,10 @@ function drawSvgConfig(){
     freePlacemain.push({h: 30, arr: []});
     freePlacemain[0].arr.push({min: 0, max: svgMaxVal});
 
+    let freePlaceJ = [];
+    freePlaceJ.push({h: 30, arr: []});
+    freePlaceJ[0].arr.push({min: 0, max: svgMaxVal});
+
     let drawfit = function(config, id, h, freePlace, begin, color) {
         let fit = false;
         for (var i = 0; i < freePlace.length; i++) {
@@ -1772,14 +1815,17 @@ function drawSvgConfig(){
                         item.max = config.e_min;
                         fit = true;
                         let offset = 0;
-                        for(var v = 0; v<i; v++) offset+=freePlace[v].h;
-                        if(freePlace[i].h < h) freePlace[i].h = h;
+                        for (var v = 0; v < i; v++) offset += freePlace[v].h;
+                        if (freePlace[i].h < h) freePlace[i].h = h;
                         config.b = offset + begin;
-                        let gap = 0;
-                        mainsvg += "<rect id='" + id + "' x='" + EtoPx(config.e_min, svgMaxVal, 0, maxpx, minpx) + "' y='" + (offset + begin) + "' width='" + (EtoPx(config.e_max, svgMaxVal, 0, maxpx, minpx) - EtoPx(config.e_min, svgMaxVal, 0, maxpx, minpx) + 1) + "' height='" + h + "' style='stroke:"+color+";stroke-width:1;' onmouseover='showtooltip(this);' onmouseout='hidetooltip(this);'";
-                        if(color=="green") mainsvg+= "onclick='showfullConfig(this);'></rect>";
-                        else if(color=="red") mainsvg+= "onclick='showConfig(this);'></rect>";
-                        else mainsvg+= "></rect>";
+                        if (color == "blue") mainsvg += "<line id='" + id + "' class='line' x1='" + EtoPx(config.e_min, svgMaxVal, 0, maxpx, minpx) + "' y1='" + (offset + begin) + "' x2='" +  EtoPx(config.e_min, svgMaxVal, 0, maxpx, minpx) + "' y2='" +(offset + begin+h) + "' style='stroke:" + color + ";stroke-width:1;' onmouseover='showtooltip(this);' onmouseout='hidetooltip(this);'></line>";
+                        else {
+                            mainsvg += "<rect id='" + id + "' class='rect' x='" + EtoPx(config.e_min, svgMaxVal, 0, maxpx, minpx) + "' y='" + (offset + begin) + "' width='" + (EtoPx(config.e_max, svgMaxVal, 0, maxpx, minpx) - EtoPx(config.e_min, svgMaxVal, 0, maxpx, minpx) + 1) + "' height='" + h + "' style='stroke:" + color + ";stroke-width:1;' onmouseover='showtooltip(this);' onmouseout='hidetooltip(this);'";
+                            if (color == "green") mainsvg += "onclick='showfullConfig(this);'></rect>";
+                            else if (color == "black") mainsvg += "onclick='showterm(this);'></rect>";
+                            else if (color == "red") mainsvg += "onclick='showConfig(this);'></rect>";
+                            else mainsvg += "></rect>";
+                        }
                         tooltips += "<foreignObject id='" + id + "_tooltip" + "' display='none' x='" + (EtoPx(config.e_max, svgMaxVal, 0, maxpx, minpx) + 1) + "' y='" + (offset+begin)+ "' width='150' height='100'><div>" + id + "<br>E<sub>min</sub>: " + config.e_min + " cm<sup>-1</sup><br>E<sub>max</sub>: " + config.e_max + " cm<sup>-1</sup></div></foreignObject>";
                         break;
                     }
@@ -1817,7 +1863,16 @@ function drawSvgConfig(){
                     for (var term in configTree[configWithoutResidues][fullConfig]) {
                         if (term != "e_min" && term != "e_max" && term != "b" && term != "h") {
                             let t = configTree[configWithoutResidues][fullConfig][term];
-                            drawfit(t, fullConfig + ": " + term, 30, freePlace, fc.b, "black");
+                            drawfit(t, fullConfig + ": " + term, t.h, freePlace, fc.b, "black");
+                            freePlaceJ = [];
+                            freePlaceJ.push({h: 30, arr: []});
+                            freePlaceJ[0].arr.push({min: 0, max: svgMaxVal});
+                            for (var termJ in configTree[configWithoutResidues][fullConfig][term]) {
+                                if (termJ != "e_min" && termJ != "e_max" && termJ != "h" && termJ != "b") {
+                                    let j = configTree[configWithoutResidues][fullConfig][term][termJ];
+                                    drawfit(j,fullConfig + ": " + termJ, 30, freePlaceJ, t.b, "blue");
+                                }
+                            }
                         }
                     }
                 }
@@ -1835,23 +1890,26 @@ function drawSvgConfig(){
     $('#svg-holder').append(mainsvg);
 }
 
-function showtooltip(rect) {
-    let id = rect.getAttribute("id")+"_tooltip";
+function showtooltip(elem) {
+    let id = elem.getAttribute("id")+"_tooltip";
     let tooltip = document.getElementById(id);
     tooltip.setAttribute("display", "true");
-    let line1 = document.getElementById("line1");
-    let line2 = document.getElementById("line2");
-    line1.setAttribute("x1", rect.getAttribute("x"));
-    line1.setAttribute("y1", rect.getAttribute("y"));
-    line1.setAttribute("x2", rect.getAttribute("x"));
-    line1.setAttribute("y2", 30);
-    line1.setAttribute("display", "true");
 
-    line2.setAttribute("x1", Number(rect.getAttribute("x"))+Number(rect.getAttribute("width")));
-    line2.setAttribute("y1", rect.getAttribute("y"));
-    line2.setAttribute("x2", Number(rect.getAttribute("x"))+Number(rect.getAttribute("width")));
-    line2.setAttribute("y2", 30);
-    line2.setAttribute("display", "true");
+    if(elem.getAttribute("class")=="rect") {
+        let line1 = document.getElementById("line1");
+        let line2 = document.getElementById("line2");
+        line1.setAttribute("x1", elem.getAttribute("x"));
+        line1.setAttribute("y1", elem.getAttribute("y"));
+        line1.setAttribute("x2", elem.getAttribute("x"));
+        line1.setAttribute("y2", 30);
+        line1.setAttribute("display", "true");
+
+        line2.setAttribute("x1", Number(elem.getAttribute("x")) + Number(elem.getAttribute("width")));
+        line2.setAttribute("y1", elem.getAttribute("y"));
+        line2.setAttribute("x2", Number(elem.getAttribute("x")) + Number(elem.getAttribute("width")));
+        line2.setAttribute("y2", 30);
+        line2.setAttribute("display", "true");
+    }
 
 }
 
@@ -1873,6 +1931,10 @@ function backtomain() {
     else if(lvl == 2){
         lvl--;
         showConfig(prevConfigWithoutResidues);
+    }
+    else if(lvl == 3){
+        lvl--;
+        showfullConfig(prevfullConfig);
     }
     return false;
 }
@@ -1922,6 +1984,10 @@ function showConfig(config) {
     freePlacemain.push({h: 30, arr: []});
     freePlacemain[0].arr.push({min: 0, max: svgMaxVal});
 
+    let freePlaceJ = [];
+    freePlaceJ.push({h: 30, arr: []});
+    freePlaceJ[0].arr.push({min: 0, max: svgMaxVal});
+
     let drawfit = function(config, id, h, freePlace, begin, color) {
         let fit = false;
         for (var i = 0; i < freePlace.length; i++) {
@@ -1936,9 +2002,13 @@ function showConfig(config) {
                         for(var v = 0; v<i; v++) offset+=freePlace[v].h;
                         if(freePlace[i].h < h) freePlace[i].h = h;
                         config.b = offset + begin;
-                        svg += "<rect id='" + id + "' x='" + EtoPx(config.e_min, maxE, minE, maxpx, minpx) + "' y='" + (offset + begin) + "' width='" + (EtoPx(config.e_max, maxE, minE, maxpx, minpx) - EtoPx(config.e_min, maxE, minE, maxpx, minpx) + 1) + "' height='" + h + "' style='stroke:"+color+";stroke-width:1;' onmouseover='showtooltip(this);' onmouseout='hidetooltip(this);'";
-                        if(color=="green") svg+= "onclick='showfullConfig(this);'></rect>";
-                        else svg+= "></rect>";
+                        if (color == "blue") svg += "<line id='" + id + "' class='line' x1='" + EtoPx(config.e_min, maxE, minE, maxpx, minpx) + "' y1='" + (offset + begin) + "' x2='" +  EtoPx(config.e_min, maxE, minE, maxpx, minpx) + "' y2='" +(offset + begin+h) + "' style='stroke:" + color + ";stroke-width:1;' onmouseover='showtooltip(this);' onmouseout='hidetooltip(this);'></line>";
+                        else {
+                            svg += "<rect id='" + id + "' x='" + EtoPx(config.e_min, maxE, minE, maxpx, minpx) + "' y='" + (offset + begin) + "' width='" + (EtoPx(config.e_max, maxE, minE, maxpx, minpx) - EtoPx(config.e_min, maxE, minE, maxpx, minpx) + 1) + "' height='" + h + "' style='stroke:" + color + ";stroke-width:1;' onmouseover='showtooltip(this);' onmouseout='hidetooltip(this);'";
+                            if (color == "green") svg += "onclick='showfullConfig(this);'></rect>";
+                            else if (color == "black") svg += "onclick='showterm(this);'></rect>";
+                            else svg += "></rect>";
+                        }
                         tooltips += "<foreignObject id='" + id + "_tooltip" + "' display='none' x='" + (EtoPx(config.e_max, maxE, minE, maxpx, minpx) + 1) + "' y='" + (offset+begin)+ "' width='150' height='100'><div>" + id + "<br>E<sub>min</sub>: " + config.e_min + " cm<sup>-1</sup><br>E<sub>max</sub>: " + config.e_max + " cm<sup>-1</sup></div></foreignObject>";
                         break;
                     }
@@ -1958,7 +2028,6 @@ function showConfig(config) {
     freePlacemain.push({h: 30, arr: []});
     freePlacemain[0].arr.push({min: 0, max: svgMaxVal});
 
-
     let res = configTree[configWithoutResidues];
     drawfit(res, configWithoutResidues, res.h, freePlacemain, 60, "red");
     freePlaceConfig = [];
@@ -1975,7 +2044,16 @@ function showConfig(config) {
             for (var term in configTree[configWithoutResidues][fullConfig]) {
                 if (term != "e_min" && term != "e_max" && term != "b" && term != "h") {
                     let t = configTree[configWithoutResidues][fullConfig][term];
-                    drawfit(t, fullConfig + ": " + term, 30, freePlace, fc.b, "black");
+                    drawfit(t, fullConfig + ": " + term, t.h, freePlace, fc.b, "black");
+                    freePlaceJ = [];
+                    freePlaceJ.push({h: 30, arr: []});
+                    freePlaceJ[0].arr.push({min: 0, max: svgMaxVal});
+                    for (var termJ in configTree[configWithoutResidues][fullConfig][term]) {
+                        if (termJ != "e_min" && termJ != "e_max" && termJ != "h" && termJ != "b") {
+                            let j = configTree[configWithoutResidues][fullConfig][term][termJ];
+                            drawfit(j,fullConfig + ": " + termJ, 30, freePlaceJ, t.b, "blue");
+                        }
+                    }
                 }
             }
         }
@@ -1994,7 +2072,12 @@ var prevConfigWithoutResidues;
 
 function showfullConfig(elem){
     lvl = 2;
-    let fullConfig = elem.getAttribute("id").replace(/°/gi, "&deg;");
+    let fullConfig;
+    if (typeof elem === "string" || elem instanceof String) {
+        fullConfig = elem;
+    }
+    else fullConfig = elem.getAttribute("id");
+    fullConfig = fullConfig.replace(/°/gi, "&deg;");
     let configWithoutResidues = fullConfig.replace(/\(([^?]+?)\)/gi, "");
     prevConfigWithoutResidues = configWithoutResidues;
     let svg;
@@ -2030,9 +2113,10 @@ function showfullConfig(elem){
     freePlaceConfig.push({h: 30, arr: []});
     freePlaceConfig[0].arr.push({min: 0, max: svgMaxVal});
 
-    let freePlacemain = [];
-    freePlacemain.push({h: 30, arr: []});
-    freePlacemain[0].arr.push({min: 0, max: svgMaxVal});
+
+    let freePlaceJ = [];
+    freePlaceJ.push({h: 30, arr: []});
+    freePlaceJ[0].arr.push({min: 0, max: svgMaxVal});
 
     let drawfit = function(config, id, h, freePlace, begin, color) {
         let fit = false;
@@ -2048,7 +2132,114 @@ function showfullConfig(elem){
                         for(var v = 0; v<i; v++) offset+=freePlace[v].h;
                         if(freePlace[i].h < h) freePlace[i].h = h;
                         config.b = offset + begin;
-                        svg += "<rect id='" + id + "' x='" + EtoPx(config.e_min, maxE, minE, maxpx, minpx) + "' y='" + (offset + begin) + "' width='" + (EtoPx(config.e_max, maxE, minE, maxpx, minpx) - EtoPx(config.e_min, maxE, minE, maxpx, minpx) + 1) + "' height='" + h + "' style='stroke:"+color+";stroke-width:1;' onmouseover='showtooltip(this);' onmouseout='hidetooltip(this);'></rect>";
+                        if (color == "blue") svg += "<line id='" + id + "' class='line' x1='" + EtoPx(config.e_min, maxE, minE, maxpx, minpx) + "' y1='" + (offset + begin) + "' x2='" +  EtoPx(config.e_min, maxE, minE, maxpx, minpx) + "' y2='" +(offset + begin+h) + "' style='stroke:" + color + ";stroke-width:1;' onmouseover='showtooltip(this);' onmouseout='hidetooltip(this);'></line>";
+                        else {
+                            svg += "<rect id='" + id + "' x='" + EtoPx(config.e_min, maxE, minE, maxpx, minpx) + "' y='" + (offset + begin) + "' width='" + (EtoPx(config.e_max, maxE, minE, maxpx, minpx) - EtoPx(config.e_min, maxE, minE, maxpx, minpx) + 1) + "' height='" + h + "' style='stroke:" + color + ";stroke-width:1;' onmouseover='showtooltip(this);' onmouseout='hidetooltip(this);'";
+                            if (color == "black") svg += "onclick='showterm(this);'></rect>";
+                            else svg += "></rect>";
+                        }
+                         tooltips += "<foreignObject id='" + id + "_tooltip" + "' display='none' x='" + (EtoPx(config.e_max, maxE, minE, maxpx, minpx) + 1) + "' y='" + (offset+begin)+ "' width='150' height='100'><div>" + id + "<br>E<sub>min</sub>: " + config.e_min + " cm<sup>-1</sup><br>E<sub>max</sub>: " + config.e_max + " cm<sup>-1</sup></div></foreignObject>";
+                        break;
+                    }
+                }
+            }
+            if (fit) break;
+        }
+        if(fit) return 0;
+        else {
+            freePlace.push({h: h, arr: []});
+            freePlace[freePlace.length-1].arr.push({min: 0, max: svgMaxVal});
+            drawfit(config, id, h, freePlace, begin, color);
+        }
+    };
+
+
+    let fc = configTree[configWithoutResidues][fullConfig];
+    drawfit(fc, fullConfig, fc.h, freePlaceConfig, 60, "green");
+    freePlace = [];
+    freePlace.push({h: 30, arr: []});
+    freePlace[0].arr.push({min: 0, max: svgMaxVal});
+    for (var term in configTree[configWithoutResidues][fullConfig]) {
+        if (term != "e_min" && term != "e_max" && term != "b" && term != "h") {
+            let t = configTree[configWithoutResidues][fullConfig][term];
+            drawfit(t, fullConfig + ": " + term, t.h, freePlace, fc.b, "black");
+            freePlaceJ = [];
+            freePlaceJ.push({h: 30, arr: []});
+            freePlaceJ[0].arr.push({min: 0, max: svgMaxVal});
+            for (var termJ in configTree[configWithoutResidues][fullConfig][term]) {
+                if (termJ != "e_min" && termJ != "e_max" && termJ != "h" && termJ != "b") {
+                    let j = configTree[configWithoutResidues][fullConfig][term][termJ];
+                    drawfit(j,fullConfig + ": " + termJ, 30, freePlaceJ, t.b, "blue");
+                }
+            }
+        }
+    }
+
+    svg += tooltips;
+    let lines = "<line id='line1' x1='0' y1='0' x2='0' y2='0' stroke-width='1' stroke='black' display='none' stroke-dasharray='4 2'></line>";
+    lines += "<line id='line2' x1='0' y1='0' x2='0' y2='0' stroke-width='1' stroke='black' display='none' stroke-dasharray='4 2'></line>";
+    svg += lines;
+    svg += "</svg>";
+    $('#level_svg').remove();
+    $('#svg-holder').append(svg);
+}
+
+var prevfullConfig;
+function showterm(elem){
+    lvl = 3;
+    let term = elem.getAttribute("id").split(": ")[1].replace(/°/gi, "&deg;").replace(/\<span\>.*\<\/span\>$/, "");
+    let fullConfig = elem.getAttribute("id").split(": ")[0].replace(/°/gi, "&deg;");
+    let configWithoutResidues = fullConfig.replace(/\(([^?]+?)\)/gi, "");
+    prevfullConfig = fullConfig;
+    let svg;
+    let tooltips = "";
+    let width = $(window).width();
+    let minpx = 50,
+        svgheight = 1000,
+        maxpx = width - 200;
+    let maxE = configTree[configWithoutResidues][fullConfig][term].e_max;
+    maxE = maxE.toString().split(".")[0];
+    maxE = Number(maxE)+2;
+    let minE = configTree[configWithoutResidues][fullConfig][term].e_min;
+    minE = minE.toString().split(".")[0];
+    minE = Number(minE)-2;
+    let h = (maxE - minE)/10;
+    svg = "<svg width='" + width + "' height='"+ svgheight+ "' id='level_svg' style='background-color:white;'>";
+    let heightpx = -40;
+
+    svg += "<line x1='" + minpx + "' y1='"+(heightpx+70)+"' x2='" + (width-100) + "' y2='"+(heightpx+70)+"' stroke-width='2' stroke='black'></line>";
+    svg += "<line x1='"+ (width-115) + "' y1='"+(heightpx+65)+"' x2='" + (width-100) + "' y2='"+(heightpx+70)+"' stroke-width='2' stroke='black'></line>";
+    svg += "<line x1='"+ (width-115) + "' y1='"+(heightpx+75)+"' x2='" + (width-100) + "' y2='"+(heightpx+70)+"' stroke-width='2' stroke='black'></line>";
+    for(let w = minE; w <= maxE; w += h){
+        svg += "<line x1='"+ EtoPx(w, maxE, minE,maxpx, minpx) + "' y1='"+(heightpx+66)+"' x2='" + EtoPx(w, maxE, minE, maxpx, minpx) + "' y2='"+(heightpx+74)+"' stroke-width='2' stroke='black'></line>";
+        svg += "<text x='" + EtoPx(w, maxE, minE, maxpx, minpx) + "' y='" + (heightpx+59) + "' fill='black' style='text-anchor: Middle;'>" + w.toFixed(1) + "</text>";
+    }
+    svg += "<foreignObject x='"+(width-140)+"' y='"+(heightpx+40)+"' width='50' height='40'><div style='text-align: left; border-radius: 0; background-color: white; color: black; padding: 0 0'>cm<sup>-1</sup></div></foreignObject>";
+
+    let freePlace = [];
+    freePlace.push({h: 30, arr: []});
+    freePlace[0].arr.push({min: 0, max: svgMaxVal});
+
+    let freePlaceJ = [];
+    freePlaceJ.push({h: 30, arr: []});
+    freePlaceJ[0].arr.push({min: 0, max: svgMaxVal});
+
+    let drawfit = function(config, id, h, freePlace, begin, color) {
+        let fit = false;
+        for (var i = 0; i < freePlace.length; i++) {
+            for (var k = 0; k < freePlace[i].arr.length; k++) {
+                let item = freePlace[i].arr[k];
+                if ((config.e_max <= item.max) && (config.e_min >= item.min)) {
+                    if((h <= freePlace[i].h) || (i == freePlace.length-1)) {
+                        freePlace[i].arr.push({min: config.e_max, max: item.max});
+                        item.max = config.e_min;
+                        fit = true;
+                        let offset = 0;
+                        for(var v = 0; v<i; v++) offset+=freePlace[v].h;
+                        if(freePlace[i].h < h) freePlace[i].h = h;
+                        config.b = offset + begin;
+                        if (color == "blue") svg += "<line id='" + id + "' class='line' x1='" + EtoPx(config.e_min, maxE, minE, maxpx, minpx) + "' y1='" + (offset + begin) + "' x2='" +  EtoPx(config.e_min, maxE, minE, maxpx, minpx) + "' y2='" +(offset + begin+h) + "' style='stroke:" + color + ";stroke-width:1;' onmouseover='showtooltip(this);' onmouseout='hidetooltip(this);'></line>";
+                        else svg += "<rect id='" + id + "' x='" + EtoPx(config.e_min, maxE, minE, maxpx, minpx) + "' y='" + (offset + begin) + "' width='" + (EtoPx(config.e_max, maxE, minE, maxpx, minpx) - EtoPx(config.e_min, maxE, minE, maxpx, minpx) + 1) + "' height='" + h + "' style='stroke:"+color+";stroke-width:1;' onmouseover='showtooltip(this);' onmouseout='hidetooltip(this);'></rect>";
                         tooltips += "<foreignObject id='" + id + "_tooltip" + "' display='none' x='" + (EtoPx(config.e_max, maxE, minE, maxpx, minpx) + 1) + "' y='" + (offset+begin)+ "' width='150' height='100'><div>" + id + "<br>E<sub>min</sub>: " + config.e_min + " cm<sup>-1</sup><br>E<sub>max</sub>: " + config.e_max + " cm<sup>-1</sup></div></foreignObject>";
                         break;
                     }
@@ -2064,22 +2255,15 @@ function showfullConfig(elem){
         }
     };
 
-    freePlacemain = [];
-    freePlacemain.push({h: 30, arr: []});
-    freePlacemain[0].arr.push({min: 0, max: svgMaxVal});
-
-
-
-
-    let fc = configTree[configWithoutResidues][fullConfig];
-    drawfit(fc, fullConfig, fc.h, freePlaceConfig, 60, "green");
-    freePlace = [];
-    freePlace.push({h: 30, arr: []});
-    freePlace[0].arr.push({min: 0, max: svgMaxVal});
-    for (var term in configTree[configWithoutResidues][fullConfig]) {
-        if (term != "e_min" && term != "e_max" && term != "b" && term != "h") {
-            let t = configTree[configWithoutResidues][fullConfig][term];
-            drawfit(t, fullConfig + ": " + term, 30, freePlace, fc.b, "black");
+    let t = configTree[configWithoutResidues][fullConfig][term];
+    drawfit(t, fullConfig + ": " + term, t.h, freePlace, 60, "black");
+    freePlaceJ = [];
+    freePlaceJ.push({h: 30, arr: []});
+    freePlaceJ[0].arr.push({min: 0, max: svgMaxVal});
+    for (var termJ in configTree[configWithoutResidues][fullConfig][term]) {
+        if (termJ != "e_min" && termJ != "e_max" && termJ != "h" && termJ != "b") {
+            let j = configTree[configWithoutResidues][fullConfig][term][termJ];
+            drawfit(j,fullConfig + ": " + termJ, 30, freePlaceJ, t.b, "blue");
         }
     }
 

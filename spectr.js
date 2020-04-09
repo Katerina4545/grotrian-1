@@ -1818,12 +1818,12 @@ function drawSvgConfig(){
                         for (var v = 0; v < i; v++) offset += freePlace[v].h;
                         if (freePlace[i].h < h) freePlace[i].h = h;
                         config.b = offset + begin;
-                        if (color == "blue") mainsvg += "<line id='" + id + "' class='line' x1='" + EtoPx(config.e_min, svgMaxVal, 0, maxpx, minpx) + "' y1='" + (offset + begin) + "' x2='" +  EtoPx(config.e_min, svgMaxVal, 0, maxpx, minpx) + "' y2='" +(offset + begin+h) + "' style='stroke:" + color + ";stroke-width:1;' onmouseover='showtooltip(this);' onmouseout='hidetooltip(this);'></line>";
+                        if (color == "blue") mainsvg += "<line id='" + id + "' class='line' x1='" + EtoPx(config.e_min, svgMaxVal, 0, maxpx, minpx) + "' y1='" + (offset + begin) + "' x2='" +  EtoPx(config.e_min, svgMaxVal, 0, maxpx, minpx) + "' y2='" +(offset + begin+h-3) + "' style='stroke:" + color + ";stroke-width:1;' onmouseover='showtooltip(this);' onmouseout='hidetooltip(this);'></line>";
                         else {
-                            mainsvg += "<rect id='" + id + "' class='rect' x='" + EtoPx(config.e_min, svgMaxVal, 0, maxpx, minpx) + "' y='" + (offset + begin) + "' width='" + (EtoPx(config.e_max, svgMaxVal, 0, maxpx, minpx) - EtoPx(config.e_min, svgMaxVal, 0, maxpx, minpx) + 1) + "' height='" + h + "' style='stroke:" + color + ";stroke-width:1;' onmouseover='showtooltip(this);' onmouseout='hidetooltip(this);'";
-                            if (color == "green") mainsvg += "onclick='showfullConfig(this);'></rect>";
-                            else if (color == "black") mainsvg += "onclick='showterm(this);'></rect>";
-                            else if (color == "red") mainsvg += "onclick='showConfig(this);'></rect>";
+                            mainsvg += "<rect id='" + id + "' class='rect' x='" + EtoPx(config.e_min, svgMaxVal, 0, maxpx, minpx) + "' y='" + (offset + begin) + "' width='" + (EtoPx(config.e_max, svgMaxVal, 0, maxpx, minpx) - EtoPx(config.e_min, svgMaxVal, 0, maxpx, minpx) + 1) + "' style='stroke:" + color + ";stroke-width:1;' onmouseover='showtooltip(this);' onmouseout='hidetooltip(this);'";
+                            if (color == "green") mainsvg += " height='" + (h-3) + "'onclick='showfullConfig(this);'></rect>";
+                            else if (color == "black") mainsvg += "height='" + (h-3) + "' onclick='showterm(this);'></rect>";
+                            else if (color == "red") mainsvg += "height='" + (h-3) + "' onclick='showConfig(this);'></rect>";
                             else mainsvg += "></rect>";
                         }
                         tooltips += "<foreignObject id='" + id + "_tooltip" + "' display='none' x='" + (EtoPx(config.e_max, svgMaxVal, 0, maxpx, minpx) + 1) + "' y='" + (offset+begin)+ "' width='150' height='100'><div>" + id + "<br>E<sub>min</sub>: " + config.e_min + " cm<sup>-1</sup><br>E<sub>max</sub>: " + config.e_max + " cm<sup>-1</sup></div></foreignObject>";
@@ -2002,9 +2002,9 @@ function showConfig(config) {
                         for(var v = 0; v<i; v++) offset+=freePlace[v].h;
                         if(freePlace[i].h < h) freePlace[i].h = h;
                         config.b = offset + begin;
-                        if (color == "blue") svg += "<line id='" + id + "' class='line' x1='" + EtoPx(config.e_min, maxE, minE, maxpx, minpx) + "' y1='" + (offset + begin) + "' x2='" +  EtoPx(config.e_min, maxE, minE, maxpx, minpx) + "' y2='" +(offset + begin+h) + "' style='stroke:" + color + ";stroke-width:1;' onmouseover='showtooltip(this);' onmouseout='hidetooltip(this);'></line>";
+                        if (color == "blue") svg += "<line id='" + id + "' class='line' x1='" + EtoPx(config.e_min, maxE, minE, maxpx, minpx) + "' y1='" + (offset + begin) + "' x2='" +  EtoPx(config.e_min, maxE, minE, maxpx, minpx) + "' y2='" +(offset + begin+h-3) + "' style='stroke:" + color + ";stroke-width:1;' onmouseover='showtooltip(this);' onmouseout='hidetooltip(this);'></line>";
                         else {
-                            svg += "<rect id='" + id + "' x='" + EtoPx(config.e_min, maxE, minE, maxpx, minpx) + "' y='" + (offset + begin) + "' width='" + (EtoPx(config.e_max, maxE, minE, maxpx, minpx) - EtoPx(config.e_min, maxE, minE, maxpx, minpx) + 1) + "' height='" + h + "' style='stroke:" + color + ";stroke-width:1;' onmouseover='showtooltip(this);' onmouseout='hidetooltip(this);'";
+                            svg += "<rect id='" + id + "' x='" + EtoPx(config.e_min, maxE, minE, maxpx, minpx) + "' y='" + (offset + begin) + "' width='" + (EtoPx(config.e_max, maxE, minE, maxpx, minpx) - EtoPx(config.e_min, maxE, minE, maxpx, minpx) + 1) + "' height='" + (h-3) + "' style='stroke:" + color + ";stroke-width:1;' onmouseover='showtooltip(this);' onmouseout='hidetooltip(this);'";
                             if (color == "green") svg += "onclick='showfullConfig(this);'></rect>";
                             else if (color == "black") svg += "onclick='showterm(this);'></rect>";
                             else svg += "></rect>";
@@ -2132,9 +2132,9 @@ function showfullConfig(elem){
                         for(var v = 0; v<i; v++) offset+=freePlace[v].h;
                         if(freePlace[i].h < h) freePlace[i].h = h;
                         config.b = offset + begin;
-                        if (color == "blue") svg += "<line id='" + id + "' class='line' x1='" + EtoPx(config.e_min, maxE, minE, maxpx, minpx) + "' y1='" + (offset + begin) + "' x2='" +  EtoPx(config.e_min, maxE, minE, maxpx, minpx) + "' y2='" +(offset + begin+h) + "' style='stroke:" + color + ";stroke-width:1;' onmouseover='showtooltip(this);' onmouseout='hidetooltip(this);'></line>";
+                        if (color == "blue") svg += "<line id='" + id + "' class='line' x1='" + EtoPx(config.e_min, maxE, minE, maxpx, minpx) + "' y1='" + (offset + begin) + "' x2='" +  EtoPx(config.e_min, maxE, minE, maxpx, minpx) + "' y2='" +(offset + begin+h-3) + "' style='stroke:" + color + ";stroke-width:1;' onmouseover='showtooltip(this);' onmouseout='hidetooltip(this);'></line>";
                         else {
-                            svg += "<rect id='" + id + "' x='" + EtoPx(config.e_min, maxE, minE, maxpx, minpx) + "' y='" + (offset + begin) + "' width='" + (EtoPx(config.e_max, maxE, minE, maxpx, minpx) - EtoPx(config.e_min, maxE, minE, maxpx, minpx) + 1) + "' height='" + h + "' style='stroke:" + color + ";stroke-width:1;' onmouseover='showtooltip(this);' onmouseout='hidetooltip(this);'";
+                            svg += "<rect id='" + id + "' x='" + EtoPx(config.e_min, maxE, minE, maxpx, minpx) + "' y='" + (offset + begin) + "' width='" + (EtoPx(config.e_max, maxE, minE, maxpx, minpx) - EtoPx(config.e_min, maxE, minE, maxpx, minpx) + 1) + "' height='" + (h-3) + "' style='stroke:" + color + ";stroke-width:1;' onmouseover='showtooltip(this);' onmouseout='hidetooltip(this);'";
                             if (color == "black") svg += "onclick='showterm(this);'></rect>";
                             else svg += "></rect>";
                         }
@@ -2238,8 +2238,8 @@ function showterm(elem){
                         for(var v = 0; v<i; v++) offset+=freePlace[v].h;
                         if(freePlace[i].h < h) freePlace[i].h = h;
                         config.b = offset + begin;
-                        if (color == "blue") svg += "<line id='" + id + "' class='line' x1='" + EtoPx(config.e_min, maxE, minE, maxpx, minpx) + "' y1='" + (offset + begin) + "' x2='" +  EtoPx(config.e_min, maxE, minE, maxpx, minpx) + "' y2='" +(offset + begin+h) + "' style='stroke:" + color + ";stroke-width:1;' onmouseover='showtooltip(this);' onmouseout='hidetooltip(this);'></line>";
-                        else svg += "<rect id='" + id + "' x='" + EtoPx(config.e_min, maxE, minE, maxpx, minpx) + "' y='" + (offset + begin) + "' width='" + (EtoPx(config.e_max, maxE, minE, maxpx, minpx) - EtoPx(config.e_min, maxE, minE, maxpx, minpx) + 1) + "' height='" + h + "' style='stroke:"+color+";stroke-width:1;' onmouseover='showtooltip(this);' onmouseout='hidetooltip(this);'></rect>";
+                        if (color == "blue") svg += "<line id='" + id + "' class='line' x1='" + EtoPx(config.e_min, maxE, minE, maxpx, minpx) + "' y1='" + (offset + begin) + "' x2='" +  EtoPx(config.e_min, maxE, minE, maxpx, minpx) + "' y2='" +(offset + begin+h-3) + "' style='stroke:" + color + ";stroke-width:1;' onmouseover='showtooltip(this);' onmouseout='hidetooltip(this);'></line>";
+                        else svg += "<rect id='" + id + "' x='" + EtoPx(config.e_min, maxE, minE, maxpx, minpx) + "' y='" + (offset + begin) + "' width='" + (EtoPx(config.e_max, maxE, minE, maxpx, minpx) - EtoPx(config.e_min, maxE, minE, maxpx, minpx) + 1) + "' height='" + (h-3) + "' style='stroke:"+color+";stroke-width:1;' onmouseover='showtooltip(this);' onmouseout='hidetooltip(this);'></rect>";
                         tooltips += "<foreignObject id='" + id + "_tooltip" + "' display='none' x='" + (EtoPx(config.e_max, maxE, minE, maxpx, minpx) + 1) + "' y='" + (offset+begin)+ "' width='150' height='100'><div>" + id + "<br>E<sub>min</sub>: " + config.e_min + " cm<sup>-1</sup><br>E<sub>max</sub>: " + config.e_max + " cm<sup>-1</sup></div></foreignObject>";
                         break;
                     }

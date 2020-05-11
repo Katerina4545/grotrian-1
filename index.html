@@ -26,6 +26,20 @@
             <canvas id="zoom_chart" width="250" height="200"></canvas>
         </div>
     </div>
+    <div class="nav">
+        <table border="0">
+            <tbody>
+            <tr>
+                <td><b>lower level: </b></td>
+                <td id="low_l"></td>
+            </tr>
+            <tr>
+                <td><b>upper level: </b></td>
+                <td id="up_l"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
     <div id="first_cont">
         <div class="nav">
             <input type='button' id="resetZoom" value="Reset Zoom" >
@@ -63,20 +77,6 @@
         <input type="checkbox"  id="random" value=1 onclick="click_random()">отображение мультиплетов
     </div>
     <div class="nav">
-        <table border="0">
-            <tbody>
-            <tr>
-                <td><b>lower level: </b></td>
-                <td id="low_l"></td>
-            </tr>
-            <tr>
-                <td><b>upper level: </b></td>
-                <td id="up_l"></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="nav">
         <table>
             <tr>
                 <td>
@@ -91,36 +91,32 @@
             </tr>
         </table>
     </div>
-</div>
-
-<div id="container">
-    <div>
-        <div id="spectra" >
-            <br><b><label for="element">Элемент:</label></b>
-            <input type="text" size="15" id="element" value="Mn">
-            <input type='button' id='new_atom' value='OK' onclick="updateChart(1,0,0)">
+    <div class="nav">
+        <div class='toolbar'>
+            <div class="range">
+                <div id='min_container'>
+                    <b>Минимум (&#8491;)</b><br>
+                    <input type='text' id='min' value='0'>
+                </div>
+                <div id='max_container'>
+                    <b>Максимум (&#8491;)</b><br>
+                    <input type='text' id='max' value='0'>
+                </div>
+                <div class='top_div'>
+                    <br>
+                    <input type='button' id='filter' value='OK' class="bluebtn" onclick="show_selected()">
+                </div>
+                <div class='visible_container'>
+                    <input type='button' id='visible' value='Видимый спектр' class='bluebtn' onclick="show_visible()"><span style="width: 20px"></span>
+                    <input type='button' id='all' value='Весь спектр' class='bluebtn' onclick="show_all()">
+                </div>
+            </div>
         </div>
     </div>
-
-    <div class='toolbar'>
-        <div class="range">
-            <div id='min_container'>
-                <b>Минимум (&#8491;)</b><br>
-                <input type='text' id='min' value='0'>
-            </div>
-            <div id='max_container'>
-                <b>Максимум (&#8491;)</b><br>
-                <input type='text' id='max' value='0'>
-            </div>
-            <div class='top_div'>
-                <br>
-                <input type='button' id='filter' value='OK' class="bluebtn" onclick="show_selected()">
-            </div>
-            <div class='visible_container'>
-                <input type='button' id='visible' value='Видимый спектр' class='bluebtn' onclick="show_visible()"><span style="width: 20px"></span>
-                <input type='button' id='all' value='Весь спектр' class='bluebtn' onclick="show_all()">
-            </div>
-        </div>
+    <div class="nav">
+            <b><label for="element">Элемент:</label></b>
+            <input type="text" size="15" id="element" value="Mn">
+            <input type='button' id='new_atom' value='OK' onclick="updateChart(1,0,0)">
     </div>
 </div>
 
@@ -137,7 +133,7 @@
         <table></table>
     </div>
 </div>
-
+<br><br>
 <div class="nav">
     <div id="svg-holder" oncontextmenu="backtomain()"></div>
 </div>

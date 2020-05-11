@@ -674,6 +674,7 @@ function updateChart(new_atom, min, maxW){
                         atom = data;
                     }
 
+                    console.log(data);
                     function makeTooltip(tooltip, id, tooltipEl, obj){
                         if (tooltip.opacity === 0) {
                             tooltipEl.style.opacity = 0;

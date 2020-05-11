@@ -1097,7 +1097,17 @@ function graph(h, w) {
     ctxZoom.canvas.height = 200;
     ctxZoom.canvas.width = 250;
 
+    var clipper = {
+        beforeDatasetsDraw:  function( chart) {
+            Chart.helpers.canvas.unclipArea( chart.ctx);
+        },
+        afterDatasetsDraw:  function(chart) {
+            Chart.helpers.canvas.unclipArea( chart.ctx);
+        }
+    };
+
     window.myScatter = new Chart(ctx, {
+        plugins:  [clipper],
         type: 'scatter',
         data: scatterChartData,
         options: {

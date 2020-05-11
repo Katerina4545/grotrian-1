@@ -385,8 +385,8 @@ function resize(click) {
     if(click == 0){
         if(document.getElementById('fullScreen').value == 'Full screen') {
             let win_w, win_h, size;
-            win_w = $(window).width();
-            win_h = $(window).height();
+            win_w = window.innerWidth;
+            win_h = window.innerHeight;
             if(win_w <= win_h) size = win_w;
             else size = win_h;
             size = Math.floor(size*5/6);
@@ -402,8 +402,8 @@ function resize(click) {
         }
         else {
             let win_w, win_h, size;
-            win_w = $(window).width();
-            win_h = $(window).height();
+            win_w = window.innerWidth;
+            win_h = window.innerHeight;
             if(win_w <= win_h) size = win_w;
             else size = win_h;
             $('#canvas').remove();
@@ -418,8 +418,8 @@ function resize(click) {
     else if (click == 1){
         if(document.getElementById('fullScreen').value == 'Full screen') {
             let win_w, win_h, size;
-            win_w = $(window).width();
-            win_h = $(window).height();
+            win_w = window.innerWidth;
+            win_h = window.innerHeight;
             if(win_w <= win_h) size = win_w;
             else size = win_h;
             $('#canvas').remove();
@@ -433,8 +433,8 @@ function resize(click) {
         }
         else {
             let win_w, win_h, size;
-            win_w = $(window).width();
-            win_h = $(window).height();
+            win_w = window.innerWidth;
+            win_h = window.innerHeight;
             if(win_w <= win_h) size = win_w;
             else size = win_h;
             size = Math.floor(size*5/6);
@@ -673,8 +673,6 @@ function updateChart(new_atom, min, maxW){
                     if (new_atom == 1) {
                         atom = data;
                     }
-
-                    console.log(data);
                     function makeTooltip(tooltip, id, tooltipEl, obj){
                         if (tooltip.opacity === 0) {
                             tooltipEl.style.opacity = 0;
@@ -1112,11 +1110,19 @@ function graph(h, w) {
             bezierCurve: false,
             pan: {
                 enabled: true,
-                mode: 'xy'
+                mode: 'xy',
+                rangeMin: {
+                    x: 0,
+                    y: 0
+                },
             },
             zoom: {
                 enabled: true,
-                mode: 'xy'
+                mode: 'xy',
+                rangeMin: {
+                    x: 0,
+                    y: 0
+                },
             },
             tooltips: {
                 filter: function (tooltipItem) {

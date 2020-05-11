@@ -694,12 +694,7 @@ function updateChart(new_atom, min, maxW){
                             });
                             innerHtml += '</thead><tbody>';
                             bodyLines.forEach(function (body, i) {
-                                var colors = tooltip.labelColors[i];
-                                var style = 'background:' + colors.backgroundColor;
-                                style += '; border-color:' + colors.borderColor;
-                                style += '; border-width: 2px';
-                                var span = '<span class="chartjs-tooltip-key" style="' + style + '"></span>';
-                                innerHtml += '<tr><td>' + span + body + '</td></tr>';
+                                innerHtml += '<tr><td>' + body + '</td></tr>';
                             });
                             innerHtml += '</tbody>';
                             var tableRoot = tooltipEl.querySelector('table');
@@ -810,7 +805,7 @@ function updateChart(new_atom, min, maxW){
                                 let point = {x: x, y: y, t: test};
                                 term.x = point.x;
                                 term.y = point.y;
-                                termLabel.push(term.lt + "<span> - </span>" + term.ut + "<br>" + "wavelength [Å]: " + len + "<br>" + "intensity: " + transition.INTENSITY + "<br>" + "(" + term.x + ", " + term.y + ")");
+                                termLabel.push(term.lt + "<span> - </span>" + term.ut + "<br>" + "wavelength [Å]: " + len + "<br>" + "intensity: " + transition.INTENSITY + "<br>" + "(x: " + term.x + ", y: " + term.y + ")");
                                 dataSpectr.push(point);
                                 if (transition.INTENSITY == 0) intensArray.push(0);
                                 else intensArray.push(Math.log10(transition.INTENSITY));
@@ -1219,6 +1214,7 @@ function graph(h, w) {
     window.myScatter.update();
 
     window.zoomChart = new Chart(ctxZoom, {
+        plugins:  [clipper],
         type: 'scatter',
         data: {
             datasets: [{

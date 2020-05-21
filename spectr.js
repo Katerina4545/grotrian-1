@@ -1338,7 +1338,7 @@ function click_random() {
         document.getElementById('intens').disabled = true;
         let nIcon = [];
         fill_icon(markers, nIcon);
-        scatterChartData.datasets[0].pointBackgroundColor = randCol;
+        //scatterChartData.datasets[0].pointBackgroundColor = randCol;
         scatterChartData.datasets[0].pointStyle = nIcon;
         scatterChartData.datasets[0].pointBorderColor = randCol;
         window.myScatter.update();
@@ -1422,7 +1422,9 @@ document.getElementById('chartCont').addEventListener('click', function(evt) {
             }
         }
         if(document.getElementById('random').checked) {
-            scatterChartData.datasets[0].pointBackgroundColor = col;
+            //scatterChartData.datasets[0].pointBackgroundColor = col;
+            scatterChartData.datasets[0].pointBackgroundColor = 'rgba(255, 255, 255, 0)';
+            window.zoomChart.data.datasets[0].pointBackgroundColor = 'rgba(255, 255, 255, 0)';
             fill_icon(markers, nIcon);
         }
         else {
@@ -1447,7 +1449,7 @@ document.getElementById('chartCont').addEventListener('click', function(evt) {
         });
 
         if(document.getElementById('random').checked) {
-            window.zoomChart.data.datasets[0].pointBackgroundColor = bordercolor;
+            //window.zoomChart.data.datasets[0].pointBackgroundColor = bordercolor;
         }
 
         window.zoomChart.data.datasets[0].data = data;
@@ -1457,8 +1459,6 @@ document.getElementById('chartCont').addEventListener('click', function(evt) {
         window.zoomChart.update();
     }
     else {
-        $('#up_l').html("");
-        $('#low_l').html("");
         if(document.getElementById('random').checked) click_random();
         else click_intens();
     }
